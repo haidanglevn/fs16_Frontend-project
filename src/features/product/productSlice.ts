@@ -1,11 +1,23 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  createSelector,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
+import { Product } from "../../types/types";
+import { act } from "react-dom/test-utils";
+
+export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 
 const initialState = {
-  products: [],
-  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+  products: [] as Product[],
+  status: "idle" as AsyncThunkStatus,
   error: null as string | null | undefined,
+  originProducts: [] as Product[], // keep as a copy for reset
+  filterCategory: null as string | null,
+  sortByPrice: null as "asc" | "desc" | null,
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -18,10 +30,38 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const filterProductsByName = (
+  state: typeof initialState,
+  action: PayloadAction<string>
+) => {
+  const searchTerm = action.payload.toLowerCase();
+  state.products = state.products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm)
+  );
+};
+
+export const sortByPrice = (
+  state: typeof initialState,
+  action: PayloadAction<"asc" | "desc" | null>
+) => {
+  if (action.payload === "asc") {
+    state.products = state.products.sort((a, b) => a.price - b.price);
+  }
+  if (action.payload === "desc") {
+    state.products = state.products.sort((a, b) => b.price - a.price);
+  }
+  if (action.payload === null) {
+    state.products = state.originProducts;
+  }
+};
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    sortByPrice,
+    filterProductsByName,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -30,6 +70,7 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.products = action.payload;
+        state.originProducts = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";

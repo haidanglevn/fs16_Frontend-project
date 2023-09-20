@@ -1,6 +1,6 @@
 import { Product } from "../types/types";
 
-import React from "react";
+import React, { useState } from "react";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
@@ -8,9 +8,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       style={{
         border: "1px solid #e0e0e0",
         borderRadius: "8px",
-        padding: "16px",
-        margin: "16px",
-        maxWidth: "300px",
+        margin: "5px",
+        maxWidth: "200px",
       }}
     >
       <img
@@ -18,15 +17,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         alt={product.title}
         style={{ width: "100%", borderRadius: "8px" }}
       />
-      <h3>{product.title}</h3>
-      <p>Price: ${product.price}</p>
-      <p>Category: {product.category.name}</p>
-      <img
-        src={product.category.image}
-        alt={product.category.name}
-        style={{ width: "50px", borderRadius: "4px" }}
-      />
-      <p>{product.description}</p>
+      <div style={{ padding: "0 10px" }}>
+        <h3>{product.title}</h3>
+        <p>${product.price}</p>
+        <p>{product.category.name}</p>
+        <button>See more</button>
+      </div>
     </div>
   );
 };
