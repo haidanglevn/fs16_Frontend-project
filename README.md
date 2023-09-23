@@ -25,7 +25,11 @@ This project requires implementation of TypeScript and SASS.
 
 1. Use context API to switch theme
 2. Use pagination when fetching/displaying all the products
-3. Implement performance optimization where applicable
+3. Implement performance optimization where applicable (redux-persist, RTK(react-toolkit)-query?)
+
+## Docs
+
+https://github.com/rt2zz/redux-persist
 
 ## Checklist
 

@@ -5,9 +5,8 @@ import {
   createSelector,
 } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../../app/store";
+import { RootState } from "../store";
 import { Product } from "../../types/types";
-import { act } from "react-dom/test-utils";
 
 export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 
@@ -16,6 +15,7 @@ const initialState = {
   status: "idle" as AsyncThunkStatus,
   error: null as string | null | undefined,
   originProducts: [] as Product[], // keep as a copy for reset
+  searchResult: [] as Product[],
   filterCategory: null as string | null,
   sortByPrice: null as "asc" | "desc" | null,
 };
@@ -34,10 +34,14 @@ export const filterProductsByName = (
   state: typeof initialState,
   action: PayloadAction<string>
 ) => {
-  const searchTerm = action.payload.toLowerCase();
-  state.products = state.products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm)
-  );
+  if (action.payload !== "") {
+    const searchTerm = action.payload.toLowerCase();
+    state.searchResult = state.products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm)
+    );
+  } else {
+    state.searchResult = [];
+  }
 };
 
 export const sortByPrice = (
@@ -80,6 +84,8 @@ export const productSlice = createSlice({
 });
 
 export const selectProducts = (state: RootState) => state.product.products;
+export const selectSearchResult = (state: RootState) =>
+  state.product.searchResult;
 export const selectStatus = (state: RootState) => state.product.status;
 export const selectError = (state: RootState) => state.product.error;
 

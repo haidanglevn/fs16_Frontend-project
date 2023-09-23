@@ -1,8 +1,17 @@
+import { useDispatch } from "react-redux";
 import { Product } from "../types/types";
 
 import React, { useState } from "react";
+import { AppDispatch } from "../redux/store";
+import { cartSlice, addToCart } from "../redux/slices/cartSlice";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleAddToCart = (item: Product) => {
+    dispatch(cartSlice.actions.addToCart(item));
+  };
+
   return (
     <div
       style={{
@@ -22,6 +31,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <p>${product.price}</p>
         <p>{product.category.name}</p>
         <button>See more</button>
+        <button onClick={() => handleAddToCart(product)}>Add to cart</button>
       </div>
     </div>
   );

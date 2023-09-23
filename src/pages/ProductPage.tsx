@@ -5,14 +5,16 @@ import {
   selectProducts,
   selectError,
   selectStatus,
+  selectSearchResult,
   fetchProducts,
-} from "./productSlice";
-import { Product } from "../../types/types";
-import { AppDispatch } from "../../app/store";
-import ProductCard from "../../components/ProductCard";
+} from "../redux/slices/productSlice";
+import { Product } from "../types/types";
+import { AppDispatch } from "../redux/store";
+import ProductCard from "../components/ProductCard";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
+  const searchResult: Product[] = useSelector(selectSearchResult);
   const error = useSelector(selectError);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
@@ -60,11 +62,38 @@ export default function ProductPage() {
     dispatch(productSlice.actions.sortByPrice(priceOrder));
   }, [priceOrder, dispatch]);
 
+  // Display the search result
+  const renderSearchResult = () => {
+    if (debounceSearch === "") {
+      return <p>Start typing to search product by name</p>;
+    } else {
+      if (searchResult.length !== 0) {
+        return (
+          <>
+            <p>Search result: </p>
+            {searchResult.map((product) => {
+              return <ProductCard product={product} key={product.id} />;
+            })}
+          </>
+        );
+      } else {
+        return <p>No product found</p>;
+      }
+    }
+  };
+
   return (
     <>
+      <div>
+        <label htmlFor="search">Search for Product: </label>
+        <input type="text" id="search" value={search} onChange={handleSearch} />
+      </div>
+      <div
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {renderSearchResult()}
+      </div>
       <h2>Product page</h2>
-      <label htmlFor="search">Search for Product: </label>
-      <input type="text" id="search" value={search} onChange={handleSearch} />
       <select id="sortByPrice" onChange={handleSortChange}>
         <option value="" defaultChecked>
           order

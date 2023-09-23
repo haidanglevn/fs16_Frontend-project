@@ -24,3 +24,7 @@ export interface User {
   role: "customer" | "admin";
   avatar: string;
 }
+
+export interface CartItem extends Product {
+  quantity: number;
+}

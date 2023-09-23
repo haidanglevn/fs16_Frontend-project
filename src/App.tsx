@@ -1,13 +1,14 @@
 import React from "react";
-import ProductPage from "./features/product/ProductPage";
-import store from "./app/store";
+import ProductPage from "./pages/ProductPage";
+import store from "./redux/store";
 import { Provider } from "react-redux";
+import Header from "./components/Header";
 
 const App = () => {
   return (
     <Provider store={store}>
       <div>
-        <h1>E-commerce Web site</h1>
+        <Header />
         <ProductPage />
       </div>
     </Provider>
