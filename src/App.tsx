@@ -1,18 +1,24 @@
-import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./components/Layout";
 import ProductPage from "./pages/ProductPage";
-import store from "./redux/store";
-import { Provider } from "react-redux";
-import Header from "./components/Header";
+import Profile from "./pages/ProfilePage";
+import ProfilePage from "./pages/ProfilePage";
+import CartPage from "./pages/CartPage";
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <div>
-        <Header />
-        <ProductPage />
-      </div>
-    </Provider>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        { path: "/", element: <ProductPage /> },
+        { path: "/profile", element: <ProfilePage /> },
+        { path: "/cart", element: <CartPage /> },
+      ],
+      // errorElement: <Error />,
+    },
+  ]);
+  return <RouterProvider router={router} />;
 };
 
 export default App;

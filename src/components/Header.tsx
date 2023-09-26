@@ -3,12 +3,15 @@ import avatar from "../assets/images/image-avatar.png";
 import cartIcon from "../assets/images/icon-cart.svg";
 import { useSelector } from "react-redux";
 import { selectCart } from "../redux/slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   // The number to display on the orange dot
   const cart = useSelector(selectCart);
   const cartItemCount = useSelector(selectCart).length;
   console.log("cart: ", cart);
+
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -22,7 +25,7 @@ export default function Header() {
         justifyContent: "space-between",
       }}
     >
-      <h1>E-commerce Website</h1>
+      <h1 onClick={() => navigate("/")}>E-commerce Website</h1>
       <div
         style={{
           display: "flex",
@@ -31,7 +34,7 @@ export default function Header() {
           gap: "20px",
         }}
       >
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>
           <img
             src={cartIcon}
             alt="Cart"
@@ -58,7 +61,12 @@ export default function Header() {
             {cartItemCount}
           </div>
         </div>
-        <img src={avatar} alt="User Avatar" style={{ height: "50px" }} />
+        <img
+          src={avatar}
+          alt="User Avatar"
+          style={{ height: "50px" }}
+          onClick={() => navigate("/profile")}
+        />
       </div>
     </div>
   );
