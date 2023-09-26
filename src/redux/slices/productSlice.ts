@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  PayloadAction,
-  createSelector,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { Product } from "../../types/types";
@@ -26,7 +21,7 @@ export const fetchProducts = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/products"
     );
-    return response.data;
+    return response.data.slice(0, 180); // because there are too many fake data, has to change back later.
   }
 );
 

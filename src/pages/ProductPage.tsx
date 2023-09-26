@@ -1,9 +1,9 @@
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   productSlice,
   selectProducts,
-  selectError,
+  // selectError,
   selectStatus,
   selectSearchResult,
   fetchProducts,
@@ -15,13 +15,14 @@ import ProductCard from "../components/ProductCard";
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
   const searchResult: Product[] = useSelector(selectSearchResult);
-  const error = useSelector(selectError);
+  // const error = useSelector(selectError);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
 
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
   const [priceOrder, setPriceOrder] = useState<"asc" | "desc" | null>(null);
+  // console.log(products);
 
   // Fetch data
   useEffect(() => {

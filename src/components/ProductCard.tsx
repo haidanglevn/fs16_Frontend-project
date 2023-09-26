@@ -1,9 +1,8 @@
 import { useDispatch } from "react-redux";
 import { Product } from "../types/types";
 
-import React, { useState } from "react";
 import { AppDispatch } from "../redux/store";
-import { cartSlice, addToCart } from "../redux/slices/cartSlice";
+import { cartSlice } from "../redux/slices/cartSlice";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
