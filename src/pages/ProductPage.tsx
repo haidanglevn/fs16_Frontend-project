@@ -20,6 +20,8 @@ import SelectPriceOrder from "../components/SelectPriceOrder";
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
   const [chosenCategory, setChosenCategory] = useState<string>("");
+  const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("asc");
+
   const searchResult: Product[] = useSelector(selectSearchResult);
   // const error = useSelector(selectError);
   const status = useSelector(selectStatus);
@@ -29,6 +31,7 @@ export default function ProductPage() {
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
   console.log(filteredProductsByCategory);
+  console.log(products);
 
   // Fetch data
   useEffect(() => {
@@ -57,6 +60,16 @@ export default function ProductPage() {
     dispatch(productSlice.actions.filterProductsByName(debounceSearch));
   }, [debounceSearch, dispatch]);
 
+  // Check for changes in price order or category
+  useEffect(() => {
+    dispatch(
+      productSlice.actions.filterAndSort({
+        priceOrder: priceOrder,
+        category: chosenCategory,
+      })
+    );
+  }, [chosenCategory, priceOrder, dispatch]);
+
   // Display the search result
   const renderSearchResult = () => {
     if (debounceSearch === "") {
@@ -79,20 +92,9 @@ export default function ProductPage() {
 
   // Display all products or in category
   const renderAllProducts = () => {
-    if (chosenCategory === "") {
-      return products.map((product) => {
-        return <ProductCard product={product} key={product.id} />;
-      });
-    } else {
-      const index = filteredProductsByCategory.findIndex(
-        (category) => category.name === chosenCategory
-      );
-      if (index !== -1) {
-        return filteredProductsByCategory[index].products.map((product) => {
-          return <ProductCard product={product} key={product.id} />;
-        });
-      }
-    }
+    return products.map((product) => {
+      return <ProductCard product={product} key={product.id} />;
+    });
   };
 
   return (
@@ -107,7 +109,7 @@ export default function ProductPage() {
         {renderSearchResult()}
       </div>
       <h2>Product page</h2>
-      <SelectPriceOrder />
+      <SelectPriceOrder setPriceOrder={setPriceOrder} />
       <SelectCategory setChosenCategory={setChosenCategory} />
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}

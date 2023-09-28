@@ -6,6 +6,7 @@ import {
   FilteredProductsByCategory,
   Product,
 } from "../../types/types";
+import { mockCategory, mockProducts } from "../mockData";
 
 export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 
@@ -17,7 +18,6 @@ const initialState = {
   products: [] as Product[],
   productsCopy: [] as Product[], // keep as a copy for reset
   filteredByCategory: [] as FilteredProductsByCategory[],
-  filteredByCategoryCopy: [] as FilteredProductsByCategory[], // keep as a copy for reset
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -26,7 +26,7 @@ export const fetchProducts = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/products"
     );
-    return response.data.slice(0, 180); // because there are too many fake data, has to change back later.
+    return response.data; // because there are too many fake data, has to change back later.
   }
 );
 
@@ -36,7 +36,7 @@ export const fetchCategories = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/categories"
     );
-    return response.data.slice(0, 5);
+    return response.data;
   }
 );
 
@@ -54,32 +54,32 @@ export const filterProductsByName = (
   }
 };
 
-// interface SortByPricePayload {
-//   order: "asc" | "desc" | null;
-//   anotherParameter: YourType; // Replace YourType with the actual type
-// }
+interface FilterFunctionPayload {
+  priceOrder: "asc" | "desc";
+  category?: string; // assuming category is a string, adjust the type as needed
+}
 
-export const sortByPrice = (
+export const filterAndSort = (
   state: typeof initialState,
-  action: PayloadAction<"asc" | "desc" | null>
+  action: PayloadAction<FilterFunctionPayload>
 ) => {
-  if (action.payload === "asc") {
-    state.products = state.products.sort((a, b) => a.price - b.price);
-    state.filteredByCategory = state.filteredByCategory.map((category) => ({
-      ...category,
-      products: [...category.products].sort((a, b) => a.price - b.price),
-    }));
-  }
-  if (action.payload === "desc") {
-    state.products = state.products.sort((a, b) => b.price - a.price);
-    state.filteredByCategory = state.filteredByCategory.map((category) => ({
-      ...category,
-      products: [...category.products].sort((a, b) => b.price - a.price),
-    }));
-  }
-  if (action.payload === null) {
+  const { priceOrder, category } = action.payload;
+
+  state.products = state.productsCopy; //Reset the products array back to the origin
+  // For category
+  if (category !== "") {
+    state.products = state.products.filter(
+      (product: Product) => product.category.name === category
+    );
+  } else {
     state.products = state.productsCopy;
-    state.filteredByCategory = state.filteredByCategoryCopy;
+  }
+
+  // For price order
+  if (priceOrder === "asc") {
+    state.products = state.products.sort((a, b) => a.price - b.price);
+  } else if (priceOrder === "desc") {
+    state.products = state.products.sort((a, b) => b.price - a.price);
   }
 };
 
@@ -87,7 +87,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    sortByPrice,
+    filterAndSort,
     filterProductsByName,
   },
   extraReducers: (builder) => {
@@ -97,15 +97,18 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.products = action.payload;
-        state.productsCopy = action.payload;
+        state.products = mockProducts;
+        state.productsCopy = mockProducts;
+        // state.products = action.payload;
+        // state.productsCopy = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message ?? null;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        state.categories = mockCategory;
+        // state.categories = action.payload;
         const array = state.categories.map((category: Category) => ({
           name: category.name,
           products: state.products.filter(
@@ -113,7 +116,6 @@ export const productSlice = createSlice({
           ),
         }));
         state.filteredByCategory = array;
-        state.filteredByCategoryCopy = array;
       });
   },
 });

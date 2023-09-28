@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectCategories } from "../redux/slices/productSlice";
+import { Category } from "../types/types";
 
 interface SelectCategoryProps {
   setChosenCategory: React.Dispatch<React.SetStateAction<string>>;
@@ -21,7 +22,7 @@ export default function SelectCategory({
         <option value="" defaultChecked>
           All
         </option>
-        {categories.map((category) => {
+        {categories.map((category: Category) => {
           return (
             <option key={category.id} value={category.name}>
               {category.name}
