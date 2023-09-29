@@ -2,13 +2,13 @@ import { useDispatch } from "react-redux";
 import { Product } from "../types/types";
 
 import { AppDispatch } from "../redux/store";
-import { cartSlice } from "../redux/slices/cartSlice";
+import { addToCart } from "../redux/slices/cartSlice";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleAddToCart = (item: Product) => {
-    dispatch(cartSlice.actions.addToCart(item));
+    dispatch(addToCart(item));
   };
 
   return (

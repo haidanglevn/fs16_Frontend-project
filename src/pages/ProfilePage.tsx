@@ -2,9 +2,9 @@ import Login from "../components/Login";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserProfile,
+  logoutUser,
   selectAccessToken,
   selectUser,
-  userSlice,
 } from "../redux/slices/userSlice";
 import { User } from "../types/types";
 import {
@@ -26,7 +26,7 @@ export default function ProfilePage() {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleLogOut = () => {
-    dispatch(userSlice.actions.logoutUser());
+    dispatch(logoutUser());
   };
 
   useEffect(() => {

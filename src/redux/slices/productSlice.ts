@@ -10,13 +10,28 @@ import { mockCategory, mockProducts } from "../mockData";
 
 export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 
-const initialState = {
+export interface ProductState {
+  status: AsyncThunkStatus;
+  error: string;
+  searchResult: Product[];
+  categories: Category[];
+  products: Product[];
+  productsCopy: Product[]; // keep as a copy for reset
+  filteredByCategory: FilteredProductsByCategory[];
+}
+
+interface FilterFunctionPayload {
+  priceOrder: "asc" | "desc";
+  category?: string; // assuming category is a string, adjust the type as needed
+}
+
+const initialState: ProductState = {
   status: "idle" as AsyncThunkStatus,
-  error: null as string | null | undefined,
-  searchResult: [] as Product[],
-  categories: [] as Category[],
-  products: [] as Product[],
-  productsCopy: [] as Product[], // keep as a copy for reset
+  error: "",
+  searchResult: [],
+  categories: [],
+  products: [],
+  productsCopy: [], // keep as a copy for reset
   filteredByCategory: [] as FilteredProductsByCategory[],
 };
 
@@ -40,55 +55,44 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-export const filterProductsByName = (
-  state: typeof initialState,
-  action: PayloadAction<string>
-) => {
-  if (action.payload !== "") {
-    const searchTerm = action.payload.toLowerCase();
-    state.searchResult = state.products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm)
-    );
-  } else {
-    state.searchResult = [];
-  }
-};
-
-interface FilterFunctionPayload {
-  priceOrder: "asc" | "desc";
-  category?: string; // assuming category is a string, adjust the type as needed
-}
-
-export const filterAndSort = (
-  state: typeof initialState,
-  action: PayloadAction<FilterFunctionPayload>
-) => {
-  const { priceOrder, category } = action.payload;
-
-  state.products = state.productsCopy; //Reset the products array back to the origin
-  // For category
-  if (category !== "") {
-    state.products = state.products.filter(
-      (product: Product) => product.category.name === category
-    );
-  } else {
-    state.products = state.productsCopy;
-  }
-
-  // For price order
-  if (priceOrder === "asc") {
-    state.products = state.products.sort((a, b) => a.price - b.price);
-  } else if (priceOrder === "desc") {
-    state.products = state.products.sort((a, b) => b.price - a.price);
-  }
-};
-
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    filterAndSort,
-    filterProductsByName,
+    filterAndSort: (
+      state: ProductState,
+      action: PayloadAction<FilterFunctionPayload>
+    ) => {
+      const { priceOrder, category } = action.payload;
+
+      state.products = state.productsCopy;
+      if (category !== "") {
+        state.products = state.products.filter(
+          (product: Product) => product.category.name === category
+        );
+      } else {
+        state.products = state.productsCopy;
+      }
+
+      if (priceOrder === "asc") {
+        state.products = state.products.sort((a, b) => a.price - b.price);
+      } else if (priceOrder === "desc") {
+        state.products = state.products.sort((a, b) => b.price - a.price);
+      }
+    },
+    filterProductsByName: (
+      state: ProductState,
+      action: PayloadAction<string>
+    ) => {
+      if (action.payload !== "") {
+        const searchTerm = action.payload.toLowerCase();
+        state.searchResult = state.products.filter((product) =>
+          product.title.toLowerCase().includes(searchTerm)
+        );
+      } else {
+        state.searchResult = [];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,7 +112,6 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message ?? null;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = mockCategory;
@@ -133,4 +136,5 @@ export const selectCategories = (state: RootState) => state.product.categories;
 export const selectFilteredByCategory = (state: RootState) =>
   state.product.filteredByCategory;
 
+export const { filterAndSort, filterProductsByName } = productSlice.actions;
 export default productSlice.reducer;

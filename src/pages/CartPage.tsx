@@ -1,4 +1,4 @@
-import { cartSlice, selectCart } from "../redux/slices/cartSlice";
+import { emptyCart, selectCart } from "../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
 
@@ -7,7 +7,7 @@ export default function CartPage() {
   const dispatch = useDispatch();
 
   const handleEmptyCart = () => {
-    dispatch(cartSlice.actions.emptyCart());
+    dispatch(emptyCart());
   };
   return (
     <div>

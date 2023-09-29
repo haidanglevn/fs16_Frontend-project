@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  productSlice,
   selectProducts,
   // selectError,
   selectStatus,
   selectSearchResult,
   fetchProducts,
   fetchCategories,
+  filterAndSort,
+  filterProductsByName,
 } from "../redux/slices/productSlice";
 import { Product } from "../types/types";
 import { AppDispatch } from "../redux/store";
@@ -52,13 +53,13 @@ export default function ProductPage() {
   }, [search]);
 
   useEffect(() => {
-    dispatch(productSlice.actions.filterProductsByName(debounceSearch));
+    dispatch(filterProductsByName(debounceSearch));
   }, [debounceSearch, dispatch]);
 
   // Check for changes in price order or category
   useEffect(() => {
     dispatch(
-      productSlice.actions.filterAndSort({
+      filterAndSort({
         priceOrder: priceOrder,
         category: chosenCategory,
       })

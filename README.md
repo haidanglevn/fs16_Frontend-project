@@ -40,6 +40,7 @@ https://github.com/rt2zz/redux-persist
 ## Next to be done
 
 - [ ] Product reducer (admin): create, update and delete a product
+- [ ] Admin panel: Datagrid?
 - [ ] Cart reducer: remove one product/ change quantity
 - [ ] User reducer: register
 - [ ] Unit testing for the reducer
@@ -50,3 +51,4 @@ https://github.com/rt2zz/redux-persist
 - [ ] Theme
 - [ ] Header: Autocomplete with search results
 - [ ] Loading screen
+- [ ] Single Product page

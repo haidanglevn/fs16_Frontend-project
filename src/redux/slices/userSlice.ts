@@ -120,4 +120,5 @@ export const userSlice = createSlice({
 export const selectError = (state: RootState) => state.user.error;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectAccessToken = (state: RootState) => state.user.access_token;
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;
