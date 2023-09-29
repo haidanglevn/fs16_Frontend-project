@@ -1,6 +1,6 @@
 import Header from "./Header";
-import { Provider } from "react-redux";
-import store from "../redux/store";
+import { Provider, useDispatch } from "react-redux";
+import store, { AppDispatch } from "../redux/store";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {

@@ -31,6 +31,22 @@ This project requires implementation of TypeScript and SASS.
 
 https://github.com/rt2zz/redux-persist
 
-## Checklist
+## Done
 
-- [x] Product reducer: fetch all products, find single product, sort by price
+- [x] Product reducer: fetch all products, find single product, sort by price order/category
+- [x] Cart reducer: add to cart, remove (all)
+- [x] User reducer: login/logout
+
+## Next to be done
+
+- [ ] Product reducer (admin): create, update and delete a product
+- [ ] Cart reducer: remove one product/ change quantity
+- [ ] User reducer: register
+- [ ] Unit testing for the reducer
+- [ ] Styling with MUI
+- [ ] Pagination
+- [ ] Modal
+- [ ] Toast
+- [ ] Theme
+- [ ] Header: Autocomplete with search results
+- [ ] Loading screen

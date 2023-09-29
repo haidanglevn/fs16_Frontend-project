@@ -8,10 +8,8 @@ import {
   selectSearchResult,
   fetchProducts,
   fetchCategories,
-  selectCategories,
-  selectFilteredByCategory,
 } from "../redux/slices/productSlice";
-import { Category, Product } from "../types/types";
+import { Product } from "../types/types";
 import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
@@ -25,13 +23,10 @@ export default function ProductPage() {
   const searchResult: Product[] = useSelector(selectSearchResult);
   // const error = useSelector(selectError);
   const status = useSelector(selectStatus);
-  const filteredProductsByCategory = useSelector(selectFilteredByCategory);
 
   const dispatch = useDispatch<AppDispatch>();
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
-  console.log(filteredProductsByCategory);
-  console.log(products);
 
   // Fetch data
   useEffect(() => {

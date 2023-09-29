@@ -97,8 +97,12 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
+
+        /* Mock Data */
         state.products = mockProducts;
         state.productsCopy = mockProducts;
+
+        /* API */
         // state.products = action.payload;
         // state.productsCopy = action.payload;
       })
@@ -108,7 +112,7 @@ export const productSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = mockCategory;
-        // state.categories = action.payload;
+        // state.categories = action.payload; // API
         const array = state.categories.map((category: Category) => ({
           name: category.name,
           products: state.products.filter(

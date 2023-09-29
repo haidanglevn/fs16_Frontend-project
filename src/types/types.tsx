@@ -23,6 +23,7 @@ export interface User {
   password: string;
   role: "customer" | "admin";
   avatar: string;
+  name: string;
 }
 
 export interface CartItem extends Product {

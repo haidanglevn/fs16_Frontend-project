@@ -17,7 +17,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         border: "1px solid #e0e0e0",
         borderRadius: "8px",
         margin: "5px",
-        maxWidth: "200px",
+        width: "200px",
       }}
     >
       <img
