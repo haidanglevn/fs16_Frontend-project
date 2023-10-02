@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import avatar from "../assets/images/image-avatar.png";
 import cartIcon from "../assets/images/icon-cart.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCart } from "../redux/slices/cartSlice";
@@ -8,15 +7,27 @@ import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
 import { Avatar, Typography } from "@mui/material";
 import { User } from "../types/types";
+import {
+  selectStatus,
+  fetchProducts,
+  fetchCategories,
+} from "../redux/slices/productSlice";
 
 export default function Header() {
   // The number to display on the orange dot
   const cartItemCount = useSelector(selectCart).length;
   const user: User | null = useSelector(selectUser);
-  console.log("user: ", user);
 
   const dispatch = useDispatch<AppDispatch>();
+  const status = useSelector(selectStatus);
 
+  // Fetch data
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProducts());
+      dispatch(fetchCategories());
+    }
+  }, [status, dispatch]);
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch]);

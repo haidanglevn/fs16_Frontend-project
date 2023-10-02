@@ -36,19 +36,21 @@ https://github.com/rt2zz/redux-persist
 - [x] Product reducer: fetch all products, find single product, sort by price order/category
 - [x] Cart reducer: add to cart, remove (all)
 - [x] User reducer: login/logout
+- [x] Product reducer (admin): create, update and delete a product
+- [x] Admin panel: Datagrid?
+- [x] User reducer: register
+- [x] Toast
 
 ## Next to be done
 
-- [ ] Product reducer (admin): create, update and delete a product
-- [ ] Admin panel: Datagrid?
 - [ ] Cart reducer: remove one product/ change quantity
-- [ ] User reducer: register
 - [ ] Unit testing for the reducer
 - [ ] Styling with MUI
 - [ ] Pagination
 - [ ] Modal
-- [ ] Toast
 - [ ] Theme
 - [ ] Header: Autocomplete with search results
 - [ ] Loading screen
-- [ ] Single Product page
+- [ ] Single Product page: data can be passed from all products, or fetched from API, in case user use the link to come to the page
+- [ ] Router Protected routes for profile
+- [ ] Register form: validate input?

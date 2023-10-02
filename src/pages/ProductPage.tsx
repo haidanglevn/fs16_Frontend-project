@@ -29,14 +29,6 @@ export default function ProductPage() {
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
 
-  // Fetch data
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts());
-      dispatch(fetchCategories());
-    }
-  }, [status, dispatch]);
-
   // Search by name feature
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -94,7 +86,7 @@ export default function ProductPage() {
   };
 
   return (
-    <>
+    <div style={{ paddingBottom: "50px" }}>
       <div>
         <label htmlFor="search">Search for Product: </label>
         <input type="text" id="search" value={search} onChange={handleSearch} />
@@ -113,6 +105,6 @@ export default function ProductPage() {
         {status === "loading" ? <p>Loading</p> : <></>}
         {renderAllProducts()}
       </div>
-    </>
+    </div>
   );
 }

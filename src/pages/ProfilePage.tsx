@@ -19,11 +19,15 @@ import {
 } from "@mui/material";
 import { AppDispatch } from "../redux/store";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
   const accessToken: string = useSelector(selectAccessToken);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  console.log("user: ", user);
 
   const handleLogOut = () => {
     dispatch(logoutUser());
@@ -44,7 +48,7 @@ export default function ProfilePage() {
                 component="img"
                 height="140"
                 image={user.avatar}
-                alt="green iguana"
+                alt="user avatar"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -64,6 +68,15 @@ export default function ProfilePage() {
               </Button>
             </CardActions>
           </Card>
+          {user.role === "customer" ? (
+            <Button onClick={() => navigate("/profile/admin")}>
+              Go to Admin Panel
+            </Button>
+          ) : (
+            <Button onClick={() => navigate("/profile/admin")}>
+              Go to Admin Panel
+            </Button>
+          )}
           <Button onClick={handleLogOut}>Log out</Button>
         </Stack>
       ) : (

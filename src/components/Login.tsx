@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, selectError } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -29,9 +30,7 @@ function Login() {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <Typography>Sign in</Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             variant="outlined"
@@ -69,9 +68,10 @@ function Login() {
           </Button>
           <Typography color={"red"}>{errorMessage}</Typography>
           <Box sx={{ mt: 2 }}>
-            <Typography variant="body2">
-              Don't have an account? Register
-            </Typography>
+            <Typography variant="body2">Don't have an account? </Typography>
+            <Link to={"/register"}>
+              <Typography variant="subtitle1">Register</Typography>
+            </Link>
           </Box>
         </Box>
       </Box>
