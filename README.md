@@ -40,10 +40,10 @@ https://github.com/rt2zz/redux-persist
 - [x] Admin panel: Datagrid?
 - [x] User reducer: register
 - [x] Toast
+- [x] Cart reducer: remove one product/ change quantity
 
 ## Next to be done
 
-- [ ] Cart reducer: remove one product/ change quantity
 - [ ] Unit testing for the reducer
 - [ ] Styling with MUI
 - [ ] Pagination

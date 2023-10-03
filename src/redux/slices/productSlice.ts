@@ -20,19 +20,19 @@ export interface ProductState {
   filteredByCategory: FilteredProductsByCategory[];
 }
 
-interface FilterFunctionPayload {
+export interface FilterFunctionPayload {
   priceOrder: "asc" | "desc";
   category?: string; // assuming category is a string, adjust the type as needed
 }
 
 const initialState: ProductState = {
-  status: "idle" as AsyncThunkStatus,
+  status: "idle",
   error: "",
   searchResult: [],
   categories: [],
   products: [],
   productsCopy: [], // keep as a copy for reset
-  filteredByCategory: [] as FilteredProductsByCategory[],
+  filteredByCategory: [],
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -103,19 +103,19 @@ export const productSlice = createSlice({
         state.status = "succeeded";
 
         /* Mock Data */
-        // state.products = mockProducts;
-        // state.productsCopy = mockProducts;
+        state.products = mockProducts;
+        state.productsCopy = mockProducts;
 
         /* API */
-        state.products = action.payload;
-        state.productsCopy = action.payload;
+        // state.products = action.payload;
+        // state.productsCopy = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        // state.categories = mockCategory;
-        state.categories = action.payload; // API
+        state.categories = mockCategory;
+        // state.categories = action.payload; // API
         const array = state.categories.map((category: Category) => ({
           name: category.name,
           products: state.products.filter(

@@ -12,6 +12,7 @@ export default function SelectCategory({
   const categories = useSelector(selectCategories);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
     setChosenCategory(event.target.value);
   };
 
