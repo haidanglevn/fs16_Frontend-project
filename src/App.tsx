@@ -5,6 +5,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CartPage from "./pages/CartPage";
 import Register from "./components/Register";
 import AdminPage from "./pages/AdminPage";
+import Login from "./pages/Login";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const App = () => {
         {
           path: "/profile",
           element: <ProfilePage />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
         },
         {
           path: "/profile/admin",

@@ -1,4 +1,4 @@
-import Login from "../components/Login";
+import Login from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserProfile,
@@ -27,11 +27,16 @@ export default function ProfilePage() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  console.log("user: ", user);
-
   const handleLogOut = () => {
     dispatch(logoutUser());
+    navigate("/");
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  });
 
   useEffect(() => {
     dispatch(fetchUserProfile());
@@ -40,7 +45,13 @@ export default function ProfilePage() {
   return (
     <div>
       {user ? (
-        <Stack alignItems={"center"}>
+        <Stack
+          alignItems={"center"}
+          gap={"30px"}
+          sx={{
+            padding: "20px 0",
+          }}
+        >
           <h1>User Profile</h1>
           <Card sx={{ width: 345 }}>
             <CardActionArea>
@@ -68,16 +79,18 @@ export default function ProfilePage() {
               </Button>
             </CardActions>
           </Card>
-          {user.role === "customer" ? (
-            <Button onClick={() => navigate("/profile/admin")}>
-              Go to Admin Panel
-            </Button>
-          ) : (
-            <Button onClick={() => navigate("/profile/admin")}>
-              Go to Admin Panel
-            </Button>
-          )}
-          <Button onClick={handleLogOut}>Log out</Button>
+          <Stack>
+            {user.role === "customer" ? (
+              <Button onClick={() => navigate("/profile/admin")}>
+                Go to Admin Panel
+              </Button>
+            ) : (
+              <Button onClick={() => navigate("/profile/admin")}>
+                Go to Admin Panel
+              </Button>
+            )}
+            <Button onClick={handleLogOut}>Log out</Button>
+          </Stack>
         </Stack>
       ) : (
         <Login />

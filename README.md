@@ -44,7 +44,7 @@ https://github.com/rt2zz/redux-persist
 
 ## Next to be done
 
-- [ ] Unit testing for the reducer
+- [ ] Unit testing for the reducer: Cart, Profile done
 - [ ] Styling with MUI
 - [ ] Pagination
 - [ ] Modal

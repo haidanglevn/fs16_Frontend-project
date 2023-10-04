@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../store";
 import { User } from "../../types/types";
+import { toast } from "react-toastify";
 
 const savedAccessToken = localStorage.getItem("access_token");
 const savedRefreshToken = localStorage.getItem("refresh_token");
@@ -58,6 +59,7 @@ export const loginUser = createAsyncThunk(
         "https://api.escuelajs.co/api/v1/auth/login",
         payload
       );
+      toast.success("Log in successfully");
       return response.data;
     } catch (error) {
       // Type assertion for AxiosError
@@ -80,6 +82,7 @@ export const userSlice = createSlice({
       state.error = null;
       state.access_token = "";
       state.refresh_token = "";
+      toast.success("Log out successfully");
     },
   },
   extraReducers: (builder) => {

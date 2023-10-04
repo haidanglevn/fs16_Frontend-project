@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, selectError } from "../redux/slices/userSlice";
+import { loginUser, selectError, selectUser } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { User } from "../types/types";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const errorMessage = useSelector(selectError);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const user: User | null = useSelector(selectUser);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const loginPayload = { email, password };
-    dispatch(loginUser(loginPayload));
+    await dispatch(loginUser(loginPayload)).then((res) => {
+      console.log(res);
+      navigate("/profile");
+    });
   };
+
+  useEffect(() => {
+    console.log("User: ", user);
+    console.log("User changed");
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -28,9 +42,10 @@ function Login() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          padding: "20px 0",
         }}
       >
-        <Typography>Sign in</Typography>
+        <Typography variant="h3">Sign in</Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             variant="outlined"

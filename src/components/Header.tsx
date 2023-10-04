@@ -5,13 +5,15 @@ import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Stack, Typography } from "@mui/material";
 import { User } from "../types/types";
 import {
   selectStatus,
   fetchProducts,
   fetchCategories,
 } from "../redux/slices/productSlice";
+import SearchBar from "./SearchBar";
+import Logo from "../assets/images/Logo.svg";
 
 export default function Header() {
   // The number to display on the orange dot
@@ -34,31 +36,29 @@ export default function Header() {
 
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        backgroundColor: "black",
-        color: "white",
-        padding: "0 20px",
-        marginBottom: "20px",
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      justifyContent={"space-between"}
+      sx={{
         height: "70px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
+        padding: "0 100px",
+        backgroundColor: "#E69F56",
       }}
     >
-      <Typography
-        variant="h4"
+      <img
+        src={Logo}
         onClick={() => navigate("/")}
-        sx={{ cursor: "pointer" }}
-      >
-        E-commerce Website
-      </Typography>
+        style={{ cursor: "pointer", height: "40px" }}
+      />
+      <SearchBar />
+
       <div
         style={{
           display: "flex",
           alignItems: "center",
           position: "relative",
-          gap: "20px",
+          gap: "50px",
         }}
       >
         <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>
@@ -69,7 +69,7 @@ export default function Header() {
           />
           <div
             style={{
-              backgroundColor: "orange",
+              backgroundColor: "#FF7D1A",
               borderRadius: "50%",
               color: "white",
               fontSize: "12px",
@@ -93,9 +93,9 @@ export default function Header() {
           alt="User avater"
           src={user?.avatar ? user.avatar : ""}
           onClick={() => navigate("/profile")}
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", height: "40px", width: "40px" }}
         ></Avatar>
       </div>
-    </div>
+    </Stack>
   );
 }

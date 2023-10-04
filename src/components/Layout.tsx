@@ -10,7 +10,7 @@ export default function Layout() {
     <Provider store={store}>
       <ToastContainer
         position="top-right"
-        autoClose={2000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -18,7 +18,7 @@ export default function Layout() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
 
       <div>
