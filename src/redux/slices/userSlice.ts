@@ -7,13 +7,23 @@ import { toast } from "react-toastify";
 const savedAccessToken = localStorage.getItem("access_token");
 const savedRefreshToken = localStorage.getItem("refresh_token");
 
-const initialState = {
-  user: null as User | null,
-  access_token: savedAccessToken ? savedAccessToken : ("" as string),
-  refresh_token: savedRefreshToken ? savedRefreshToken : ("" as string),
+export interface UserState {
+  allUsers: User[];
+  user: User | null;
+  access_token: string;
+  refresh_token: string;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null | undefined;
+}
+const initialState: UserState = {
+  allUsers: [],
+  user: null,
+  access_token: savedAccessToken ? savedAccessToken : "",
+  refresh_token: savedRefreshToken ? savedRefreshToken : "",
   isAuthenticated: false,
   loading: false,
-  error: null as string | null | undefined,
+  error: null,
 };
 
 interface LoginResponse {
@@ -26,6 +36,19 @@ interface LoginPayload {
   email: string;
   password: string;
 }
+
+export const fetchAllUsers = createAsyncThunk(
+  "user/fetchAll",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("https://api.escuelajs.co/api/v1/users");
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return thunkAPI.rejectWithValue(axiosError.response?.data);
+    }
+  }
+);
 
 export const fetchUserProfile = createAsyncThunk(
   "user/fetchProfile",
@@ -69,7 +92,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// User slice
 export const userSlice = createSlice({
   name: "user",
   initialState: initialState,
@@ -116,11 +138,27 @@ export const userSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state) => {
         localStorage.removeItem("access_token");
         state.isAuthenticated = false;
+      })
+      .addCase(fetchAllUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchAllUsers.fulfilled,
+        (state, action: PayloadAction<User[]>) => {
+          state.allUsers = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.error = `Error fetching all users. Cannot validate registering email`;
+        state.loading = false;
       });
   },
 });
 
 export const selectError = (state: RootState) => state.user.error;
+export const selectAllUsers = (state: RootState) => state.user.allUsers;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectAccessToken = (state: RootState) => state.user.access_token;
 export const { logoutUser } = userSlice.actions;

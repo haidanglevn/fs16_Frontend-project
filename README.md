@@ -41,9 +41,11 @@ https://github.com/rt2zz/redux-persist
 - [x] User reducer: register
 - [x] Toast
 - [x] Cart reducer: remove one product/ change quantity
+- [x] Register form: validate input?, check if email is available?
 
 ## Next to be done
 
+- [ ] Single Product page: data can be passed from all products, or fetched from API, in case user use the link to come to the page
 - [ ] Unit testing for the reducer: Cart, Profile done
 - [ ] Styling with MUI
 - [ ] Pagination
@@ -51,6 +53,4 @@ https://github.com/rt2zz/redux-persist
 - [ ] Theme
 - [ ] Header: Autocomplete with search results
 - [ ] Loading screen
-- [ ] Single Product page: data can be passed from all products, or fetched from API, in case user use the link to come to the page
 - [ ] Router Protected routes for profile
-- [ ] Register form: validate input?

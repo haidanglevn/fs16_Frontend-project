@@ -943,3 +943,36 @@ export const mockProducts: Product[] = [
     updatedAt: "2023-09-30T09:00:00Z",
   },
 ];
+
+export const mockUser = [
+  {
+    id: 1,
+    email: "john@mail.com",
+    password: "changeme",
+    name: "Jhon",
+    role: "customer",
+    avatar: "https://i.imgur.com/M3QKiC5.jpeg",
+    creationAt: "2023-10-04T19:19:20.000Z",
+    updatedAt: "2023-10-04T19:19:20.000Z",
+  },
+  {
+    id: 2,
+    email: "maria@mail.com",
+    password: "12345",
+    name: "Maria",
+    role: "customer",
+    avatar: "https://i.imgur.com/O1LUkwy.jpeg",
+    creationAt: "2023-10-04T19:19:20.000Z",
+    updatedAt: "2023-10-04T19:19:20.000Z",
+  },
+  {
+    id: 3,
+    email: "admin@mail.com",
+    password: "admin123",
+    name: "Admin",
+    role: "admin",
+    avatar: "https://i.imgur.com/lVH533g.jpeg",
+    creationAt: "2023-10-04T19:19:20.000Z",
+    updatedAt: "2023-10-04T19:19:20.000Z",
+  },
+];
