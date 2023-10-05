@@ -79,7 +79,7 @@ export default function Header() {
               right: "0",
               top: "0",
               transform: "translate(50%, -50%)",
-              width: "15px",
+              width: "25px",
               display: "flex",
               textAlign: "center",
               justifyContent: "center",

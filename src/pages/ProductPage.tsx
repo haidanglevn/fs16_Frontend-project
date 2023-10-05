@@ -11,6 +11,7 @@ import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
 import SelectPriceOrder from "../components/SelectPriceOrder";
+import { Stack, Typography } from "@mui/material";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
@@ -39,16 +40,38 @@ export default function ProductPage() {
   };
 
   return (
-    <div style={{ paddingBottom: "50px" }}>
-      <h2>Product page</h2>
-      <SelectPriceOrder setPriceOrder={setPriceOrder} />
-      <SelectCategory setChosenCategory={setChosenCategory} />
-      <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+    <Stack direction={"row"} style={{ padding: "20px 100px" }} gap={"30px"}>
+      <Stack
+        sx={{
+          position: "sticky",
+          width: "40vw",
+          borderRight: "3px solid #E69F56",
+          paddingRight: "50px",
+        }}
       >
-        {status === "loading" ? <p>Loading</p> : <></>}
-        {renderAllProducts()}
-      </div>
-    </div>
+        <Typography variant="h4">Filter</Typography>
+        <SelectCategory setChosenCategory={setChosenCategory} />
+      </Stack>
+      <Stack sx={{ padding: "0 20px" }}>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography variant="h4">Trending items</Typography>
+          <SelectPriceOrder setPriceOrder={setPriceOrder} />
+        </Stack>
+        <Stack
+          direction={"row"}
+          flexWrap={"wrap"}
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          mt={2}
+        >
+          {status === "loading" ? <p>Loading</p> : <></>}
+          {renderAllProducts()}
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }

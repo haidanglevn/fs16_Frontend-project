@@ -8,8 +8,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/types";
 
-import { Typography, Button, Box, Stack } from "@mui/material";
-
+import { Typography, Button, Box, Stack, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CartEmpty from "../components/CartEmpty";
 export default function CartPage() {
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
@@ -30,52 +31,97 @@ export default function CartPage() {
     dispatch(decreaseQuantity(item));
   };
 
-  return (
-    <Box>
-      <Typography variant="h4">Your cart:</Typography>
-      <Box mt={2}>
-        {cart.map((item: CartItem) => (
-          <Stack key={item.id} alignItems="flex-start" spacing={2}>
-            <Stack direction="row" alignItems={"center"} gap={10}>
-              <Button
-                color="warning"
-                onClick={() => handleRemoveFromCart(item)}
-              >
-                Delete
-              </Button>
-              <Typography>{item.title}:</Typography>
-            </Stack>
+  const calculateCartTotal = () => {
+    let total = 0;
+    cart.map((item) => {
+      return (total += item.price * item.quantity);
+    });
+    return `$${total}`;
+  };
 
-            <Stack direction="row" alignItems={"center"} gap={10}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDecreaseQuantity(item)}
-              >
-                Decrease
-              </Button>
-              <Typography>{item.quantity}</Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleIncreaseQuantity(item)}
-              >
-                Increase
-              </Button>
+  return (
+    <Box
+      sx={{
+        padding: "50px 100px",
+      }}
+    >
+      <Typography variant="h4">Your cart ({cart.length}):</Typography>
+      <Stack mt={5} gap={"20px"}>
+        {cart.map((item: CartItem) => (
+          <Stack
+            direction={"row"}
+            gap={"20px"}
+            sx={{
+              height: "100px",
+              borderBottom: "1px solid black",
+              padding: "10px 10px 10px 0",
+            }}
+          >
+            <img
+              src={item.images[0]}
+              style={{ height: "100%", width: "200px" }}
+              alt={`${item.title}`}
+            />
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              sx={{ width: "100%" }}
+            >
+              <Stack>
+                <Typography variant="h5">{item.title}</Typography>
+                <Typography>
+                  Price: $<b>{item.price}</b>
+                </Typography>
+                <Typography>
+                  Quantity: <b>{item.quantity}</b>
+                </Typography>
+              </Stack>
+              <Stack alignItems={"flex-end"}>
+                <IconButton
+                  color="warning"
+                  onClick={() => handleRemoveFromCart(item)}
+                  sx={{ width: "30px" }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography>
+                  $<b>{item.price * item.quantity}</b>
+                </Typography>
+              </Stack>
             </Stack>
           </Stack>
+          //     <Button
+          //       variant="contained"
+          //       color="primary"
+          //       onClick={() => handleIncreaseQuantity(item)}
+          //     >
+          //       Increase
+          //     </Button>
         ))}
-      </Box>
+      </Stack>
+
       {cart.length !== 0 ? (
-        <Box mt={2}>
-          <Button variant="contained" color="error" onClick={handleEmptyCart}>
-            Empty the cart
-          </Button>
-        </Box>
+        <>
+          <Stack alignItems={"flex-end"} mt={2}>
+            <Typography variant="h4">Total: {calculateCartTotal()} </Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            gap={"10px"}
+            mt={2}
+            justifyContent={"space-between"}
+          >
+            <Button variant="contained" color="error" onClick={handleEmptyCart}>
+              Empty the cart
+            </Button>
+            <Button variant="contained" color="primary">
+              Checkout
+            </Button>
+          </Stack>
+        </>
       ) : (
-        <Box>
-          <Typography>Cart is empty</Typography>
-        </Box>
+        <CartEmpty />
       )}
     </Box>
   );

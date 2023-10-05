@@ -42,6 +42,7 @@ https://github.com/rt2zz/redux-persist
 - [x] Toast
 - [x] Cart reducer: remove one product/ change quantity
 - [x] Register form: validate input?, check if email is available?
+- [x] Router Protected routes for profile
 
 ## Next to be done
 
@@ -53,4 +54,14 @@ https://github.com/rt2zz/redux-persist
 - [ ] Theme
 - [ ] Header: Autocomplete with search results
 - [ ] Loading screen
-- [ ] Router Protected routes for profile
+- [ ] Deploy
+- [ ] Checkout mock function
+- [ ] Hero page?
+
+## Finalize (both functions & styling)
+
+- [ ] Header
+- [ ] Product Page
+- [ ] Cart Page
+- [ ] Header
+- [ ] Header
