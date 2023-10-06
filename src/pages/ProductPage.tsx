@@ -11,7 +11,9 @@ import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
 import SelectPriceOrder from "../components/SelectPriceOrder";
-import { Stack, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
@@ -21,6 +23,10 @@ export default function ProductPage() {
   const status = useSelector(selectStatus);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   // Check for changes in price order or category
   useEffect(() => {
@@ -35,21 +41,28 @@ export default function ProductPage() {
   // Display all products or in category
   const renderAllProducts = () => {
     return products.map((product) => {
-      return <ProductCard product={product} key={product.id} />;
+      return (
+        <Grid item xs={12} sm={4} md={4} lg={3} xl={2} key={product.id} mt={2}>
+          <ProductCard product={product} />
+        </Grid>
+      );
     });
   };
 
   return (
-    <Stack direction={"row"} style={{ padding: "20px 100px" }} gap={"30px"}>
+    <Stack
+      direction={isMediumScreen ? "column" : "row"}
+      style={{ padding: isLargeScreen ? "20px 40px" : "20px 100px" }}
+      gap={"30px"}
+    >
       <Stack
         sx={{
-          position: "sticky",
-          width: "40vw",
-          borderRight: "3px solid #E69F56",
-          paddingRight: "50px",
+          width: isMediumScreen ? "100%" : "40vw",
+          borderRight: !isMediumScreen ? "3px solid #E69F56" : "none",
+          paddingRight: !isMediumScreen ? "50px" : "0px",
         }}
       >
-        <Typography variant="h4">Filter</Typography>
+        {!isMediumScreen && <Typography variant="h4">Filter</Typography>}
         <SelectCategory setChosenCategory={setChosenCategory} />
       </Stack>
       <Stack sx={{ padding: "0 20px" }}>
@@ -61,16 +74,10 @@ export default function ProductPage() {
           <Typography variant="h4">Trending items</Typography>
           <SelectPriceOrder setPriceOrder={setPriceOrder} />
         </Stack>
-        <Stack
-          direction={"row"}
-          flexWrap={"wrap"}
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-          mt={2}
-        >
+        <Grid container spacing={2}>
           {status === "loading" ? <p>Loading</p> : <></>}
           {renderAllProducts()}
-        </Stack>
+        </Grid>
       </Stack>
     </Stack>
   );

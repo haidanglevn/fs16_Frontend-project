@@ -6,11 +6,12 @@ import { addToCart, selectCart } from "../redux/slices/cartSlice";
 import { Box, IconButton, Stack } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector(selectCart);
-
+  const navigate = useNavigate();
   const isItemInCart = cart.some((item) => item.id === product.id);
   const handleAddToCart = (item: Product) => {
     dispatch(addToCart(item));
@@ -19,16 +20,23 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
     <Box
       sx={{
-        width: "25%",
-        height: "250px",
-        padding: "10px",
+        height: "270px",
+        padding: "5px",
       }}
     >
-      <Stack sx={{ height: "100%", border: "1px solid gray" }}>
+      <Stack
+        sx={{ height: "100%", border: "1px solid gray", borderRadius: "10px" }}
+      >
         <img
           src={product.images[0]}
           alt={product.title}
-          style={{ width: "100%", minHeight: "150px" }}
+          style={{
+            width: "100%",
+            minHeight: "150px",
+            cursor: "pointer",
+            borderRadius: "9px 9px 0 0",
+          }}
+          onClick={() => navigate(`/product/${product.id}`)}
         />
         <Stack
           direction={"row"}
@@ -36,7 +44,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           justifyContent={"space-between"}
           gap={"10px"}
           style={{
-            padding: "0 10px",
+            padding: "10px",
             height: "100%",
           }}
         >
@@ -44,15 +52,18 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <h3>{product.title}</h3>
             <p>${product.price}</p>
           </Stack>
-          <IconButton
-            color={isItemInCart ? "success" : "primary"}
-            onClick={() => handleAddToCart(product)}
-            sx={{
-              border: isItemInCart ? "1px dotted green" : "1px dotted blue",
-            }}
-          >
-            {isItemInCart ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}
-          </IconButton>
+          <Stack alignItems={"flex-end"}>
+            <IconButton
+              color={isItemInCart ? "success" : "primary"}
+              onClick={() => handleAddToCart(product)}
+              sx={{
+                border: isItemInCart ? "1px solid green" : "1px solid blue",
+                width: "45px",
+              }}
+            >
+              {isItemInCart ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}
+            </IconButton>
+          </Stack>
         </Stack>
       </Stack>
     </Box>

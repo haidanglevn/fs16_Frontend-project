@@ -5,7 +5,13 @@ import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
-import { Avatar, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { User } from "../types/types";
 import {
   selectStatus,
@@ -22,6 +28,9 @@ export default function Header() {
 
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectStatus);
+
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   // Fetch data
   useEffect(() => {
@@ -42,7 +51,7 @@ export default function Header() {
       justifyContent={"space-between"}
       sx={{
         height: "70px",
-        padding: "0 100px",
+        padding: isLargeScreen ? "0px 40px" : "0px 100px",
         backgroundColor: "#E69F56",
       }}
     >
