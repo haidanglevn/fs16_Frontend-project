@@ -9,7 +9,7 @@ export default function Layout() {
   return (
     <Provider store={store}>
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -18,14 +18,12 @@ export default function Layout() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
       />
 
       <div>
         <Header />
         <Outlet />
       </div>
-      <ToastContainer />
     </Provider>
   );
 }

@@ -6,6 +6,7 @@ import CartPage from "./pages/CartPage";
 import Register from "./components/Register";
 import AdminPage from "./pages/AdminPage";
 import Login from "./pages/Login";
+import ProductSingle from "./pages/ProductSingle";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -13,7 +14,11 @@ const App = () => {
       path: "/",
       element: <Layout />,
       children: [
-        { path: "/", element: <ProductPage /> },
+        {
+          path: "/",
+          element: <ProductPage />,
+          children: [{ path: "/:productId", element: <ProductSingle /> }],
+        },
         {
           path: "/profile",
           element: <ProfilePage />,

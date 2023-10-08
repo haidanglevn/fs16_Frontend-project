@@ -45,10 +45,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           gap={"10px"}
           style={{
             padding: "10px",
-            height: "100%",
+            maxHeight: "100%",
+            maxWidth: "100%",
+            overflow: "clip",
           }}
         >
-          <Stack>
+          <Stack sx={{ maxWidth: "calc(100% - 45px)" }}>
             <h3>{product.title}</h3>
             <p>${product.price}</p>
           </Stack>
@@ -59,6 +61,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
               sx={{
                 border: isItemInCart ? "1px solid green" : "1px solid blue",
                 width: "45px",
+                marginRight: "2px",
               }}
             >
               {isItemInCart ? <ShoppingCartIcon /> : <AddShoppingCartIcon />}

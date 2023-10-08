@@ -7,6 +7,7 @@ import {
   Product,
 } from "../../types/types";
 import { mockCategory, mockProducts } from "../mockData";
+import { artificialLoading } from "../utils";
 
 export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 
@@ -38,6 +39,7 @@ const initialState: ProductState = {
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
+    await artificialLoading(2000);
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/products"
     );
@@ -55,30 +57,36 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const sortAndFilter = createAsyncThunk(
+  "products/sortAndFilter",
+  async (payload: FilterFunctionPayload, { getState, dispatch }) => {
+    const state: RootState = getState() as RootState;
+    let products = [...state.product.productsCopy]; // Clone the array to avoid direct mutations
+    await artificialLoading(500); // Wait for 2 seconds
+
+    if (payload.category !== "") {
+      products = products.filter(
+        (product) => product.category.name === payload.category
+      );
+    }
+
+    if (payload.priceOrder === "asc") {
+      products.sort((a, b) => a.price - b.price);
+    } else if (payload.priceOrder === "desc") {
+      products.sort((a, b) => b.price - a.price);
+    }
+
+    dispatch(productSlice.actions.updateProducts(products)); // Dispatch an action to update the state with the sorted/filtered products
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    filterAndSort: (
-      state: ProductState,
-      action: PayloadAction<FilterFunctionPayload>
-    ) => {
-      const { priceOrder, category } = action.payload;
-
-      state.products = state.productsCopy;
-      if (category !== "") {
-        state.products = state.products.filter(
-          (product: Product) => product.category.name === category
-        );
-      } else {
-        state.products = state.productsCopy;
-      }
-
-      if (priceOrder === "asc") {
-        state.products = state.products.sort((a, b) => a.price - b.price);
-      } else if (priceOrder === "desc") {
-        state.products = state.products.sort((a, b) => b.price - a.price);
-      }
+    updateProducts: (state: ProductState, action: PayloadAction<Product[]>) => {
+      state.products = action.payload;
+      state.status = "succeeded";
     },
     filterProductsByName: (
       state: ProductState,
@@ -123,6 +131,9 @@ export const productSlice = createSlice({
           ),
         }));
         state.filteredByCategory = array;
+      })
+      .addCase(sortAndFilter.pending, (state) => {
+        state.status = "loading";
       });
   },
 });
@@ -136,5 +147,5 @@ export const selectCategories = (state: RootState) => state.product.categories;
 export const selectFilteredByCategory = (state: RootState) =>
   state.product.filteredByCategory;
 
-export const { filterAndSort, filterProductsByName } = productSlice.actions;
+export const { filterProductsByName } = productSlice.actions;
 export default productSlice.reducer;

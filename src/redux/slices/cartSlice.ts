@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CartItem, Product } from "../../types/types";
 import { RootState } from "../store";
+import { toast } from "react-toastify";
 
 const savedCart = localStorage.getItem("cart");
 const initialState = {
@@ -17,8 +18,12 @@ export const cartSlice = createSlice({
       );
       if (index === -1) {
         state.cart.push({ ...action.payload, quantity: 1 });
+        toast.success(`Item has been added to cart: ${action.payload.title}`);
       } else {
         state.cart[index].quantity++;
+        toast.success(
+          `Item quantity updated: ${action.payload.title} x${state.cart[index].quantity}`
+        );
       }
     },
 
