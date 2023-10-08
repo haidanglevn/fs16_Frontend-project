@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 interface SelectPriceOrderProps {
   setPriceOrder: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
@@ -10,14 +10,16 @@ export default function SelectPriceOrder({
   const handleSortChange = (event: any) => {
     setPriceOrder(event.target.value);
   };
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Stack direction={"row"} gap={"20px"}>
+    <Stack direction={"row"} gap={"20px"} alignItems={"center"}>
       <Typography variant="h6">Price Order</Typography>
       <select
         id="sortByPrice"
         onChange={handleSortChange}
-        style={{ width: "100px" }}
+        style={{ width: "150px", height: isSmallScreen ? "50px" : "100%" }}
       >
         <option value="asc" defaultChecked>
           Ascending

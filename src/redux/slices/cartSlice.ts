@@ -34,6 +34,7 @@ export const cartSlice = createSlice({
       const index = state.cart.findIndex(
         (item: CartItem) => item.id === action.payload.id
       );
+      toast.success(`Item has been removed from cart: ${action.payload.title}`);
       state.cart.splice(index, 1);
     },
 

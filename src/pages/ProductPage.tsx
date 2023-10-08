@@ -13,8 +13,8 @@ import SelectPriceOrder from "../components/SelectPriceOrder";
 import { Grid, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Loading from "../components/Loading";
-import hourglass from "../assets/images/loading.gif";
+import loadingSpin from "../assets/images/loading.gif"; //https://tenor.com/view/loading-loading-forever-bobux-loader-gif-18368917
+import SearchBar from "../components/SearchBar";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
@@ -28,6 +28,7 @@ export default function ProductPage() {
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Check for changes in price order or category
   useEffect(() => {
@@ -44,16 +45,16 @@ export default function ProductPage() {
     return (
       <>
         <Stack
-          direction={"row"}
+          direction={isSmallScreen ? "column" : "row"}
           alignItems={"center"}
           justifyContent={"space-between"}
         >
           <Stack direction={"row"} gap={2}>
             <Typography variant="h4">
-              {chosenCategory === "" ? "Trending Items" : chosenCategory}
+              {chosenCategory === "" ? "All Items" : chosenCategory}
             </Typography>
             {status === "loading" ? (
-              <img src={hourglass} alt="" style={{ height: "40px" }} />
+              <img src={loadingSpin} alt="" style={{ height: "40px" }} />
             ) : (
               <></>
             )}
@@ -97,7 +98,7 @@ export default function ProductPage() {
           paddingRight: !isMediumScreen ? "50px" : "0px",
         }}
       >
-        {!isMediumScreen && <Typography variant="h4">Filter</Typography>}
+        {isSmallScreen && <SearchBar />}
         <SelectCategory setChosenCategory={setChosenCategory} />
       </Stack>
       <Stack

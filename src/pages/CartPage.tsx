@@ -11,6 +11,9 @@ import { CartItem } from "../types/types";
 import { Typography, Button, Box, Stack, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CartEmpty from "../components/CartEmpty";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
 export default function CartPage() {
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
@@ -56,6 +59,7 @@ export default function CartPage() {
               borderBottom: "1px solid black",
               padding: "10px 10px 10px 0",
             }}
+            key={item.id}
           >
             <img
               src={item.images[0]}
@@ -73,9 +77,25 @@ export default function CartPage() {
                 <Typography>
                   Price: $<b>{item.price}</b>
                 </Typography>
-                <Typography>
-                  Quantity: <b>{item.quantity}</b>
-                </Typography>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  sx={{ width: "30vw" }}
+                >
+                  <Typography>Quantity:</Typography>
+                  <Stack direction={"row"} alignItems={"center"} gap={"5px"}>
+                    <Button onClick={() => handleDecreaseQuantity(item)}>
+                      <ArrowDownwardIcon />
+                    </Button>
+                    <Typography>
+                      <b>{item.quantity}</b>
+                    </Typography>
+                    <Button onClick={() => handleIncreaseQuantity(item)}>
+                      <ArrowUpwardIcon />
+                    </Button>
+                  </Stack>
+                </Stack>
               </Stack>
               <Stack alignItems={"flex-end"}>
                 <IconButton
@@ -91,13 +111,6 @@ export default function CartPage() {
               </Stack>
             </Stack>
           </Stack>
-          //     <Button
-          //       variant="contained"
-          //       color="primary"
-          //       onClick={() => handleIncreaseQuantity(item)}
-          //     >
-          //       Increase
-          //     </Button>
         ))}
       </Stack>
 

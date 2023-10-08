@@ -31,6 +31,7 @@ export default function Header() {
 
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Fetch data
   useEffect(() => {
@@ -60,14 +61,14 @@ export default function Header() {
         onClick={() => navigate("/")}
         style={{ cursor: "pointer", height: "40px" }}
       />
-      <SearchBar />
+      {!isSmallScreen && <SearchBar />}
 
       <div
         style={{
           display: "flex",
           alignItems: "center",
           position: "relative",
-          gap: "50px",
+          gap: isSmallScreen ? "20px" : "50px",
         }}
       >
         <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>

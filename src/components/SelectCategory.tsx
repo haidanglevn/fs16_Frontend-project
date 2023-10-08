@@ -16,7 +16,6 @@ export default function SelectCategory({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category = event.target.value;
-    console.log(category);
     setSelectedCategory(category);
     setChosenCategory(category);
   };
