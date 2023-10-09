@@ -19,7 +19,7 @@ import SearchBar from "../components/SearchBar";
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
   const [chosenCategory, setChosenCategory] = useState<string>("");
-  const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("asc");
+  const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("desc");
 
   const status = useSelector(selectStatus);
 
@@ -88,7 +88,7 @@ export default function ProductPage() {
   return (
     <Stack
       direction={isMediumScreen ? "column" : "row"}
-      style={{ padding: isLargeScreen ? "20px 40px" : "20px 100px" }}
+      sx={{ padding: isLargeScreen ? "20px 40px" : "20px 100px" }}
       gap={"30px"}
     >
       <Stack

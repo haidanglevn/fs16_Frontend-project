@@ -14,7 +14,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const navigate = useNavigate();
   const isItemInCart = cart.some((item) => item.id === product.id);
   const handleAddToCart = (item: Product) => {
-    dispatch(addToCart(item));
+    dispatch(addToCart({ product: item }));
   };
 
   return (
@@ -36,6 +36,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             cursor: "pointer",
             borderRadius: "9px 9px 0 0",
           }}
+          loading="lazy"
           onClick={() => navigate(`/product/${product.id}`)}
         />
         <Stack

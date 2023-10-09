@@ -21,10 +21,10 @@ export default function SelectPriceOrder({
         onChange={handleSortChange}
         style={{ width: "150px", height: isSmallScreen ? "50px" : "100%" }}
       >
-        <option value="asc" defaultChecked>
-          Ascending
+        <option value="desc" defaultChecked>
+          Descending
         </option>
-        <option value="desc">Descending</option>
+        <option value="asc">Ascending</option>
       </select>
     </Stack>
   );

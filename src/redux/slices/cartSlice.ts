@@ -8,21 +8,31 @@ const initialState = {
   cart: savedCart ? (JSON.parse(savedCart) as CartItem[]) : ([] as CartItem[]),
 };
 
+interface AddToCartPayload {
+  product: Product;
+  quantity?: number; // Optional quantity parameter
+}
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state: typeof initialState, action: PayloadAction<Product>) => {
+    addToCart: (
+      state: typeof initialState,
+      action: PayloadAction<AddToCartPayload>
+    ) => {
+      const { product, quantity = 1 } = action.payload;
+
       const index = state.cart.findIndex(
-        (item: CartItem) => item.id === action.payload.id
+        (item: CartItem) => item.id === product.id
       );
       if (index === -1) {
-        state.cart.push({ ...action.payload, quantity: 1 });
-        toast.success(`Item has been added to cart: ${action.payload.title}`);
+        state.cart.push({ ...product, quantity: quantity });
+        toast.success(`Item has been added to cart: ${product.title}`);
       } else {
-        state.cart[index].quantity++;
+        state.cart[index].quantity += quantity;
         toast.success(
-          `Item quantity updated: ${action.payload.title} x${state.cart[index].quantity}`
+          `Item quantity updated: ${product.title} x${state.cart[index].quantity}`
         );
       }
     },

@@ -17,8 +17,8 @@ const App = () => {
         {
           path: "/",
           element: <ProductPage />,
-          children: [{ path: "/:productId", element: <ProductSingle /> }],
         },
+        { path: "/product/:productId", element: <ProductSingle /> },
         {
           path: "/profile",
           element: <ProfilePage />,

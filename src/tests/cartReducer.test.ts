@@ -33,7 +33,7 @@ describe("cartReducer", () => {
   it("should handle addToCart", () => {
     const nextState = cartSlice.reducer(
       initialCart,
-      cartSlice.actions.addToCart(testProduct)
+      cartSlice.actions.addToCart({ product: testProduct })
     );
     expect(nextState.cart).toEqual([{ ...testProduct, quantity: 1 }]);
   });
