@@ -6,7 +6,7 @@ import {
   selectCart,
 } from "../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { CartItem } from "../types/types";
+import { CartItem } from "../types/cartSlice";
 
 import { Typography, Button, Box, Stack, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

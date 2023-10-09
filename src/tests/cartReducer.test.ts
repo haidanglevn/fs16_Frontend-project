@@ -1,7 +1,8 @@
 // cartSlice.test.js
 
-import { cartSlice, selectCart } from "../redux/slices/cartSlice"; // Update with your actual path
-import { CartItem, Product } from "../types/types"; // Assuming the relative path is correct
+import { cartSlice, selectCart } from "../redux/slices/cartSlice";
+import { CartItem } from "../types/cartSlice";
+import { Product } from "../types/productSlice";
 
 describe("cartReducer", () => {
   const initialCart = {

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../types/types";
+import { Product } from "../types/productSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";

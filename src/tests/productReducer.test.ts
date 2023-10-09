@@ -1,6 +1,4 @@
 import {
-  FilterFunctionPayload,
-  ProductState,
   fetchCategories,
   fetchProducts,
   sortAndFilter,
@@ -10,8 +8,8 @@ import {
 import { server } from "../mocks/server.js";
 import store from "../redux/store";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { Category, Product } from "../types/types";
 import { mockCategory, mockProducts } from "../redux/mockData";
+import { Category, Product, ProductState } from "../types/productSlice";
 
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());

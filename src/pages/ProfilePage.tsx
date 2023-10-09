@@ -6,7 +6,7 @@ import {
   selectAccessToken,
   selectUser,
 } from "../redux/slices/userSlice";
-import { User } from "../types/types";
+import { User } from "../types/userSlice";
 import {
   Button,
   Card,

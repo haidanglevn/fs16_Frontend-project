@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, selectError, selectUser } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "../types/types";
+import { User } from "../types/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,12 +28,10 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log("User: ", user);
-    console.log("User changed");
     if (user) {
       navigate("/profile");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">

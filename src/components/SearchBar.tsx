@@ -6,7 +6,7 @@ import {
 } from "../redux/slices/productSlice";
 import { AppDispatch } from "../redux/store";
 import ProductCard from "./ProductCard";
-import { Product } from "../types/types";
+import { Product } from "../types/productSlice";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";

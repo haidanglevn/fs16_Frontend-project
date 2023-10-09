@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectCategories } from "../redux/slices/productSlice";
-import { Category } from "../types/types";
+import { Category } from "../types/productSlice";
 
 // This is the same functionality of SelectCategory.tsx, but different styling to fit it the header.
 

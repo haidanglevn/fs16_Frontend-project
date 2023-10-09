@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Product } from "../types/types";
+import { Product } from "../types/productSlice";
 
 import { AppDispatch } from "../redux/store";
 import { addToCart, selectCart } from "../redux/slices/cartSlice";

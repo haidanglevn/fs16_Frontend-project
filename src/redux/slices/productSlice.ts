@@ -1,30 +1,16 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import {
-  Category,
-  FilteredProductsByCategory,
-  Product,
-} from "../../types/types";
 import { mockCategory, mockProducts } from "../mockData";
 import { artificialLoading } from "../utils";
-
-export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
-
-export interface ProductState {
-  status: AsyncThunkStatus;
-  error: string;
-  searchResult: Product[];
-  categories: Category[];
-  products: Product[];
-  productsCopy: Product[]; // keep as a copy for reset
-  filteredByCategory: FilteredProductsByCategory[];
-}
-
-export interface FilterFunctionPayload {
-  priceOrder: "asc" | "desc";
-  category?: string; // assuming category is a string, adjust the type as needed
-}
+import { toast } from "react-toastify";
+import {
+  ProductState,
+  FilterFunctionPayload,
+  CreateNewProductPayload,
+  Category,
+  Product,
+} from "../../types/productSlice";
 
 const initialState: ProductState = {
   status: "idle",
@@ -43,7 +29,7 @@ export const fetchProducts = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/products"
     );
-    return response.data; // because there are too many fake data, has to change back later.
+    return response.data;
   }
 );
 
@@ -62,7 +48,7 @@ export const sortAndFilter = createAsyncThunk(
   async (payload: FilterFunctionPayload, { getState, dispatch }) => {
     const state: RootState = getState() as RootState;
     let products = [...state.product.productsCopy]; // Clone the array to avoid direct mutations
-    await artificialLoading(500); // Wait for 2 seconds
+    await artificialLoading(1000);
 
     if (payload.category !== "") {
       products = products.filter(
@@ -76,7 +62,50 @@ export const sortAndFilter = createAsyncThunk(
       products.sort((a, b) => b.price - a.price);
     }
 
-    dispatch(productSlice.actions.updateProducts(products)); // Dispatch an action to update the state with the sorted/filtered products
+    dispatch(productSlice.actions.updateProducts(products));
+  }
+);
+
+export const editProduct = createAsyncThunk(
+  "products/editProduct",
+  async (product: Product) => {
+    await axios
+      .put(`https://api.escuelajs.co/api/v1/products/${product.id}`, product)
+      .then((res) => {
+        toast.success(
+          `Product id ${product.id} has been updated successfully!`
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error updating product: `, err);
+      });
+  }
+);
+
+export const createNewProduct = createAsyncThunk(
+  "products/createNewProduct",
+  async (product: CreateNewProductPayload) => {
+    await axios
+      .post("https://api.escuelajs.co/api/v1/products/", product)
+      .then((response) => {
+        toast.success(
+          `New product with id ${response.data.id} has been created successfully!`
+        );
+        return response.data;
+      });
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  "products/deleteProduct",
+  async (id: number) => {
+    await axios
+      .delete(`https://api.escuelajs.co/api/v1/products/${id}`)
+      .then((res) => {
+        toast.success(`Product with id ${id} has been created successfully!`);
+        return res.data;
+      });
   }
 );
 

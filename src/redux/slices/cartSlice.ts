@@ -1,17 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CartItem, Product } from "../../types/types";
+import { CartItem } from "../../types/cartSlice";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
+import { AddToCartPayload, CartState } from "../../types/cartSlice";
+import { Product } from "../../types/productSlice";
 
 const savedCart = localStorage.getItem("cart");
-const initialState = {
-  cart: savedCart ? (JSON.parse(savedCart) as CartItem[]) : ([] as CartItem[]),
+const initialState: CartState = {
+  cart: savedCart ? JSON.parse(savedCart) : [],
 };
-
-interface AddToCartPayload {
-  product: Product;
-  quantity?: number; // Optional quantity parameter
-}
 
 export const cartSlice = createSlice({
   name: "cart",

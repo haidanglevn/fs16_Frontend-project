@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../store";
-import { User } from "../../types/types";
+import { User } from "../../types/userSlice";
 import { toast } from "react-toastify";
 
 const savedAccessToken = localStorage.getItem("access_token");
@@ -53,7 +53,7 @@ export const fetchAllUsers = createAsyncThunk(
 export const fetchUserProfile = createAsyncThunk(
   "user/fetchProfile",
   async (_, thunkAPI) => {
-    const access_token = localStorage.getItem("access_token");
+    const access_token = (thunkAPI.getState() as RootState).user.access_token;
     if (!access_token) {
       return thunkAPI.rejectWithValue("No access token found");
     }

@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
-import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
+import {
+  fetchUserProfile,
+  selectAccessToken,
+  selectUser,
+} from "../redux/slices/userSlice";
 import {
   Avatar,
   Stack,
@@ -12,7 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { User } from "../types/types";
+import { User } from "../types/userSlice";
 import {
   selectStatus,
   fetchProducts,
@@ -25,12 +29,16 @@ export default function Header() {
   // The number to display on the orange dot
   const cartItemCount = useSelector(selectCart).length;
   const user: User | null = useSelector(selectUser);
+  const accessToken: string = useSelector(selectAccessToken);
+  console.log("Access Token: ", accessToken);
+  console.log("---------------");
 
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectStatus);
 
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Fetch data
@@ -49,7 +57,7 @@ export default function Header() {
     <Stack
       direction={"row"}
       alignItems={"center"}
-      justifyContent={"space-between"}
+      justifyContent={isSmallScreen ? "space-evenly" : "space-between"}
       sx={{
         height: "70px",
         padding: isLargeScreen ? "0px 40px" : "0px 100px",
@@ -60,6 +68,7 @@ export default function Header() {
         src={Logo}
         onClick={() => navigate("/")}
         style={{ cursor: "pointer", height: "40px" }}
+        alt="Logo"
       />
       {!isSmallScreen && <SearchBar />}
 
@@ -68,7 +77,7 @@ export default function Header() {
           display: "flex",
           alignItems: "center",
           position: "relative",
-          gap: isSmallScreen ? "20px" : "50px",
+          gap: isMediumScreen ? "20px" : "50px",
         }}
       >
         <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>

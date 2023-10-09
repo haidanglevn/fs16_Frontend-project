@@ -5,7 +5,7 @@ import {
   selectStatus,
   sortAndFilter,
 } from "../redux/slices/productSlice";
-import { Product } from "../types/types";
+import { Product } from "../types/productSlice";
 import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
@@ -22,7 +22,6 @@ export default function ProductPage() {
   const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("desc");
 
   const status = useSelector(selectStatus);
-
   const dispatch = useDispatch<AppDispatch>();
 
   const theme = useTheme();

@@ -16,15 +16,19 @@ import {
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  createNewProduct,
+  deleteProduct,
+  editProduct,
   fetchProducts,
   selectCategories,
   selectProducts,
 } from "../redux/slices/productSlice";
-import { Product } from "../types/types";
+import { Product } from "../types/productSlice";
 import { useState } from "react";
 import axios from "axios";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
+import { CreateNewProductPayload } from "../types/productSlice";
 
 export default function AdminPage() {
   const products = useSelector(selectProducts);
@@ -33,10 +37,12 @@ export default function AdminPage() {
 
   const categories = useSelector(selectCategories);
   const [selectedCategory, setSelectedCategory] = useState<number | string>("");
-  const [currentImageLink, setCurrentImageLink] = useState<string>("");
+  const [currentImageLink, setCurrentImageLink] = useState<string>(
+    "https://picsum.photos/200/300"
+  );
   const [images, setImages] = useState<string[]>([]);
 
-  const [deleteProduct, setDeleteProduct] = useState<Product>();
+  const [deletingProduct, setDeletingProduct] = useState<Product>();
   const [deleteProductModalOpen, setDeleteProductModalOpen] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -48,21 +54,10 @@ export default function AdminPage() {
       const updatedItem: Product = { ...item, price: Number(item.price) };
       if (Number.isNaN(updatedItem.price)) {
         console.log("Price is not a number, please try again");
+        toast.error("Price is not a number, please try again");
       } else {
-        await axios
-          .put(
-            `https://api.escuelajs.co/api/v1/products/${editingProductId}`,
-            updatedItem
-          )
-          .then((res) => {
-            console.log(res.data);
-            toast.success(
-              `Product id ${editingProductId} has been updated successfully!`
-            );
-            setEditingProductId(null);
-            dispatch(fetchProducts());
-          })
-          .catch((err) => console.log(err));
+        dispatch(editProduct(updatedItem));
+        setEditingProductId(null);
       }
     }
   };
@@ -72,7 +67,7 @@ export default function AdminPage() {
   ) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const product = {
+    const product: CreateNewProductPayload = {
       title: formData.get("title") as string,
       price: Number(formData.get("price")),
       description: formData.get("description") as string,
@@ -80,35 +75,17 @@ export default function AdminPage() {
       images: images,
     };
 
-    const response = await axios
-      .post("https://api.escuelajs.co/api/v1/products/", product)
-      .then((res) => {
-        console.log("Successfully added product:", res.data);
-
-        // Close the modal and reset any states if necessary
-        toast.success(`A new product has been created successfully!`);
-        setCreateProductModalOpen(false);
-        setImages([]);
-        setCurrentImageLink("");
-        dispatch(fetchProducts());
-      })
-      .catch((err) => console.log(err));
-    return response;
+    dispatch(createNewProduct(product));
+    setCreateProductModalOpen(false);
+    setImages([]);
+    setCurrentImageLink("");
+    dispatch(fetchProducts());
   };
 
   const handleDeleteProduct = async (id: number) => {
-    const response = await axios
-      .delete(`https://api.escuelajs.co/api/v1/products/${id}`)
-      .then((res) => {
-        console.log("Successfully deleted product:", res.data);
-
-        // Close the modal and reset any states if necessary
-        setDeleteProductModalOpen(false);
-        toast.success(`Product id ${id} has been deleted successfully!`);
-        dispatch(fetchProducts());
-      })
-      .catch((err) => console.log(err));
-    return response;
+    dispatch(deleteProduct(id));
+    setDeleteProductModalOpen(false);
+    dispatch(fetchProducts());
   };
 
   const columns: GridColDef[] = [
@@ -147,6 +124,7 @@ export default function AdminPage() {
         <div>
           <Button
             variant="contained"
+            color={editingProductId === params.row.id ? "success" : "primary"}
             sx={{ marginRight: "5px" }}
             onClick={() => handleEditProduct(params.row)}
           >
@@ -156,7 +134,7 @@ export default function AdminPage() {
             variant="contained"
             color="error"
             onClick={() => {
-              setDeleteProduct(params.row);
+              setDeletingProduct(params.row);
               setDeleteProductModalOpen(true);
             }}
           >
@@ -301,18 +279,20 @@ export default function AdminPage() {
             p: 4,
           }}
         >
-          {deleteProduct ? (
+          {deletingProduct ? (
             <>
               <Typography>Are you sure to delete this product?</Typography>
-              <Typography>Product ID: {deleteProduct.id}</Typography>
-              <Typography>Title: {deleteProduct.title}</Typography>
-              <Typography>Price: {deleteProduct.price}</Typography>
-              <Typography>Category: {deleteProduct.category.name}</Typography>
-              <Typography>Description: {deleteProduct.description}</Typography>
+              <Typography>Product ID: {deletingProduct.id}</Typography>
+              <Typography>Title: {deletingProduct.title}</Typography>
+              <Typography>Price: {deletingProduct.price}</Typography>
+              <Typography>Category: {deletingProduct.category.name}</Typography>
+              <Typography>
+                Description: {deletingProduct.description}
+              </Typography>
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => handleDeleteProduct(deleteProduct.id)}
+                onClick={() => handleDeleteProduct(deletingProduct.id)}
               >
                 Delete
               </Button>
