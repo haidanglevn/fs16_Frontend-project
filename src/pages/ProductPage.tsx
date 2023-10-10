@@ -12,17 +12,21 @@ import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
 import SelectPriceOrder from "../components/SelectPriceOrder";
-import { Grid, Stack, Typography } from "@mui/material";
+import { Grid, Pagination, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import loadingSpin from "../assets/images/loading.gif"; //https://tenor.com/view/loading-loading-forever-bobux-loader-gif-18368917
 import SearchBar from "../components/SearchBar";
+import SelectItemsPerPage from "../components/SelectItemsPerPage";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
   const [chosenCategory, setChosenCategory] = useState<string>("");
   const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("desc");
+  const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
+  const totalPages = Math.ceil(products.length / itemsPerPage);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -40,13 +44,29 @@ export default function ProductPage() {
         category: chosenCategory,
       })
     );
+    setPageNumber(1);
     setTimeout(() => {
       dispatch(stopLoading());
     }, 1000);
   }, [chosenCategory, priceOrder, dispatch]);
 
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    const selectedPage = value;
+    setPageNumber(selectedPage);
+    window.scrollTo({
+      top: 0, // scrolls to the top
+      behavior: "smooth", // makes the scroll smooth instead of abrupt
+    });
+  };
+
   // Display all products or in category
   const renderAllProducts = () => {
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = pageNumber * itemsPerPage;
+    console.log("startIndex: ", startIndex, " endIndex: ", endIndex);
     return (
       <>
         <Stack
@@ -64,11 +84,11 @@ export default function ProductPage() {
               <></>
             )}
           </Stack>
-
+          <SelectItemsPerPage setItemsPerPage={setItemsPerPage} />
           <SelectPriceOrder setPriceOrder={setPriceOrder} />
         </Stack>
-        <Grid container spacing={2}>
-          {products.map((product) => {
+        <Grid container spacing={2} sx={{ paddingBottom: "30px" }}>
+          {products.slice(startIndex, endIndex).map((product) => {
             return (
               <Grid
                 item
@@ -112,6 +132,14 @@ export default function ProductPage() {
         }}
       >
         {renderAllProducts()}
+        <Pagination
+          count={totalPages}
+          page={pageNumber}
+          color="primary"
+          onChange={handlePageChange}
+          showFirstButton
+          showLastButton
+        />
       </Stack>
     </Stack>
   );

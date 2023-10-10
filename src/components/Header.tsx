@@ -30,8 +30,6 @@ export default function Header() {
   const cartItemCount = useSelector(selectCart).length;
   const user: User | null = useSelector(selectUser);
   const accessToken: string = useSelector(selectAccessToken);
-  console.log("Access Token: ", accessToken);
-  console.log("---------------");
 
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectStatus);
