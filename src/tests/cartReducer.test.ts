@@ -56,6 +56,4 @@ describe("cartReducer", () => {
     );
     expect(nextState.cart).toEqual([]);
   });
-
-  // ... similar tests for increaseQuantity and decreaseQuantity
 });

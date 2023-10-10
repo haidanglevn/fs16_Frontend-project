@@ -65,7 +65,7 @@ export default function ProductSingle() {
       sx={{
         width: "100%",
         minHeight: "calc(100vh - 70px)",
-        padding: isLargeScreen ? "20px 40px" : "20px 100px",
+        padding: isLargeScreen ? "20px 100px" : "20px 200px",
       }}
     >
       <Stack>
@@ -102,12 +102,17 @@ export default function ProductSingle() {
         <Typography variant="body1">{item?.description}</Typography>
         <Typography variant="h3">${item?.price}</Typography>
         <Stack
-          direction={"row"}
+          direction={isMediumScreen ? "column" : "row"}
           alignItems={"flex-start"}
           justifyContent={"space-between"}
           gap={"50px"}
         >
-          <Stack direction={"row"} alignItems={"center"} gap={"30px"}>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={"30px"}
+          >
             <Button variant="contained" onClick={handleDecreaseQuantity}>
               <ArrowDownwardIcon />
             </Button>
@@ -121,7 +126,7 @@ export default function ProductSingle() {
           <Button
             variant="contained"
             color="warning"
-            sx={{ width: "15vw" }}
+            sx={{ width: isMediumScreen ? "100%" : "15vw" }}
             onClick={() => handleAddToCart()}
           >
             Add to cart

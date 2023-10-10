@@ -16,6 +16,7 @@ export interface UserState {
   loading: boolean;
   error: string | null | undefined;
 }
+
 const initialState: UserState = {
   allUsers: [],
   user: null,
@@ -26,13 +27,13 @@ const initialState: UserState = {
   error: null,
 };
 
-interface LoginResponse {
+export interface LoginResponse {
   access_token: string;
   refresh_token: string;
 }
 
 // Async Thunk to handle login
-interface LoginPayload {
+export interface LoginPayload {
   email: string;
   password: string;
 }

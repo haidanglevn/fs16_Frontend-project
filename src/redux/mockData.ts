@@ -944,6 +944,64 @@ export const mockProducts: Product[] = [
   },
 ];
 
+export const mockProductsTest: Product[] = [
+  {
+    id: 1,
+    title: "Sleek Wireless Mouse",
+    price: 29.99,
+    description:
+      "High DPI precision, comfortable grip, and long-lasting battery life.",
+    category: {
+      id: 1,
+      image: "",
+      name: "Electronics",
+    },
+    images: [
+      "https://source.unsplash.com/500x400/?Mouse",
+      "https://source.unsplash.com/500x400/?Electronics",
+      "https://source.unsplash.com/500x400/?Electronics",
+    ],
+    creationAt: "2023-09-01T10:30:00Z",
+    updatedAt: "2023-09-10T11:00:00Z",
+  },
+  {
+    id: 2,
+    title: "Cozy Wool Blanket",
+    price: 49.99,
+    description: "Warm, lightweight, and easy to clean.",
+    category: {
+      id: 2,
+      image: "",
+      name: "Home",
+    },
+    images: [
+      "https://source.unsplash.com/500x400/?Blanket",
+      "https://source.unsplash.com/500x400/?Wool",
+      "https://source.unsplash.com/500x400/?Home",
+    ],
+    creationAt: "2023-08-15T08:00:00Z",
+    updatedAt: "2023-08-20T09:00:00Z",
+  },
+  {
+    id: 3,
+    title: "Stylish Running Shoes",
+    price: 89.99,
+    description: "Cushioned, breathable, and stylish.",
+    category: {
+      id: 3,
+      image: "",
+      name: "Clothes",
+    },
+    images: [
+      "https://source.unsplash.com/500x400/?Shoes",
+      "https://source.unsplash.com/500x400/?Running",
+      "https://source.unsplash.com/500x400/?Sports",
+    ],
+    creationAt: "2023-07-22T07:00:00Z",
+    updatedAt: "2023-07-30T08:00:00Z",
+  },
+];
+
 export const mockUser = [
   {
     id: 1,
@@ -976,3 +1034,6 @@ export const mockUser = [
     updatedAt: "2023-10-04T19:19:20.000Z",
   },
 ];
+
+export const mockToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5NjQxMDk1OCwiZXhwIjoxNjk2NDQ2OTU4fQ.X22XZknxsoOjM0AKYAx19W66yCTmep9YmuiBu8xXH90";

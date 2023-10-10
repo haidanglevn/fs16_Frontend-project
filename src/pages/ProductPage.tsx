@@ -4,6 +4,8 @@ import {
   selectProducts,
   selectStatus,
   sortAndFilter,
+  startLoading,
+  stopLoading,
 } from "../redux/slices/productSlice";
 import { Product } from "../types/productSlice";
 import { AppDispatch } from "../redux/store";
@@ -31,12 +33,16 @@ export default function ProductPage() {
 
   // Check for changes in price order or category
   useEffect(() => {
+    dispatch(startLoading());
     dispatch(
       sortAndFilter({
         priceOrder: priceOrder,
         category: chosenCategory,
       })
     );
+    setTimeout(() => {
+      dispatch(stopLoading());
+    }, 1000);
   }, [chosenCategory, priceOrder, dispatch]);
 
   // Display all products or in category
