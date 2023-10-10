@@ -12,7 +12,6 @@ export interface UserState {
   user: User | null;
   access_token: string;
   refresh_token: string;
-  isAuthenticated: boolean;
   loading: boolean;
   error: string | null | undefined;
 }
@@ -22,7 +21,6 @@ const initialState: UserState = {
   user: null,
   access_token: savedAccessToken ? savedAccessToken : "",
   refresh_token: savedRefreshToken ? savedRefreshToken : "",
-  isAuthenticated: false,
   loading: false,
   error: null,
 };
@@ -100,7 +98,6 @@ export const userSlice = createSlice({
     // Handle user logout
     logoutUser: (state) => {
       state.user = null;
-      state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
       state.access_token = "";
@@ -120,7 +117,6 @@ export const userSlice = createSlice({
           if (action.payload === undefined) {
             console.log("Fulfilled but undefined payload");
           } else {
-            state.isAuthenticated = true;
             state.loading = false;
             state.access_token = action.payload.access_token;
             state.refresh_token = action.payload.refresh_token;
@@ -134,11 +130,9 @@ export const userSlice = createSlice({
 
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.isAuthenticated = true;
       })
       .addCase(fetchUserProfile.rejected, (state) => {
         localStorage.removeItem("access_token");
-        state.isAuthenticated = false;
       })
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;

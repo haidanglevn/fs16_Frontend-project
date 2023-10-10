@@ -8,18 +8,19 @@ import {
 } from "../redux/slices/userSlice";
 import { User } from "../types/userSlice";
 import {
+  Breadcrumbs,
   Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { AppDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Link from "@mui/material/Link";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
@@ -42,59 +43,159 @@ export default function ProfilePage() {
     dispatch(fetchUserProfile());
   }, [dispatch, accessToken]);
 
+  const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <div>
-      {user ? (
-        <Stack
-          alignItems={"center"}
-          gap={"30px"}
-          sx={{
-            padding: "20px 0",
-          }}
-        >
-          <h1>User Profile</h1>
-          <Card sx={{ width: 345 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image={user.avatar}
-                alt="user avatar"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {user.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {user.email}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {user.role}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Edit
-              </Button>
-            </CardActions>
-          </Card>
-          <Stack>
-            {user.role === "customer" ? (
-              <Button onClick={() => navigate("/profile/admin")}>
-                Go to Admin Panel
-              </Button>
-            ) : (
-              <Button onClick={() => navigate("/profile/admin")}>
-                Go to Admin Panel
-              </Button>
-            )}
-            <Button onClick={handleLogOut}>Log out</Button>
+    <Stack
+      alignItems={"flex-start"}
+      justifyContent={"flex-start"}
+      gap={"10px"}
+      sx={{
+        width: "100%",
+        minHeight: "calc(100vh - 70px)",
+        padding: isLargeScreen ? "20px 100px" : "20px 200px",
+      }}
+    >
+      <Breadcrumbs>
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+
+        <Typography color="text.primary">Profile</Typography>
+      </Breadcrumbs>
+
+      <Stack direction={"row"} gap={"40px"} sx={{ width: "100%" }}>
+        <Stack sx={{ width: "max-content", border: "1px solid black" }}>
+          <Stack
+            direction={"row"}
+            gap={"10px"}
+            alignItems={"center"}
+            sx={{
+              borderBottom: "1px solid black",
+              padding: "20px",
+            }}
+          >
+            <AccountCircleIcon />
+            <Typography>
+              <b>Your Profile</b>
+            </Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            gap={"10px"}
+            alignItems={"center"}
+            sx={{
+              borderBottom: "1px solid black",
+              padding: "20px",
+            }}
+          >
+            <ArticleIcon />
+            <Typography>Your Orders</Typography>
           </Stack>
         </Stack>
-      ) : (
-        <Login />
-      )}
-    </div>
+
+        <Stack gap={"20px"} sx={{ width: "100%", padding: "0 20px" }}>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+              borderBottom: "1px solid black",
+              paddingBottom: "40px",
+            }}
+          >
+            <Stack>
+              <Typography variant="h5">
+                <b>Avatar</b>
+              </Typography>
+              <img
+                src={user?.avatar}
+                style={{ height: "150px", width: "150px", borderRadius: "50%" }}
+              />
+            </Stack>
+            <Button variant="contained" sx={{ height: "50px" }}>
+              Edit
+            </Button>
+          </Stack>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+              borderBottom: "1px solid black",
+              paddingBottom: "40px",
+            }}
+          >
+            <Stack>
+              <Typography variant="h5">
+                <b>Display name</b>
+              </Typography>
+              <Typography variant="body1">{user?.name}</Typography>
+            </Stack>
+            <Button variant="contained">Edit</Button>
+          </Stack>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+              borderBottom: "1px solid black",
+              paddingBottom: "40px",
+            }}
+          >
+            <Stack>
+              <Typography variant="h5">
+                <b>Email</b>
+              </Typography>
+              <Typography variant="body1">{user?.email}</Typography>
+            </Stack>
+            <Button variant="contained">Edit</Button>
+          </Stack>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+              borderBottom: "1px solid black",
+              paddingBottom: "40px",
+            }}
+          >
+            <Stack>
+              <Typography variant="h5">
+                <b>Password</b>
+              </Typography>
+            </Stack>
+            <Button variant="contained">Change</Button>
+          </Stack>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ width: "20%" }}
+              onClick={() => handleLogOut()}
+            >
+              Log Out
+            </Button>
+            <Button variant="contained" color="success" sx={{ width: "20%" }}>
+              Save
+            </Button>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }

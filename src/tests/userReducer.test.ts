@@ -21,7 +21,6 @@ const initialState: UserState = {
   user: null,
   access_token: "",
   refresh_token: "",
-  isAuthenticated: false,
   loading: false,
   error: null,
 };

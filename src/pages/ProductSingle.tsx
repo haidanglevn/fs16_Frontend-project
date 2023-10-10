@@ -1,4 +1,5 @@
 import {
+  Breadcrumbs,
   Button,
   ImageList,
   Stack,
@@ -15,6 +16,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import axios from "axios";
 import { addToCart } from "../redux/slices/cartSlice";
+import Link from "@mui/material/Link";
 
 export default function ProductSingle() {
   const [item, setItem] = useState<Product>();
@@ -57,80 +59,94 @@ export default function ProductSingle() {
   };
 
   return (
-    <Stack
-      direction={isMediumScreen ? "column" : "row"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      gap={"50px"}
-      sx={{
-        width: "100%",
-        minHeight: "calc(100vh - 70px)",
-        padding: isLargeScreen ? "20px 100px" : "20px 200px",
-      }}
-    >
-      <Stack>
-        <img
-          src={activeImage}
-          style={{
-            width: isMediumScreen ? "80vw" : "500px",
-            height: isMediumScreen ? "400px" : "500px",
-            borderRadius: "20px",
-          }}
-        ></img>
-        <Stack direction={"row"} justifyContent={"center"} gap={"10px"} mt={3}>
-          {item?.images.map((image, index) => {
-            return (
-              <img
-                src={`${image}`}
-                alt={`item-${index}`}
-                loading="lazy"
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "20px",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={() => setActiveImage(image)}
-                key={index}
-              />
-            );
-          })}
-        </Stack>
-      </Stack>
-      <Stack justifyContent={"space-evenly"} sx={{ height: "50vh" }}>
-        <Typography variant="h2">{item?.title}</Typography>
-        <Typography variant="body1">{item?.description}</Typography>
-        <Typography variant="h3">${item?.price}</Typography>
-        <Stack
-          direction={isMediumScreen ? "column" : "row"}
-          alignItems={"flex-start"}
-          justifyContent={"space-between"}
-          gap={"50px"}
-        >
+    <Stack>
+      <Breadcrumbs>
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+
+        <Typography color="text.primary">Product</Typography>
+      </Breadcrumbs>
+      <Stack
+        direction={isMediumScreen ? "column" : "row"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        gap={"50px"}
+        sx={{
+          width: "100%",
+          minHeight: "calc(100vh - 70px)",
+          padding: isLargeScreen ? "20px 100px" : "20px 200px",
+        }}
+      >
+        <Stack>
+          <img
+            src={activeImage}
+            style={{
+              width: isMediumScreen ? "80vw" : "500px",
+              height: isMediumScreen ? "400px" : "500px",
+              borderRadius: "20px",
+            }}
+          ></img>
           <Stack
             direction={"row"}
-            alignItems={"center"}
             justifyContent={"center"}
-            gap={"30px"}
+            gap={"10px"}
+            mt={3}
           >
-            <Button variant="contained" onClick={handleDecreaseQuantity}>
-              <ArrowDownwardIcon />
-            </Button>
-            <Typography>
-              <b>{quantity}</b>
-            </Typography>
-            <Button variant="contained" onClick={handleIncreaseQuantity}>
-              <ArrowUpwardIcon />
+            {item?.images.map((image, index) => {
+              return (
+                <img
+                  src={`${image}`}
+                  alt={`item-${index}`}
+                  loading="lazy"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "20px",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={() => setActiveImage(image)}
+                  key={index}
+                />
+              );
+            })}
+          </Stack>
+        </Stack>
+        <Stack justifyContent={"space-evenly"} sx={{ height: "50vh" }}>
+          <Typography variant="h2">{item?.title}</Typography>
+          <Typography variant="body1">{item?.description}</Typography>
+          <Typography variant="h3">${item?.price}</Typography>
+          <Stack
+            direction={isMediumScreen ? "column" : "row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            gap={"50px"}
+          >
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              gap={"30px"}
+            >
+              <Button variant="contained" onClick={handleDecreaseQuantity}>
+                <ArrowDownwardIcon />
+              </Button>
+              <Typography>
+                <b>{quantity}</b>
+              </Typography>
+              <Button variant="contained" onClick={handleIncreaseQuantity}>
+                <ArrowUpwardIcon />
+              </Button>
+            </Stack>
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{ width: isMediumScreen ? "100%" : "15vw" }}
+              onClick={() => handleAddToCart()}
+            >
+              Add to cart
             </Button>
           </Stack>
-          <Button
-            variant="contained"
-            color="warning"
-            sx={{ width: isMediumScreen ? "100%" : "15vw" }}
-            onClick={() => handleAddToCart()}
-          >
-            Add to cart
-          </Button>
         </Stack>
       </Stack>
     </Stack>
