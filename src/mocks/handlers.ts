@@ -24,13 +24,11 @@ export const handlers = [
     "https://api.escuelajs.co/api/v1/auth/login",
     async (req, res, ctx) => {
       const { email, password } = await req.json();
-      console.log(email, password);
       const foundUser = mockUser.find(
         (u) => u.email === email && u.password === password
       );
       if (foundUser) {
         const token = mockToken;
-        console.log("found user");
         return res(ctx.json({ access_token: token }));
       } else {
         ctx.status(401);

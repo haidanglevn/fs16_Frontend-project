@@ -14,7 +14,13 @@ export default function SelectPriceOrder({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Stack direction={"row"} gap={"20px"} alignItems={"center"}>
+    <Stack
+      direction={"row"}
+      gap={"20px"}
+      alignItems={"center"}
+      justifyContent={isSmallScreen ? "space-between" : ""}
+      sx={{ width: isSmallScreen ? "100%" : "auto" }}
+    >
       <Typography variant="h6">Price Order</Typography>
       <select
         id="sortByPrice"

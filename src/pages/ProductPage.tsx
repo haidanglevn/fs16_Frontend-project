@@ -70,9 +70,10 @@ export default function ProductPage() {
     return (
       <>
         <Stack
-          direction={isSmallScreen ? "column" : "row"}
+          direction={isMediumScreen ? "column" : "row"}
           alignItems={"center"}
           justifyContent={"space-between"}
+          sx={{ width: "100%" }}
         >
           <Stack direction={"row"} gap={2}>
             <Typography variant="h4">
@@ -87,7 +88,11 @@ export default function ProductPage() {
           <SelectItemsPerPage setItemsPerPage={setItemsPerPage} />
           <SelectPriceOrder setPriceOrder={setPriceOrder} />
         </Stack>
-        <Grid container spacing={2} sx={{ paddingBottom: "30px" }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ paddingBottom: "30px", minHeight: "80vh" }}
+        >
           {products.slice(startIndex, endIndex).map((product) => {
             return (
               <Grid
@@ -129,6 +134,7 @@ export default function ProductPage() {
       <Stack
         sx={{
           padding: "0 20px",
+          minWidth: isMediumScreen ? "auto" : "calc(65vw)",
         }}
       >
         {renderAllProducts()}

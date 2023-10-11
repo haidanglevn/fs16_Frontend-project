@@ -56,7 +56,7 @@ export default function ProfilePage() {
       sx={{
         width: "100%",
         minHeight: "calc(100vh - 70px)",
-        padding: isLargeScreen ? "20px 100px" : "20px 200px",
+        padding: isLargeScreen ? "20px 40px" : "20px 15vw",
       }}
     >
       <Breadcrumbs>
@@ -67,8 +67,15 @@ export default function ProfilePage() {
         <Typography color="text.primary">Profile</Typography>
       </Breadcrumbs>
 
-      <Stack direction={"row"} gap={"40px"} sx={{ width: "100%" }}>
-        <Stack sx={{ width: "max-content", border: "1px solid black" }}>
+      <Stack
+        direction={isMediumScreen ? "column" : "row"}
+        gap={"40px"}
+        sx={{ width: "100%" }}
+      >
+        <Stack
+          direction={isMediumScreen ? "row" : "column"}
+          sx={{ width: "max-content", border: "1px solid black" }}
+        >
           <Stack
             direction={"row"}
             gap={"10px"}
@@ -189,6 +196,12 @@ export default function ProfilePage() {
               onClick={() => handleLogOut()}
             >
               Log Out
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => navigate("/profile/admin")}
+            >
+              Admin Panel
             </Button>
             <Button variant="contained" color="success" sx={{ width: "20%" }}>
               Save

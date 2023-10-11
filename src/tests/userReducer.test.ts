@@ -36,7 +36,7 @@ describe("userReducer", () => {
     expect(store.getState().user.access_token).toBe(mockToken);
   });
 
-  test("Should return an status code 401 with right credential", async () => {
+  test("Should return an status code 401 with wrong credential", async () => {
     const response = await store.dispatch(
       loginUser({ email: "john@mail.com", password: "wrongpass" })
     );

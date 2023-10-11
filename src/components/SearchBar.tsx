@@ -11,7 +11,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
+import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function SearchBar() {
@@ -24,6 +24,8 @@ export default function SearchBar() {
   const handleSearch = (event: any, newValue: string | null) => {
     setSearch(newValue || "");
   };
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -43,7 +45,7 @@ export default function SearchBar() {
     <Box
       mb={2}
       sx={{
-        minWidth: "300px",
+        minWidth: !isSmallScreen ? "300px" : "100%",
         width: "30vw",
         height: "40px",
       }}

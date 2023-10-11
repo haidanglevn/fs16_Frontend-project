@@ -29,7 +29,7 @@ export const fetchProducts = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/products"
     );
-    return response.data.slice(0, 200);
+    return response.data;
   }
 );
 
@@ -39,7 +39,7 @@ export const fetchCategories = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/categories"
     );
-    return response.data.slice(0, 5);
+    return response.data.slice(0, 7);
   }
 );
 

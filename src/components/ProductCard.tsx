@@ -25,7 +25,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       }}
     >
       <Stack
-        sx={{ height: "100%", border: "1px solid gray", borderRadius: "10px" }}
+        sx={{
+          height: "100%",
+          border: "1px solid gray",
+          borderRadius: "10px",
+          minWidth: "200px",
+        }}
       >
         <img
           src={product.images[0]}
