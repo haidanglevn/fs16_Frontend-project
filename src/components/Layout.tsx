@@ -4,6 +4,7 @@ import store, { AppDispatch } from "../redux/store";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./Footer";
 
 export default function Layout() {
   return (
@@ -23,6 +24,7 @@ export default function Layout() {
       <div>
         <Header />
         <Outlet />
+        <Footer />
       </div>
     </Provider>
   );

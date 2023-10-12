@@ -11,7 +11,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --primary_color: #e69f56;
+  --primary-color: #e69f56;
+  --header-height: 70px;
+  --footer-height: 40px;
+  --body-min-height: calc(100vh - 70px - 40px);
 }
 
 code {

@@ -86,7 +86,7 @@ export default function ProductPage() {
         <Grid
           container
           spacing={2}
-          sx={{ paddingBottom: "30px", minHeight: "80vh" }}
+          sx={{ paddingBottom: "30px", minHeight: "70vh" }}
         >
           {products.slice(startIndex, endIndex).map((product) => {
             return (
@@ -101,7 +101,11 @@ export default function ProductPage() {
                 mt={2}
                 sx={{ filter: status === "loading" ? "blur(10px)" : "none" }}
               >
-                <ProductCard product={product} />
+                {products.length === 0 ? (
+                  <Typography>No products found</Typography>
+                ) : (
+                  <ProductCard product={product} />
+                )}
               </Grid>
             );
           })}
@@ -113,7 +117,10 @@ export default function ProductPage() {
   return (
     <Stack
       direction={isMediumScreen ? "column" : "row"}
-      sx={{ padding: isLargeScreen ? "20px 40px" : "20px 100px" }}
+      sx={{
+        padding: isLargeScreen ? "20px 40px" : "20px 100px",
+        minHeight: "var(--body-min-height)",
+      }}
       gap={"30px"}
     >
       <Stack

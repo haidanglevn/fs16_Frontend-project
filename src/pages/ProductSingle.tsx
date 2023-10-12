@@ -48,24 +48,25 @@ export default function ProductSingle() {
   };
 
   return (
-    <Stack>
+    <Stack
+      sx={{
+        width: "100%",
+        minHeight: "var(--body-min-height)",
+        padding: isLargeScreen ? "20px 100px" : "20px 200px",
+      }}
+    >
       <Breadcrumbs>
         <Link underline="hover" color="inherit" href="/">
           Home
         </Link>
 
-        <Typography color="text.primary">Product</Typography>
+        <Typography color="text.primary">Product #{item?.id}</Typography>
       </Breadcrumbs>
       <Stack
         direction={isMediumScreen ? "column" : "row"}
         alignItems={"center"}
         justifyContent={"center"}
         gap={"50px"}
-        sx={{
-          width: "100%",
-          minHeight: "calc(100vh - 70px)",
-          padding: isLargeScreen ? "20px 100px" : "20px 200px",
-        }}
       >
         <Stack>
           <img

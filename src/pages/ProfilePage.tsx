@@ -44,7 +44,7 @@ export default function ProfilePage() {
       gap={"10px"}
       sx={{
         width: "100%",
-        minHeight: "calc(100vh - 70px)",
+        minHeight: "var(--body-min-height)",
         padding: isLargeScreen ? "20px 40px" : "20px 15vw",
       }}
     >
@@ -72,6 +72,7 @@ export default function ProfilePage() {
             sx={{
               borderBottom: "1px solid black",
               padding: "20px",
+              cursor: "pointer",
             }}
           >
             <AccountCircleIcon />
@@ -86,6 +87,7 @@ export default function ProfilePage() {
             sx={{
               borderBottom: "1px solid black",
               padding: "20px",
+              cursor: "pointer",
             }}
           >
             <ArticleIcon />
@@ -94,6 +96,16 @@ export default function ProfilePage() {
         </Stack>
 
         <Stack gap={"20px"} sx={{ width: "100%", padding: "0 20px" }}>
+          <Stack
+            direction={"row"}
+            alignItems={"flex-start"}
+            justifyContent={"space-between"}
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4">Hello, {user?.name}</Typography>
+          </Stack>
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -187,12 +199,15 @@ export default function ProfilePage() {
             >
               Log Out
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => navigate("/profile/admin")}
-            >
-              Admin Panel
-            </Button>
+            {user?.role === "admin" && (
+              <Button
+                variant="contained"
+                onClick={() => navigate("/profile/admin")}
+              >
+                Admin Panel
+              </Button>
+            )}
+
             <Button variant="contained" color="success" sx={{ width: "20%" }}>
               Save
             </Button>

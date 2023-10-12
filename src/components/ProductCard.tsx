@@ -37,7 +37,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           alt={product.title}
           style={{
             width: "100%",
-            minHeight: "150px",
+            height: "160px",
             cursor: "pointer",
             borderRadius: "9px 9px 0 0",
           }}

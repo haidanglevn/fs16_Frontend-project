@@ -25,13 +25,15 @@ import {
 } from "../redux/slices/productSlice";
 import { Product } from "../types/productSlice";
 import { useState } from "react";
-import axios from "axios";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
 import { CreateNewProductPayload } from "../types/productSlice";
+import { useScreenSizes } from "../hooks/useScreenSizes";
+import bearSorry from "../assets/images/bearSorry.png";
 
 export default function AdminPage() {
   const products = useSelector(selectProducts);
+  const { isSmallScreen, isLargeScreen } = useScreenSizes();
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
   const [createProductModalOpen, setCreateProductModalOpen] = useState(false);
 
@@ -89,11 +91,11 @@ export default function AdminPage() {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 40 },
     {
       field: "title",
       headerName: "Title",
-      width: 200,
+      width: isLargeScreen ? 100 : 200,
       editable: true,
     },
     {
@@ -107,19 +109,19 @@ export default function AdminPage() {
     {
       field: "price",
       headerName: "Price",
-      width: 100,
+      width: 70,
       editable: true,
     },
     {
       field: "description",
       headerName: "Description",
-      width: 500,
+      width: isLargeScreen ? 200 : 600,
       editable: true,
     },
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 180,
       renderCell: (params) => (
         <div>
           <Button
@@ -145,24 +147,58 @@ export default function AdminPage() {
     },
   ];
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stack alignItems={"center"}>
-        <Typography variant="h3">Admin panel</Typography>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => setCreateProductModalOpen(true)}
-        >
-          Create new product
-        </Button>
-        <DataGrid
-          rows={products}
-          columns={columns}
-          isCellEditable={(params) => {
-            return editingProductId === params.id;
+    <Stack alignItems={"center"} sx={{ width: "100%" }}>
+      {isSmallScreen ? (
+        <Stack
+          alignItems={"center"}
+          sx={{
+            minHeight: "var(--body-min-height)",
+            padding: "20px 40px",
+            textAlign: "left",
           }}
-        />
-      </Stack>
+        >
+          <Stack alignItems={"flex-start"} justifyContent={"flex-start"}>
+            <Typography>
+              Admin panel is only available for tablet and desktop screen. Try
+              rotate your screen or open this page in a bigger screen.
+            </Typography>
+            <img
+              src={bearSorry}
+              style={{ height: "300px", maxWidth: "100%", margin: "20px 0" }}
+              alt="bear-sorry"
+            />
+            <Typography>We are sorry for the inconvenience.</Typography>
+          </Stack>
+          <Stack></Stack>
+        </Stack>
+      ) : (
+        <Stack alignItems={"center"} gap={"20px"} sx={{ padding: "20px 0" }}>
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="h3">Admin panel</Typography>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => setCreateProductModalOpen(true)}
+            >
+              Create new product
+            </Button>
+          </Stack>
+
+          <DataGrid
+            rows={products}
+            columns={columns}
+            pageSizeOptions={[25, 50, 100]}
+            isCellEditable={(params) => {
+              return editingProductId === params.id;
+            }}
+          />
+        </Stack>
+      )}
+
       <Modal
         open={createProductModalOpen}
         onClose={() => setCreateProductModalOpen(false)}
@@ -175,11 +211,13 @@ export default function AdminPage() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
+            maxHeight: "100vh",
             width: 400,
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
             p: 4,
+            overflow: "scroll",
           }}
         >
           <Typography id="add-product-title" variant="h6" component="h2">
@@ -311,6 +349,6 @@ export default function AdminPage() {
           )}
         </Box>
       </Modal>
-    </Box>
+    </Stack>
   );
 }
