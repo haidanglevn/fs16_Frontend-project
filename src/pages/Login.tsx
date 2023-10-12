@@ -9,6 +9,7 @@ import { loginUser, selectError, selectUser } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types/userSlice";
+import { useTheme } from "@mui/material";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const user: User | null = useSelector(selectUser);
+  const theme = useTheme();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -34,61 +36,67 @@ function Login() {
   }, [user, navigate]);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "20px 0",
-        }}
-      >
-        <Typography variant="h3">Sign in</Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-          <Typography color={"red"}>{errorMessage}</Typography>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="body2">Don't have an account? </Typography>
-            <Link to={"/register"}>
-              <Typography variant="subtitle1">Register</Typography>
-            </Link>
-          </Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "20px 0",
+        minHeight: "var(--body-min-height)",
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
+      <Typography variant="h3" color={"text.primary"}>
+        Sign in
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Sign In
+        </Button>
+        <Typography color={"red"}>{errorMessage}</Typography>
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="body2" color={"text.primary"}>
+            Don't have an account?{" "}
+          </Typography>
+          <Link to={"/register"}>
+            <Typography variant="subtitle1" color={"text.primary"}>
+              Register
+            </Typography>
+          </Link>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

@@ -12,7 +12,7 @@ import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
 import SelectPriceOrder from "../components/SelectPriceOrder";
-import { Grid, Pagination, Stack, Typography } from "@mui/material";
+import { Grid, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import loadingSpin from "../assets/images/loading.gif"; //https://tenor.com/view/loading-loading-forever-bobux-loader-gif-18368917
 import SearchBar from "../components/SearchBar";
 import SelectItemsPerPage from "../components/SelectItemsPerPage";
@@ -29,6 +29,7 @@ export default function ProductPage() {
   const totalPages = Math.ceil(products.length / itemsPerPage);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
+  const theme = useTheme();
 
   // Check for changes in price order or category
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function ProductPage() {
           sx={{ width: "100%" }}
         >
           <Stack direction={"row"} gap={2}>
-            <Typography variant="h4">
+            <Typography variant="h4" color={"text.primary"}>
               {chosenCategory === "" ? "All Items" : chosenCategory}
             </Typography>
             {status === "loading" ? (
@@ -102,7 +103,9 @@ export default function ProductPage() {
                 sx={{ filter: status === "loading" ? "blur(10px)" : "none" }}
               >
                 {products.length === 0 ? (
-                  <Typography>No products found</Typography>
+                  <Typography color={"text.primary"}>
+                    No products found
+                  </Typography>
                 ) : (
                   <ProductCard product={product} />
                 )}
@@ -120,6 +123,7 @@ export default function ProductPage() {
       sx={{
         padding: isLargeScreen ? "20px 40px" : "20px 100px",
         minHeight: "var(--body-min-height)",
+        backgroundColor: theme.palette.background.paper,
       }}
       gap={"30px"}
     >

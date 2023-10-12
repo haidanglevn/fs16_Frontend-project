@@ -1,4 +1,10 @@
-import { Breadcrumbs, Button, Stack, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../types/productSlice";
@@ -17,6 +23,7 @@ export default function ProductSingle() {
   const [quantity, setQuantity] = useState(1);
   const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const params = useParams();
+  const theme = useTheme();
 
   useEffect(() => {
     axios
@@ -49,10 +56,12 @@ export default function ProductSingle() {
 
   return (
     <Stack
+      alignItems={"flex-start"}
       sx={{
         width: "100%",
         minHeight: "var(--body-min-height)",
         padding: isLargeScreen ? "20px 100px" : "20px 200px",
+        backgroundColor: theme.palette.background.paper,
       }}
     >
       <Breadcrumbs>
@@ -60,7 +69,7 @@ export default function ProductSingle() {
           Home
         </Link>
 
-        <Typography color="text.primary">Product #{item?.id}</Typography>
+        <Typography color={"text.primary"}>Product #{item?.id}</Typography>
       </Breadcrumbs>
       <Stack
         direction={isMediumScreen ? "column" : "row"}
@@ -104,9 +113,15 @@ export default function ProductSingle() {
           </Stack>
         </Stack>
         <Stack justifyContent={"space-evenly"} sx={{ height: "50vh" }}>
-          <Typography variant="h2">{item?.title}</Typography>
-          <Typography variant="body1">{item?.description}</Typography>
-          <Typography variant="h3">${item?.price}</Typography>
+          <Typography variant="h2" color={"text.primary"}>
+            {item?.title}
+          </Typography>
+          <Typography variant="body1" color={"text.primary"}>
+            {item?.description}
+          </Typography>
+          <Typography variant="h3" color={"text.primary"}>
+            ${item?.price}
+          </Typography>
           <Stack
             direction={isMediumScreen ? "column" : "row"}
             alignItems={"flex-start"}
@@ -122,7 +137,7 @@ export default function ProductSingle() {
               <Button variant="contained" onClick={handleDecreaseQuantity}>
                 <ArrowDownwardIcon />
               </Button>
-              <Typography>
+              <Typography color={"text.primary"}>
                 <b>{quantity}</b>
               </Typography>
               <Button variant="contained" onClick={handleIncreaseQuantity}>

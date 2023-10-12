@@ -9,7 +9,7 @@ import { Product } from "../types/productSlice";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { Stack } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 
@@ -19,6 +19,7 @@ export default function SearchBar() {
   const { isSmallScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const searchResult: Product[] = useSelector(selectSearchResult);
+  const theme = useTheme();
 
   // Search by name feature
   const handleSearch = (event: any, newValue: string | null) => {
@@ -71,14 +72,11 @@ export default function SearchBar() {
 
                 "& .MuiOutlinedInput-root": {
                   height: "40px", // Sets the height
-                  color: "black",
-                  backgroundColor: "white",
+                  color: "text.primary",
+                  backgroundColor: theme.palette.background.paper,
                   "& .MuiOutlinedInput-input": {
                     padding: "0px 10px",
                   },
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  border: "2px solid #FF7D1A",
                 },
               }}
             />

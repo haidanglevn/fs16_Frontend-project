@@ -8,15 +8,25 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { CartItem } from "../types/cartSlice";
 
-import { Typography, Button, Box, Stack, IconButton } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Box,
+  Stack,
+  IconButton,
+  useTheme,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CartEmpty from "../components/CartEmpty";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function CartPage() {
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const { isMediumScreen } = useScreenSizes();
 
   const handleEmptyCart = () => {
     dispatch(emptyCart());
@@ -45,18 +55,22 @@ export default function CartPage() {
   return (
     <Box
       sx={{
-        padding: "50px 100px",
+        padding: isMediumScreen ? "20px" : "50px 100px",
+        minHeight: "var(--body-min-height)",
+        backgroundColor: theme.palette.background.paper,
       }}
     >
-      <Typography variant="h4">Your cart ({cart.length}):</Typography>
+      <Typography variant="h4" color={"text.primary"}>
+        Your cart ({cart.length}):
+      </Typography>
       <Stack mt={5} gap={"20px"}>
         {cart.map((item: CartItem) => (
           <Stack
             direction={"row"}
             gap={"20px"}
             sx={{
-              height: "100px",
-              borderBottom: "1px solid black",
+              height: isMediumScreen ? "150px" : "100px",
+              borderBottom: `1px solid var(--primary-color)`,
               padding: "10px 10px 10px 0",
             }}
             key={item.id}
@@ -72,9 +86,11 @@ export default function CartPage() {
               justifyContent={"space-between"}
               sx={{ width: "100%" }}
             >
-              <Stack>
-                <Typography variant="h5">{item.title}</Typography>
-                <Typography>
+              <Stack gap={"10px"}>
+                <Typography variant="h5" color={"text.primary"}>
+                  {item.title}
+                </Typography>
+                <Typography color={"text.primary"}>
                   Price: $<b>{item.price}</b>
                 </Typography>
                 <Stack
@@ -83,12 +99,12 @@ export default function CartPage() {
                   justifyContent={"space-between"}
                   sx={{ width: "30vw" }}
                 >
-                  <Typography>Quantity:</Typography>
+                  <Typography color={"text.primary"}>Quantity:</Typography>
                   <Stack direction={"row"} alignItems={"center"} gap={"5px"}>
                     <Button onClick={() => handleDecreaseQuantity(item)}>
                       <ArrowDownwardIcon />
                     </Button>
-                    <Typography>
+                    <Typography color={"text.primary"}>
                       <b>{item.quantity}</b>
                     </Typography>
                     <Button onClick={() => handleIncreaseQuantity(item)}>
@@ -105,7 +121,7 @@ export default function CartPage() {
                 >
                   <DeleteIcon />
                 </IconButton>
-                <Typography>
+                <Typography color={"text.primary"}>
                   $<b>{item.price * item.quantity}</b>
                 </Typography>
               </Stack>
@@ -117,7 +133,9 @@ export default function CartPage() {
       {cart.length !== 0 ? (
         <>
           <Stack alignItems={"flex-end"} mt={2}>
-            <Typography variant="h4">Total: {calculateCartTotal()} </Typography>
+            <Typography variant="h4" color={"text.primary"}>
+              Total: {calculateCartTotal()}{" "}
+            </Typography>
           </Stack>
           <Stack
             direction={"row"}

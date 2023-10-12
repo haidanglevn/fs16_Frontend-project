@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllUsers,
-  selectAllUsers,
-  selectError,
-} from "../redux/slices/userSlice";
+import { fetchAllUsers, selectAllUsers } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +34,8 @@ const Register: React.FC = () => {
   const allUsers = useSelector(selectAllUsers);
 
   const navigate = useNavigate();
+  const theme = useTheme();
+  const { isMediumScreen } = useScreenSizes();
 
   const validate = () => {
     let isValid = true;
@@ -104,69 +110,82 @@ const Register: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box display="flex" flexDirection="column" alignItems="center" p={3}>
-        <Typography component="h1">Register</Typography>
-        <Box component="form" onSubmit={handleSubmit} mt={1} width="100%">
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoFocus
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            error={!!formErrors.email}
-            helperText={formErrors.email}
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            error={!!formErrors.password}
-            helperText={formErrors.password}
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="passwordConfirmation"
-            label="Retype password"
-            error={!!formErrors.passwordConfirmation}
-            helperText={formErrors.passwordConfirmation}
-            value={formData.passwordConfirmation}
-            onChange={handleChange}
-            type="password"
-            id="passwordConfirmation"
-          />
-          <Button type="submit" fullWidth variant="contained" color="primary">
-            Register
-          </Button>
-        </Box>
+    <Stack
+      sx={{
+        alignItems: "center",
+        padding: "20px 0",
+        minHeight: "var(--body-min-height)",
+        width: "100%",
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
+      <Typography component="h1" color={"text.primary"} variant="h3">
+        Register
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        mt={1}
+        width={isMediumScreen ? "80%" : "50%"}
+      >
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="name"
+          label="Name"
+          name="name"
+          autoFocus
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          error={!!formErrors.email}
+          helperText={formErrors.email}
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          error={!!formErrors.password}
+          helperText={formErrors.password}
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="passwordConfirmation"
+          label="Retype password"
+          error={!!formErrors.passwordConfirmation}
+          helperText={formErrors.passwordConfirmation}
+          value={formData.passwordConfirmation}
+          onChange={handleChange}
+          type="password"
+          id="passwordConfirmation"
+        />
+        <Button type="submit" fullWidth variant="contained" color="primary">
+          Register
+        </Button>
       </Box>
-    </Container>
+    </Stack>
   );
 };
 

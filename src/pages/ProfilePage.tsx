@@ -6,7 +6,13 @@ import {
   selectUser,
 } from "../redux/slices/userSlice";
 import { User } from "../types/userSlice";
-import { Breadcrumbs, Button, Stack, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { AppDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +27,7 @@ export default function ProfilePage() {
   const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const handleLogOut = () => {
     dispatch(logoutUser());
@@ -46,6 +53,7 @@ export default function ProfilePage() {
         width: "100%",
         minHeight: "var(--body-min-height)",
         padding: isLargeScreen ? "20px 40px" : "20px 15vw",
+        backgroundColor: theme.palette.background.paper,
       }}
     >
       <Breadcrumbs>
@@ -53,7 +61,7 @@ export default function ProfilePage() {
           Home
         </Link>
 
-        <Typography color="text.primary">Profile</Typography>
+        <Typography color={"text.primary"}>Profile</Typography>
       </Breadcrumbs>
 
       <Stack
@@ -63,20 +71,23 @@ export default function ProfilePage() {
       >
         <Stack
           direction={isMediumScreen ? "row" : "column"}
-          sx={{ width: "max-content", border: "1px solid black" }}
+          sx={{
+            width: "max-content",
+            border: "1px solid var(--primary-color)",
+          }}
         >
           <Stack
             direction={"row"}
             gap={"10px"}
             alignItems={"center"}
             sx={{
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               padding: "20px",
               cursor: "pointer",
             }}
           >
-            <AccountCircleIcon />
-            <Typography>
+            <AccountCircleIcon sx={{ color: "text.primary" }} />
+            <Typography color={"text.primary"}>
               <b>Your Profile</b>
             </Typography>
           </Stack>
@@ -85,13 +96,13 @@ export default function ProfilePage() {
             gap={"10px"}
             alignItems={"center"}
             sx={{
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               padding: "20px",
               cursor: "pointer",
             }}
           >
-            <ArticleIcon />
-            <Typography>Your Orders</Typography>
+            <ArticleIcon sx={{ color: "text.primary" }} />
+            <Typography color={"text.primary"}>Your Orders</Typography>
           </Stack>
         </Stack>
 
@@ -104,7 +115,9 @@ export default function ProfilePage() {
               width: "100%",
             }}
           >
-            <Typography variant="h4">Hello, {user?.name}</Typography>
+            <Typography variant="h4" color={"text.primary"}>
+              Hello, {user?.name}
+            </Typography>
           </Stack>
           <Stack
             direction={"row"}
@@ -112,12 +125,12 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               paddingBottom: "40px",
             }}
           >
             <Stack>
-              <Typography variant="h5">
+              <Typography variant="h5" color={"text.primary"}>
                 <b>Avatar</b>
               </Typography>
               <img
@@ -136,15 +149,17 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               paddingBottom: "40px",
             }}
           >
             <Stack>
-              <Typography variant="h5">
+              <Typography variant="h5" color={"text.primary"}>
                 <b>Display name</b>
               </Typography>
-              <Typography variant="body1">{user?.name}</Typography>
+              <Typography variant="body1" color={"text.primary"}>
+                {user?.name}
+              </Typography>
             </Stack>
             <Button variant="contained">Edit</Button>
           </Stack>
@@ -154,15 +169,17 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               paddingBottom: "40px",
             }}
           >
             <Stack>
-              <Typography variant="h5">
+              <Typography variant="h5" color={"text.primary"}>
                 <b>Email</b>
               </Typography>
-              <Typography variant="body1">{user?.email}</Typography>
+              <Typography variant="body1" color={"text.primary"}>
+                {user?.email}
+              </Typography>
             </Stack>
             <Button variant="contained">Edit</Button>
           </Stack>
@@ -172,12 +189,12 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid black",
+              borderBottom: "1px solid var(--primary-color)",
               paddingBottom: "40px",
             }}
           >
             <Stack>
-              <Typography variant="h5">
+              <Typography variant="h5" color={"text.primary"}>
                 <b>Password</b>
               </Typography>
             </Stack>

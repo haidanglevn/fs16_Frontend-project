@@ -3,7 +3,7 @@ import { Product } from "../types/productSlice";
 
 import { AppDispatch } from "../redux/store";
 import { addToCart, selectCart } from "../redux/slices/cartSlice";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
@@ -57,8 +57,10 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           }}
         >
           <Stack sx={{ maxWidth: "calc(100% - 45px)" }}>
-            <h3>{product.title}</h3>
-            <p>${product.price}</p>
+            <Typography variant="h6" color={"text.primary"}>
+              {product.title}
+            </Typography>
+            <Typography color={"text.primary"}>${product.price}</Typography>
           </Stack>
           <Stack alignItems={"flex-end"}>
             <IconButton

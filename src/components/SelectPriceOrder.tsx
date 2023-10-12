@@ -21,7 +21,9 @@ export default function SelectPriceOrder({
       justifyContent={isSmallScreen ? "space-between" : ""}
       sx={{ width: isSmallScreen ? "100%" : "auto" }}
     >
-      <Typography variant="h6">Price Order</Typography>
+      <Typography variant="h6" color={"text.primary"}>
+        Price Order
+      </Typography>
       <select
         id="sortByPrice"
         onChange={handleSortChange}

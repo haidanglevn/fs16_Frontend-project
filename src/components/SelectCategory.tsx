@@ -1,7 +1,13 @@
 import { useSelector } from "react-redux";
 import { selectCategories } from "../redux/slices/productSlice";
 import { Category } from "../types/productSlice";
-import { Box, Typography, Radio, FormControlLabel } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Radio,
+  FormControlLabel,
+  useTheme,
+} from "@mui/material";
 import { useState } from "react";
 
 interface SelectCategoryProps {
@@ -20,9 +26,13 @@ export default function SelectCategory({
     setChosenCategory(category);
   };
 
+  const theme = useTheme();
+
   return (
     <Box sx={{ marginTop: "20px", borderBottom: "1px solid #E69F56" }}>
-      <Typography variant="h6">Category</Typography>
+      <Typography variant="h6" color={"text.primary"}>
+        Category
+      </Typography>
       <FormControlLabel
         value=""
         control={
@@ -34,7 +44,7 @@ export default function SelectCategory({
             color="primary"
           />
         }
-        label="All"
+        label={<Typography color="text.primary">All</Typography>}
       />
       {categories.map((category: Category) => {
         return (
@@ -50,7 +60,9 @@ export default function SelectCategory({
                 color="primary"
               />
             }
-            label={category.name}
+            label={
+              <Typography color="text.primary">{category.name}</Typography>
+            }
           />
         );
       })}

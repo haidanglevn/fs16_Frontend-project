@@ -1,23 +1,23 @@
 // Footer.js
 import React from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Stack } from "@mui/material";
 
 function Footer() {
   return (
-    <Box
+    <Stack
       component="footer"
+      justifyContent="center"
       sx={{
         backgroundColor: "var(--primary-color)",
         height: "var(--footer-height)",
         padding: "auto 0",
+        width: "100%",
       }}
     >
-      <Container maxWidth="sm">
-        <Typography variant="body1" align="center" color="textSecondary">
-          © Dang Le 2023
-        </Typography>
-      </Container>
-    </Box>
+      <Typography variant="body1" align="center" color={"text.primary"}>
+        © Created by Dang Le 2023
+      </Typography>
+    </Stack>
   );
 }
 

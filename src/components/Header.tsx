@@ -5,7 +5,7 @@ import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
-import { Avatar, Stack } from "@mui/material";
+import { Avatar, IconButton, Stack } from "@mui/material";
 import { User } from "../types/userSlice";
 import {
   selectStatus,
@@ -15,8 +15,12 @@ import {
 import SearchBar from "./SearchBar";
 import Logo from "../assets/images/Logo.svg";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { ThemeChangeProps } from "./Layout";
 
-export default function Header() {
+const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
   // The number to display on the orange dot
   const cartItemCount = useSelector(selectCart).length;
   const user: User | null = useSelector(selectUser);
@@ -64,17 +68,18 @@ export default function Header() {
           gap: isMediumScreen ? "20px" : "50px",
         }}
       >
+        <IconButton onClick={changeTheme}>
+          {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
         <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>
-          <img
-            src={cartIcon}
-            alt="Cart"
-            style={{ height: "30px", cursor: "pointer" }}
-          />
+          <IconButton color="default">
+            <ShoppingCartIcon />
+          </IconButton>
           <div
             style={{
               backgroundColor: "#FF7D1A",
               borderRadius: "50%",
-              color: "white",
+              color: mode === "light" ? "white" : "black",
               fontSize: "12px",
               fontWeight: "bold",
               padding: "5px",
@@ -101,4 +106,6 @@ export default function Header() {
       </div>
     </Stack>
   );
-}
+};
+
+export default Header;

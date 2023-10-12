@@ -21,11 +21,17 @@ export default function SelectItemsPerPage({
       justifyContent={isSmallScreen ? "space-between" : ""}
       sx={{ width: isSmallScreen ? "100%" : "auto" }}
     >
-      <Typography variant="h6">Items</Typography>
+      <Typography variant="h6" color={"text.primary"}>
+        Items
+      </Typography>
       <select
         id="sortByPrice"
         onChange={handleSortChange}
-        style={{ width: "150px", height: isSmallScreen ? "50px" : "100%" }}
+        style={{
+          width: "150px",
+          height: isSmallScreen ? "50px" : "100%",
+          color: "text.primary",
+        }}
       >
         <option value={20} defaultChecked>
           20

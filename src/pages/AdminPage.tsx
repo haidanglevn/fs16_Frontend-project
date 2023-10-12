@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  useTheme,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +34,7 @@ import bearSorry from "../assets/images/bearSorry.png";
 
 export default function AdminPage() {
   const products = useSelector(selectProducts);
+  const theme = useTheme();
   const { isSmallScreen, isLargeScreen } = useScreenSizes();
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
   const [createProductModalOpen, setCreateProductModalOpen] = useState(false);
@@ -147,7 +149,14 @@ export default function AdminPage() {
     },
   ];
   return (
-    <Stack alignItems={"center"} sx={{ width: "100%" }}>
+    <Stack
+      alignItems={"center"}
+      sx={{
+        width: "100%",
+        minHeight: "var(--body-min-height)",
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
       {isSmallScreen ? (
         <Stack
           alignItems={"center"}
@@ -158,7 +167,7 @@ export default function AdminPage() {
           }}
         >
           <Stack alignItems={"flex-start"} justifyContent={"flex-start"}>
-            <Typography>
+            <Typography color={"text.primary"}>
               Admin panel is only available for tablet and desktop screen. Try
               rotate your screen or open this page in a bigger screen.
             </Typography>
@@ -167,7 +176,9 @@ export default function AdminPage() {
               style={{ height: "300px", maxWidth: "100%", margin: "20px 0" }}
               alt="bear-sorry"
             />
-            <Typography>We are sorry for the inconvenience.</Typography>
+            <Typography color={"text.primary"}>
+              We are sorry for the inconvenience.
+            </Typography>
           </Stack>
           <Stack></Stack>
         </Stack>
@@ -178,7 +189,9 @@ export default function AdminPage() {
             justifyContent={"space-between"}
             sx={{ width: "100%" }}
           >
-            <Typography variant="h3">Admin panel</Typography>
+            <Typography variant="h3" color={"text.primary"}>
+              Admin panel
+            </Typography>
             <Button
               variant="contained"
               color="success"
