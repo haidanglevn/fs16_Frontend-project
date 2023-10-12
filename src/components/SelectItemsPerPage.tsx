@@ -1,4 +1,5 @@
-import { Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 interface SelectItemsPerPageProps {
   setItemsPerPage: React.Dispatch<React.SetStateAction<number>>;
@@ -10,8 +11,7 @@ export default function SelectItemsPerPage({
   const handleSortChange = (event: any) => {
     setItemsPerPage(event.target.value);
   };
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isSmallScreen } = useScreenSizes();
 
   return (
     <Stack

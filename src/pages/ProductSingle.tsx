@@ -1,12 +1,4 @@
-import {
-  Breadcrumbs,
-  Button,
-  ImageList,
-  Stack,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Breadcrumbs, Button, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../types/productSlice";
@@ -17,11 +9,13 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import axios from "axios";
 import { addToCart } from "../redux/slices/cartSlice";
 import Link from "@mui/material/Link";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function ProductSingle() {
   const [item, setItem] = useState<Product>();
   const [activeImage, setActiveImage] = useState<string>();
   const [quantity, setQuantity] = useState(1);
+  const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const params = useParams();
 
   useEffect(() => {
@@ -32,14 +26,9 @@ export default function ProductSingle() {
         setItem(response.data);
         setActiveImage(response.data.images[0]);
       });
-  }, []);
+  }, [params.productId]);
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -81,6 +70,7 @@ export default function ProductSingle() {
         <Stack>
           <img
             src={activeImage}
+            alt="active-img"
             style={{
               width: isMediumScreen ? "80vw" : "500px",
               height: isMediumScreen ? "400px" : "500px",

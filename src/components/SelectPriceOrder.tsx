@@ -1,4 +1,5 @@
-import { Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 interface SelectPriceOrderProps {
   setPriceOrder: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
@@ -7,11 +8,10 @@ interface SelectPriceOrderProps {
 export default function SelectPriceOrder({
   setPriceOrder,
 }: SelectPriceOrderProps) {
+  const { isSmallScreen } = useScreenSizes();
   const handleSortChange = (event: any) => {
     setPriceOrder(event.target.value);
   };
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Stack

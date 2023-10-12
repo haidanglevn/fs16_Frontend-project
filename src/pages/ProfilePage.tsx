@@ -1,4 +1,3 @@
-import Login from "./Login";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserProfile,
@@ -7,24 +6,19 @@ import {
   selectUser,
 } from "../redux/slices/userSlice";
 import { User } from "../types/userSlice";
-import {
-  Breadcrumbs,
-  Button,
-  Stack,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Breadcrumbs, Button, Stack, Typography } from "@mui/material";
 import { AppDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
   const accessToken: string = useSelector(selectAccessToken);
+  const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -42,11 +36,6 @@ export default function ProfilePage() {
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch, accessToken]);
-
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Stack
@@ -121,6 +110,7 @@ export default function ProfilePage() {
               </Typography>
               <img
                 src={user?.avatar}
+                alt="avatar"
                 style={{ height: "150px", width: "150px", borderRadius: "50%" }}
               />
             </Stack>

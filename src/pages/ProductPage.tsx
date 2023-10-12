@@ -13,14 +13,14 @@ import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
 import SelectPriceOrder from "../components/SelectPriceOrder";
 import { Grid, Pagination, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import loadingSpin from "../assets/images/loading.gif"; //https://tenor.com/view/loading-loading-forever-bobux-loader-gif-18368917
 import SearchBar from "../components/SearchBar";
 import SelectItemsPerPage from "../components/SelectItemsPerPage";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
+  const { isMediumScreen, isLargeScreen, isSmallScreen } = useScreenSizes();
   const [chosenCategory, setChosenCategory] = useState<string>("");
   const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("desc");
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -29,11 +29,6 @@ export default function ProductPage() {
   const totalPages = Math.ceil(products.length / itemsPerPage);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
-
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Check for changes in price order or category
   useEffect(() => {

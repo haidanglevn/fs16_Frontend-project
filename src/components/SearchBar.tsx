@@ -5,18 +5,18 @@ import {
   selectSearchResult,
 } from "../redux/slices/productSlice";
 import { AppDispatch } from "../redux/store";
-import ProductCard from "./ProductCard";
 import { Product } from "../types/productSlice";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function SearchBar() {
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
+  const { isSmallScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const searchResult: Product[] = useSelector(selectSearchResult);
 
@@ -24,8 +24,6 @@ export default function SearchBar() {
   const handleSearch = (event: any, newValue: string | null) => {
     setSearch(newValue || "");
   };
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {

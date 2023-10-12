@@ -4,18 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
-import {
-  fetchUserProfile,
-  selectAccessToken,
-  selectUser,
-} from "../redux/slices/userSlice";
-import {
-  Avatar,
-  Stack,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
+import { Avatar, Stack } from "@mui/material";
 import { User } from "../types/userSlice";
 import {
   selectStatus,
@@ -24,20 +14,16 @@ import {
 } from "../redux/slices/productSlice";
 import SearchBar from "./SearchBar";
 import Logo from "../assets/images/Logo.svg";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 export default function Header() {
   // The number to display on the orange dot
   const cartItemCount = useSelector(selectCart).length;
   const user: User | null = useSelector(selectUser);
-  const accessToken: string = useSelector(selectAccessToken);
+  const { isMediumScreen, isLargeScreen, isSmallScreen } = useScreenSizes();
 
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectStatus);
-
-  const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.down("lg"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Fetch data
   useEffect(() => {
