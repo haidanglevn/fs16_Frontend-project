@@ -60,7 +60,7 @@ export default function ProductSingle() {
       sx={{
         width: "100%",
         minHeight: "var(--body-min-height)",
-        padding: isLargeScreen ? "20px 100px" : "20px 200px",
+        padding: isLargeScreen ? "20px 40px" : "20px 200px",
         backgroundColor: theme.palette.background.paper,
       }}
     >
@@ -146,7 +146,7 @@ export default function ProductSingle() {
             </Stack>
             <Button
               variant="contained"
-              color="warning"
+              color="success"
               sx={{ width: isMediumScreen ? "100%" : "15vw" }}
               onClick={() => handleAddToCart()}
             >

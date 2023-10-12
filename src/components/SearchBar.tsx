@@ -69,11 +69,11 @@ export default function SearchBar() {
               variant="outlined"
               sx={{
                 fontSize: "20px",
-
+                fontWeight: "bold",
                 "& .MuiOutlinedInput-root": {
                   height: "40px", // Sets the height
-                  color: "text.primary",
-                  backgroundColor: theme.palette.background.paper,
+                  color: "white",
+                  backgroundColor: theme.palette.secondary.main,
                   "& .MuiOutlinedInput-input": {
                     padding: "0px 10px",
                   },

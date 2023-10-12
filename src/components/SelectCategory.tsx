@@ -29,7 +29,12 @@ export default function SelectCategory({
   const theme = useTheme();
 
   return (
-    <Box sx={{ marginTop: "20px", borderBottom: "1px solid #E69F56" }}>
+    <Box
+      sx={{
+        marginTop: "20px",
+        borderBottom: `1px solid ${theme.palette.text.primary}`,
+      }}
+    >
       <Typography variant="h6" color={"text.primary"}>
         Category
       </Typography>
@@ -41,7 +46,7 @@ export default function SelectCategory({
             onChange={handleChange}
             value=""
             name="category"
-            color="primary"
+            color="warning"
           />
         }
         label={<Typography color="text.primary">All</Typography>}
@@ -57,7 +62,7 @@ export default function SelectCategory({
                 onChange={handleChange}
                 value={category.name}
                 name="category"
-                color="primary"
+                color="warning"
               />
             }
             label={

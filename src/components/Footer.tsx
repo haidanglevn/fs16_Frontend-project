@@ -1,20 +1,21 @@
 // Footer.js
 import React from "react";
-import { Container, Typography, Box, Stack } from "@mui/material";
+import { Typography, Stack, useTheme } from "@mui/material";
 
 function Footer() {
+  const theme = useTheme();
   return (
     <Stack
       component="footer"
       justifyContent="center"
       sx={{
-        backgroundColor: "var(--primary-color)",
+        backgroundColor: theme.palette.primary.main,
         height: "var(--footer-height)",
         padding: "auto 0",
         width: "100%",
       }}
     >
-      <Typography variant="body1" align="center" color={"text.primary"}>
+      <Typography variant="body1" align="center" color="white">
         © Created by Dang Le 2023
       </Typography>
     </Stack>

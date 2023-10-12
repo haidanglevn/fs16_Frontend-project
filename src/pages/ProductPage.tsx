@@ -130,7 +130,9 @@ export default function ProductPage() {
       <Stack
         sx={{
           maxWidth: isMediumScreen ? "100%" : "15vw",
-          borderRight: !isMediumScreen ? "3px solid #E69F56" : "none",
+          borderRight: !isMediumScreen
+            ? `1px solid ${theme.palette.text.primary}`
+            : "none",
           paddingRight: !isMediumScreen ? "50px" : "0px",
         }}
       >

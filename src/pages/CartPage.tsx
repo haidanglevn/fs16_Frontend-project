@@ -101,13 +101,19 @@ export default function CartPage() {
                 >
                   <Typography color={"text.primary"}>Quantity:</Typography>
                   <Stack direction={"row"} alignItems={"center"} gap={"5px"}>
-                    <Button onClick={() => handleDecreaseQuantity(item)}>
+                    <Button
+                      color="info"
+                      onClick={() => handleDecreaseQuantity(item)}
+                    >
                       <ArrowDownwardIcon />
                     </Button>
                     <Typography color={"text.primary"}>
                       <b>{item.quantity}</b>
                     </Typography>
-                    <Button onClick={() => handleIncreaseQuantity(item)}>
+                    <Button
+                      color="info"
+                      onClick={() => handleIncreaseQuantity(item)}
+                    >
                       <ArrowUpwardIcon />
                     </Button>
                   </Stack>
@@ -146,7 +152,7 @@ export default function CartPage() {
             <Button variant="contained" color="error" onClick={handleEmptyCart}>
               Empty the cart
             </Button>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="success">
               Checkout
             </Button>
           </Stack>

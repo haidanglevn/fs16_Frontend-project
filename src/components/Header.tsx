@@ -5,7 +5,7 @@ import { selectCart } from "../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
-import { Avatar, IconButton, Stack } from "@mui/material";
+import { Avatar, IconButton, Stack, useTheme } from "@mui/material";
 import { User } from "../types/userSlice";
 import {
   selectStatus,
@@ -28,6 +28,7 @@ const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector(selectStatus);
+  const theme = useTheme();
 
   // Fetch data
   useEffect(() => {
@@ -49,7 +50,7 @@ const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
       sx={{
         height: "70px",
         padding: isLargeScreen ? "0px 40px" : "0px 100px",
-        backgroundColor: "#E69F56",
+        backgroundColor: theme.palette.primary.main,
       }}
     >
       <img
@@ -68,18 +69,18 @@ const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
           gap: isMediumScreen ? "20px" : "50px",
         }}
       >
-        <IconButton onClick={changeTheme}>
+        <IconButton onClick={changeTheme} sx={{ color: "white" }}>
           {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
         </IconButton>
         <div style={{ position: "relative" }} onClick={() => navigate("/cart")}>
-          <IconButton color="default">
+          <IconButton sx={{ color: "white" }}>
             <ShoppingCartIcon />
           </IconButton>
           <div
             style={{
-              backgroundColor: "#FF7D1A",
+              backgroundColor: theme.palette.warning.main,
               borderRadius: "50%",
-              color: mode === "light" ? "white" : "black",
+              color: "white",
               fontSize: "12px",
               fontWeight: "bold",
               padding: "5px",

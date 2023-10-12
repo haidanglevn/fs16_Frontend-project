@@ -26,6 +26,44 @@ export default function Layout() {
   const theme = createTheme({
     palette: {
       mode: mode,
+
+      ...(mode === "light"
+        ? {
+            // Light mode color
+            primary: {
+              main: "#10567E",
+            },
+            secondary: {
+              main: "#3D8CB1",
+            },
+            warning: {
+              main: "#FF7D1A",
+            },
+            background: {
+              paper: "#FFFFFF",
+            },
+            text: {
+              primary: "#1D1C1D",
+            },
+          }
+        : {
+            // Dark mode color
+            primary: {
+              main: "#002944",
+            },
+            secondary: {
+              main: "#36647E",
+            },
+            warning: {
+              main: "#FF7D1A",
+            },
+            background: {
+              paper: "#1A1D21",
+            },
+            text: {
+              primary: "#D9D9D9",
+            },
+          }),
     },
     typography: {
       fontFamily: "'Kumbh Sans', sans-serif",
@@ -45,6 +83,7 @@ export default function Layout() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
+          theme={mode === "dark" ? "dark" : "light"}
         />
 
         <div>
