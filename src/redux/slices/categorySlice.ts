@@ -27,8 +27,8 @@ export const categorySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
-      state.categories = mockCategory; // Mock Data
-      // state.categories = action.payload; // API
+      // state.categories = mockCategory; // Mock Data
+      state.categories = action.payload; // API
     });
   },
 });

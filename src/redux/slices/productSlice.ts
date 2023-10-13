@@ -131,12 +131,12 @@ export const productSlice = createSlice({
         state.status = "succeeded";
 
         /* Mock Data */
-        state.products = mockProducts;
-        state.productsCopy = mockProducts;
+        // state.products = mockProducts;
+        // state.productsCopy = mockProducts;
 
         /* API */
-        // state.products = action.payload;
-        // state.productsCopy = action.payload;
+        state.products = action.payload;
+        state.productsCopy = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";

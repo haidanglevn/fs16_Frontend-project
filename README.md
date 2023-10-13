@@ -1,67 +1,148 @@
-# Front-end Project
+# E-commerce Front End Project
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+## Introduction
 
-This project requires implementation of TypeScript and SASS.
+This is a wrap-up frontend project for Integrify Frontend Module. The task is to made a fully-featured React-Redux E-commerce app using [Platzi Fake Store API](https://fakeapi.platzi.com/).
 
-## Requirement
+Check out the live website [here](https://ecomecho.netlify.app/).
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page,
-   profile page (only available if user logins), and cart page (cart page could be a page or a modal)
-3. Create Redux store for following features:
-   - product reducer: get all products, find a single products, filter products by
-     categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Implement unit testing for the reducers
-6. Deploy the application and rewrite README file.
+## Table of Contents
 
-## Bonus
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Architecture & Design](#architecture--design)
+  - [Folder Structure](#folder-structure)
+  - [Data Flow](#data-flow)
+  - [Component Structure](#component-structure)
+- [Testing](#testing)
+- [Deployment](#deployment)
 
-1. Use context API to switch theme
-2. Use pagination when fetching/displaying all the products
-3. Implement performance optimization where applicable (redux-persist, RTK(react-toolkit)-query?)
+## Getting Started
 
-## Docs
+### Prerequisites
 
-https://github.com/rt2zz/redux-persist
+- [NodeJS & Node Package Manager](https://nodejs.dev/en/download/)
+- [Git](https://git-scm.com/)
+- [Visual Studio Code](https://code.visualstudio.com/)
 
-## Done
+### Installation
 
-- [x] Product reducer: fetch all products, find single product, sort by price order/category
-- [x] Cart reducer: add to cart, remove (all)
-- [x] User reducer: login/logout
-- [x] Product reducer (admin): create, update and delete a product
-- [x] Admin panel: Datagrid?
-- [x] User reducer: register
-- [x] Toast
-- [x] Cart reducer: remove one product/ change quantity
-- [x] Register form: validate input?, check if email is available?
-- [x] Router Protected routes for profile
+You can visit the deployed version, or follow these steps to set it up as local repository.
 
-## Next to be done
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/haidanglevn/fs16_Frontend-project.git
+   ```
+2. Install all the dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the app:
+   ```bash
+   npm start
+   ```
+4. (Optional) Run all the tests:
+   ```bash
+   npm run test
+   ```
 
-- [ ] Single Product page: data can be passed from all products, or fetched from API, in case user use the link to come to the page
-- [ ] Unit testing for the reducer: Cart, Profile done
-- [ ] Styling with MUI
-- [ ] Pagination
-- [ ] Modal
-- [ ] Theme
-- [ ] Header: Autocomplete with search results
-- [ ] Loading screen
-- [ ] Deploy
-- [ ] Checkout mock function
-- [ ] Hero page?
+## Features
 
-## Finalize (both functions & styling)
+### Tech stacks:
 
-- [ ] Header
-- [ ] Product Page
-- [ ] Cart Page
-- [ ] Header
-- [ ] Header
+- React
+- Redux: for state management
+- Material UI: for styling
+
+### Features for normal customer:
+
+- Fetch all products, filter them by price order and categories
+- Add products to cart, edit its quantities, empty the cart, purchase all item in cart (not ready yet)
+- Register for new account with email, Login, Logout, Edit profile info (not ready yet)
+- Light & Dark Theme
+- Responsive layout from phone, tablet and laptop screens
+
+### Features for admin:
+
+- All normal customer features
+- Access to admin panel, where you can add new products, edit or delete products
+
+## Screenshots
+
+## Architecture & Design
+
+### Folder Structure
+
+- 📂 `root-directory/`
+  - 📂 `src/`
+    - 📂 `assets/`
+      - 📂 `images/`
+        - 📷 `bearSorry.png`
+        - 📷 `empty-cart.png`
+        - 📷 `icon-cart.svg`
+        - 📷 `image-avatar.png`
+        - 📷 `loading.gif`
+        - 📷 `Logo.svg`
+    - 📂 `components/`
+      - 📄 `CartEmpty.tsx`
+      - 📄 `Footer.tsx`
+      - 📄 `Header.tsx`
+      - 📄 `Layout.tsx`
+      - 📄 `ProductCard.tsx`
+      - 📄 `Register.tsx`
+      - 📄 `SearchBar.tsx`
+      - 📄 `SelectCategory.tsx`
+      - 📄 `SelectItemsPerPage.tsx`
+      - 📄 `SelectPriceOrder.tsx`
+    - 📂 `hooks/`
+      - 📄 `useScreenSizes.ts`
+    - 📂 `mocks/`
+      - 📄 `handlers.ts`
+      - 📄 `server.ts`
+    - 📂 `pages/`
+      - 📄 `AdminPage.tsx`
+      - 📄 `CartPage.tsx`
+      - 📄 `Login.tsx`
+      - 📄 `ProductPage.tsx`
+      - 📄 `ProductSingle.tsx`
+      - 📄 `ProfilePage.tsx`
+    - 📂 `redux/`
+      - 📄 `mockData.ts`
+      - 📄 `store.ts`
+      - 📄 `utils.ts`
+      - 📂 `slices/`
+        - 📄 `cartSlice.ts`
+        - 📄 `categorySlice.ts`
+        - 📄 `userSlice.ts`
+        - 📄 `productSlice.ts`
+    - 📂 `tests/`
+      - 📄 `cartReducer.test.ts`
+      - 📄 `categoryReducer.test.ts`
+      - 📄 `productReducer.test.ts`
+      - 📄 `userReducer.test.ts`
+    - 📂 `types/`
+      - 📄 `cartSlice.ts`
+      - 📄 `categorySlice.ts`
+      - 📄 `productSlice.ts`
+      - 📄 `userSlice.ts`
+    - 📂 `ultilities/`
+      - 📄 `trimString.tsx`
+    - 📄 `App.tsx`
+    - 📄 `index.css`
+  - 📄 `README.md`
+  - 📄 `package.json`
+  - 📄 `.gitignore`
+
+### Data Flow
+
+## Testing
+
+Unit tests are made for all 4 reducers.
+
+## Deployment
+
+The app is deployed in Netlify. Live page is here: [https://ecomecho.netlify.app/](https://ecomecho.netlify.app/)
