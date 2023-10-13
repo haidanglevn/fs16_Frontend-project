@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import { mockCategory, mockProducts } from "../mockData";
+import { mockCategory, mockProducts } from "../../tests/mocks/mockData";
 import { artificialLoading } from "../utils";
 import { toast } from "react-toastify";
 import {
@@ -51,8 +51,8 @@ export const editProduct = createAsyncThunk(
         );
       })
       .catch((err) => {
-        console.log(err);
         toast.error(`Error updating product: `, err);
+        return new Error(err);
       });
   }
 );

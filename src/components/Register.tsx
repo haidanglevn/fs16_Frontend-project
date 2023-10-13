@@ -90,7 +90,6 @@ const Register: React.FC = () => {
         setFormErrors({ ...formErrors, email: "Email is already in use." });
         return;
       } else {
-        console.log("registering.....");
         const response = await axios.post(
           "https://api.escuelajs.co/api/v1/users/",
           formData

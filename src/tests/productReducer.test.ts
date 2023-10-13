@@ -4,10 +4,10 @@ import {
   filterProductsByName,
   productSlice,
 } from "../redux/slices/productSlice";
-import { server } from "../mocks/server";
+import { server } from "./mocks/server";
 import store from "../redux/store";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { mockCategory, mockProducts } from "../redux/mockData";
+import { mockCategory, mockProducts } from "./mocks/mockData";
 import {
   FilterFunctionPayload,
   Product,

@@ -1,6 +1,6 @@
 import Header from "./Header";
-import { Provider, useDispatch } from "react-redux";
-import store, { AppDispatch } from "../redux/store";
+import { Provider } from "react-redux";
+import store from "../redux/store";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,7 +19,6 @@ export default function Layout() {
   const [mode, setMode] = useState<ThemeMode>("light");
 
   const changeTheme = () => {
-    console.log("changing mode");
     setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 

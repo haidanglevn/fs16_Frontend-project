@@ -29,7 +29,6 @@ export default function ProductSingle() {
     axios
       .get(`https://api.escuelajs.co/api/v1/products/${params.productId}`)
       .then((response) => {
-        console.log(response.data);
         setItem(response.data);
         setActiveImage(response.data.images[0]);
       });

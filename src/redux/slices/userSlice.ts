@@ -115,7 +115,7 @@ export const userSlice = createSlice({
         loginUser.fulfilled,
         (state, action: PayloadAction<LoginResponse>) => {
           if (action.payload === undefined) {
-            console.log("Fulfilled but undefined payload");
+            state.error = "Fulfilled but undefined payload";
           } else {
             state.loading = false;
             state.access_token = action.payload.access_token;

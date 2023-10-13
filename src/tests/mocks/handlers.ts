@@ -5,7 +5,7 @@ import {
   mockProductsTest,
   mockToken,
   mockUser,
-} from "../redux/mockData";
+} from "./mockData";
 
 interface LoginRequestBody {
   email: string;

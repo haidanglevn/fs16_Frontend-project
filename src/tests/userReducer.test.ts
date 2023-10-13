@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { server } from "../mocks/server";
+import { server } from "./mocks/server";
 import {
   fetchUserProfile,
   LoginPayload,
@@ -8,7 +8,7 @@ import {
   UserState,
 } from "../redux/slices/userSlice";
 import store from "../redux/store";
-import { mockToken, mockUser } from "../redux/mockData";
+import { mockToken, mockUser } from "./mocks/mockData";
 
 beforeAll(() => server.listen());
 

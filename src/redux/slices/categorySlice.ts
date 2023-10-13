@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { CategoryState } from "../../types/categorySlice";
-import { mockCategory } from "../mockData";
+import { mockCategory } from "../../tests/mocks/mockData";
 
 const initialState: CategoryState = {
   status: "idle",
@@ -16,7 +16,6 @@ export const fetchCategories = createAsyncThunk(
     const response = await axios.get(
       "https://api.escuelajs.co/api/v1/categories"
     );
-    console.log("Fetch category: ", response.data);
     return response.data.slice(0, 7);
   }
 );

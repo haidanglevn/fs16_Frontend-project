@@ -1,4 +1,5 @@
 # E-commerce Front End Project
+
 ![Home - Dark Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/b12afe5d-bce7-478b-8193-3a24ba7baa6b)
 
 ## Introduction
@@ -73,10 +74,11 @@ You can visit the deployed version, or follow these steps to set it up as local 
 - Access to admin panel, where you can add new products, edit or delete products
 
 ## Screenshots
-Home page: 
+
+Home page:
 ![Home - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/78916058-53ee-4533-9312-7a513b5b4a14)
 
-Product Single: 
+Product Single:
 ![Product Single - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/61b3848f-aae3-432e-a071-fce4fc3aabf3)
 
 Profile Page:
@@ -85,11 +87,10 @@ Profile Page:
 Cart Page:
 ![Cart - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/7a08adfb-6dce-4cb5-bf47-a949e3550d5b)
 
-Admin Panel: 
+Admin Panel:
 ![Admin Panel - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/d8d76c2f-2666-499a-8e7f-20fea6781a86)
 ![CreateNewProduct - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/e87624f1-5f14-4b5e-8570-284a74783a8a)
 ![Admin Panel (Mobile) - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/0ffed0a5-8012-41e7-b88a-b11f13f2a0bb)
-
 
 ## Architecture & Design
 
@@ -118,9 +119,6 @@ Admin Panel:
       - 📄 `SelectPriceOrder.tsx`
     - 📂 `hooks/`
       - 📄 `useScreenSizes.ts`
-    - 📂 `mocks/`
-      - 📄 `handlers.ts`
-      - 📄 `server.ts`
     - 📂 `pages/`
       - 📄 `AdminPage.tsx`
       - 📄 `CartPage.tsx`
@@ -129,7 +127,6 @@ Admin Panel:
       - 📄 `ProductSingle.tsx`
       - 📄 `ProfilePage.tsx`
     - 📂 `redux/`
-      - 📄 `mockData.ts`
       - 📄 `store.ts`
       - 📄 `utils.ts`
       - 📂 `slices/`
@@ -138,6 +135,10 @@ Admin Panel:
         - 📄 `userSlice.ts`
         - 📄 `productSlice.ts`
     - 📂 `tests/`
+      - 📂 `mocks/`
+        - 📄 `handlers.ts`
+        - 📄 `server.ts`
+        - 📄 `mockData.ts`
       - 📄 `cartReducer.test.ts`
       - 📄 `categoryReducer.test.ts`
       - 📄 `productReducer.test.ts`
@@ -156,6 +157,7 @@ Admin Panel:
   - 📄 `.gitignore`
 
 ### Data Flow
+
 Coming soon
 
 ## Testing

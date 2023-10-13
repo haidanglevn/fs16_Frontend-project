@@ -25,10 +25,10 @@ export default function ProductPage() {
   const [priceOrder, setPriceOrder] = useState<"asc" | "desc">("desc");
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [pageNumber, setPageNumber] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = pageNumber * itemsPerPage;
-  const [totalPages, setTotalPages] = useState(1);
 
   const filteredProducts = useMemo(() => {
     let filtered: Product[] = products;
@@ -40,10 +40,8 @@ export default function ProductPage() {
     } else {
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     }
-    console.log(products);
-    console.log(filtered);
     return filtered.slice(startIndex, endIndex);
-  }, [chosenCategory, products, startIndex, endIndex]);
+  }, [chosenCategory, products, startIndex, endIndex, pageNumber]);
 
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
@@ -75,7 +73,6 @@ export default function ProductPage() {
     });
   };
 
-  // Display all products or in category
   const renderAllProducts = () => {
     return (
       <>
@@ -103,7 +100,7 @@ export default function ProductPage() {
           spacing={2}
           sx={{ paddingBottom: "30px", minHeight: "70vh" }}
         >
-          {filteredProducts.slice(startIndex, endIndex).map((product) => {
+          {filteredProducts.map((product) => {
             return (
               <Grid
                 item
@@ -116,7 +113,7 @@ export default function ProductPage() {
                 mt={2}
                 sx={{ filter: status === "loading" ? "blur(10px)" : "none" }}
               >
-                {products.length === 0 ? (
+                {filteredProducts.length === 0 ? (
                   <Typography color={"text.primary"}>
                     No products found
                   </Typography>

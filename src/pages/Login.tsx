@@ -24,7 +24,6 @@ function Login() {
     event.preventDefault();
     const loginPayload = { email, password };
     await dispatch(loginUser(loginPayload)).then((res) => {
-      console.log(res);
       navigate("/profile");
     });
   };

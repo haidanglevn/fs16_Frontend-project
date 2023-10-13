@@ -57,7 +57,6 @@ export default function AdminPage() {
     } else {
       const updatedItem: Product = { ...item, price: Number(item.price) };
       if (Number.isNaN(updatedItem.price)) {
-        console.log("Price is not a number, please try again");
         toast.error("Price is not a number, please try again");
       } else {
         dispatch(editProduct(updatedItem));
