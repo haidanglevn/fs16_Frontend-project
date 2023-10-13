@@ -38,13 +38,10 @@ export const handlers = [
   ),
 
   rest.get("https://api.escuelajs.co/api/v1/auth/profile", (req, res, ctx) => {
-    // Ensure the authorization header is present
     const authorizationHeader = req.headers.get("Authorization");
     if (authorizationHeader && authorizationHeader.includes(mockToken)) {
-      // Return a successful response with mock user data
       return res(ctx.json(mockUser[0]));
     } else {
-      // Return a 401 Unauthorized if there's no valid token in the Authorization header
       return res(ctx.status(401), ctx.text("Unauthorized"));
     }
   }),

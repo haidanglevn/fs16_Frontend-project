@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import { selectCategories } from "../redux/slices/productSlice";
-import { Category } from "../types/productSlice";
 import {
   Box,
   Typography,
@@ -9,6 +7,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { Category } from "../types/categorySlice";
+import { selectCategories } from "../redux/slices/categorySlice";
 
 interface SelectCategoryProps {
   setChosenCategory: React.Dispatch<React.SetStateAction<string>>;

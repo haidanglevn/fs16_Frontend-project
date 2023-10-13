@@ -73,7 +73,7 @@ export default function ProfilePage() {
           direction={isMediumScreen ? "row" : "column"}
           sx={{
             width: "max-content",
-            border: "1px solid var(--primary-color)",
+            border: `1px solid ${theme.palette.text.primary}`,
           }}
         >
           <Stack
@@ -81,7 +81,7 @@ export default function ProfilePage() {
             gap={"10px"}
             alignItems={"center"}
             sx={{
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               padding: "20px",
               cursor: "pointer",
             }}
@@ -96,7 +96,7 @@ export default function ProfilePage() {
             gap={"10px"}
             alignItems={"center"}
             sx={{
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               padding: "20px",
               cursor: "pointer",
             }}
@@ -125,7 +125,7 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               paddingBottom: "40px",
             }}
           >
@@ -149,7 +149,7 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               paddingBottom: "40px",
             }}
           >
@@ -169,7 +169,7 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               paddingBottom: "40px",
             }}
           >
@@ -189,7 +189,7 @@ export default function ProfilePage() {
             justifyContent={"space-between"}
             sx={{
               width: "100%",
-              borderBottom: "1px solid var(--primary-color)",
+              borderBottom: `1px solid ${theme.palette.text.primary}`,
               paddingBottom: "40px",
             }}
           >

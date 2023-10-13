@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProducts,
   selectStatus,
-  sortAndFilter,
+  sortPriceOrder,
   startLoading,
   stopLoading,
 } from "../redux/slices/productSlice";
@@ -26,7 +26,25 @@ export default function ProductPage() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [pageNumber, setPageNumber] = useState<number>(1);
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = pageNumber * itemsPerPage;
+  const [totalPages, setTotalPages] = useState(1);
+
+  const filteredProducts = useMemo(() => {
+    let filtered: Product[] = products;
+    if (chosenCategory !== "") {
+      filtered = products.filter(
+        (product) => product.category.name === chosenCategory
+      );
+      setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+    } else {
+      setTotalPages(Math.ceil(products.length / itemsPerPage));
+    }
+    console.log(products);
+    console.log(filtered);
+    return filtered.slice(startIndex, endIndex);
+  }, [chosenCategory, products, startIndex, endIndex]);
+
   const status = useSelector(selectStatus);
   const dispatch = useDispatch<AppDispatch>();
   const theme = useTheme();
@@ -35,9 +53,8 @@ export default function ProductPage() {
   useEffect(() => {
     dispatch(startLoading());
     dispatch(
-      sortAndFilter({
+      sortPriceOrder({
         priceOrder: priceOrder,
-        category: chosenCategory,
       })
     );
     setPageNumber(1);
@@ -60,9 +77,6 @@ export default function ProductPage() {
 
   // Display all products or in category
   const renderAllProducts = () => {
-    const startIndex = (pageNumber - 1) * itemsPerPage;
-    const endIndex = pageNumber * itemsPerPage;
-    console.log("startIndex: ", startIndex, " endIndex: ", endIndex);
     return (
       <>
         <Stack
@@ -89,7 +103,7 @@ export default function ProductPage() {
           spacing={2}
           sx={{ paddingBottom: "30px", minHeight: "70vh" }}
         >
-          {products.slice(startIndex, endIndex).map((product) => {
+          {filteredProducts.slice(startIndex, endIndex).map((product) => {
             return (
               <Grid
                 item

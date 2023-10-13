@@ -21,7 +21,6 @@ import {
   deleteProduct,
   editProduct,
   fetchProducts,
-  selectCategories,
   selectProducts,
 } from "../redux/slices/productSlice";
 import { Product } from "../types/productSlice";
@@ -31,6 +30,7 @@ import { toast } from "react-toastify";
 import { CreateNewProductPayload } from "../types/productSlice";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import bearSorry from "../assets/images/bearSorry.png";
+import { selectCategories } from "../redux/slices/categorySlice";
 
 export default function AdminPage() {
   const products = useSelector(selectProducts);

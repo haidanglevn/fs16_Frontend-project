@@ -1,4 +1,5 @@
-import { Category, Product } from "../types/productSlice";
+import { Category } from "../types/categorySlice";
+import { Product } from "../types/productSlice";
 
 export const mockCategory: Category[] = [
   {

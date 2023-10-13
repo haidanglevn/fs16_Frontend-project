@@ -1,7 +1,6 @@
 import {
   fetchCategories,
   fetchProducts,
-  sortAndFilter,
   filterProductsByName,
   productSlice,
 } from "../redux/slices/productSlice";
@@ -10,7 +9,6 @@ import store from "../redux/store";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { mockCategory, mockProducts } from "../redux/mockData";
 import {
-  Category,
   FilterFunctionPayload,
   Product,
   ProductState,
@@ -84,10 +82,8 @@ const initialState: ProductState = {
   status: "idle",
   error: "",
   searchResult: [],
-  categories: [],
   products: mockData,
   productsCopy: mockData, // keep as a copy for reset
-  filteredByCategory: [],
 };
 
 describe("productReducer", () => {
@@ -106,13 +102,12 @@ describe("productReducer", () => {
     expect(newState.searchResult.length).toBe(1);
   });
 
-  it("should handle sortAndFilter for descending price", () => {
+  it("should handle sortPriceOrder for descending price", () => {
     const action = {
-      type: productSlice.actions.sortAndFilter.type,
+      type: productSlice.actions.sortPriceOrder.type,
       payload: { priceOrder: "desc", category: "" },
     };
     const newState = productSlice.reducer(initialState, action);
-    // Assuming mockProducts is already sorted in ascending order by default.
     const expectedFirstProduct = mockData[mockData.length - 1];
     expect(newState.products[0]).toEqual(expectedFirstProduct);
   });
@@ -126,14 +121,5 @@ describe("Async thunk actions", () => {
     };
     const state = productSlice.reducer(initialState, returnedActionFromFetch);
     expect(state.products.length).toBe(mockProducts.length);
-  });
-
-  test("Should fetch all categories", () => {
-    const returnedActionFromFetch: PayloadAction<Category[] | Error> = {
-      type: fetchCategories.fulfilled.type,
-      payload: mockCategory,
-    };
-    const state = productSlice.reducer(initialState, returnedActionFromFetch);
-    expect(state.categories.length).toBe(mockCategory.length);
   });
 });

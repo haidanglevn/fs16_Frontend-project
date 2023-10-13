@@ -8,7 +8,6 @@ import {
   ProductState,
   FilterFunctionPayload,
   CreateNewProductPayload,
-  Category,
   Product,
 } from "../../types/productSlice";
 
@@ -16,10 +15,8 @@ const initialState: ProductState = {
   status: "idle",
   error: "",
   searchResult: [],
-  categories: [],
   products: [],
   productsCopy: [], // keep as a copy for reset
-  filteredByCategory: [],
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -96,14 +93,8 @@ export const productSlice = createSlice({
     stopLoading: (state) => {
       state.status = "succeeded";
     },
-    sortAndFilter: (state, action: PayloadAction<FilterFunctionPayload>) => {
-      let products = [...state.productsCopy]; // Using the copied products for filtering and sorting
-
-      if (action.payload.category !== "") {
-        products = products.filter(
-          (product) => product.category.name === action.payload.category
-        );
-      }
+    sortPriceOrder: (state, action: PayloadAction<FilterFunctionPayload>) => {
+      let products = [...state.products];
 
       if (action.payload.priceOrder === "asc") {
         products.sort((a, b) => a.price - b.price);
@@ -140,30 +131,16 @@ export const productSlice = createSlice({
         state.status = "succeeded";
 
         /* Mock Data */
-        // state.products = mockProducts;
-        // state.productsCopy = mockProducts;
+        state.products = mockProducts;
+        state.productsCopy = mockProducts;
 
         /* API */
-        state.products = action.payload;
-        state.productsCopy = action.payload;
+        // state.products = action.payload;
+        // state.productsCopy = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
-      })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
-        // state.categories = mockCategory; // Mock Data
-        state.categories = action.payload; // API
-        const array = state.categories.map((category: Category) => ({
-          name: category.name,
-          products: state.products.filter(
-            (product: Product) => product.category.id === category.id
-          ),
-        }));
-        state.filteredByCategory = array;
       });
-    // .addCase(sortAndFilter.pending, (state) => {
-    //   state.status = "loading";
-    // });
   },
 });
 
@@ -172,14 +149,11 @@ export const selectSearchResult = (state: RootState) =>
   state.product.searchResult;
 export const selectStatus = (state: RootState) => state.product.status;
 export const selectError = (state: RootState) => state.product.error;
-export const selectCategories = (state: RootState) => state.product.categories;
-export const selectFilteredByCategory = (state: RootState) =>
-  state.product.filteredByCategory;
 
 export const {
   updateProducts,
   filterProductsByName,
-  sortAndFilter,
+  sortPriceOrder,
   startLoading,
   stopLoading,
 } = productSlice.actions;
