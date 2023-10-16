@@ -6,7 +6,7 @@ export default function CartEmpty() {
   return (
     <Stack alignItems={"center"} gap={2}>
       <img src={EmptyCart} alt="empty-cart" height={"300px"} />
-      <Typography>
+      <Typography color={"text.primary"}>
         Your cart is feeling lonely. Why not give it some company with our
         awesome products?
       </Typography>
