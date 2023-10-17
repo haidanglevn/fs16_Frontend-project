@@ -7,31 +7,54 @@ import {
 } from "../redux/slices/userSlice";
 import { User } from "../types/userSlice";
 import {
+  Box,
   Breadcrumbs,
   Button,
+  Modal,
   Stack,
+  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import { AppDispatch } from "../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+type EditingMode = "name" | "avatar" | "email" | "password";
+interface ModalContentProps {
+  prompt: string;
+  editing: EditingMode;
+}
 
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
-  const accessToken: string = useSelector(selectAccessToken);
+  const accessToken: string | null = useSelector(selectAccessToken);
   const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const theme = useTheme();
+  console.log("reload page......");
+
+  /* States for edit mode */
+  const [newAvatar, setNewAvatar] = useState<string | null>("");
+  const [newName, setNewName] = useState<string | null>("");
+  const [newEmail, setNewEmail] = useState<string | null>("");
+  const [oldPasswordInput, setOldPasswordInput] = useState<string | null>();
+  const [newPassword, setNewPassword] = useState<string | null>("");
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string | null>();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<ModalContentProps>();
+  const [modalError, setModalError] = useState<string>("");
 
   const handleLogOut = () => {
     dispatch(logoutUser());
-    navigate("/");
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -43,6 +66,113 @@ export default function ProfilePage() {
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch, accessToken]);
+
+  const handleOpenModal = (mode: EditingMode) => {
+    const modalContent: ModalContentProps = {
+      prompt: `Changing ${mode}: `,
+      editing: mode,
+    };
+    setModalContent(modalContent);
+    setModalOpen(true);
+  };
+
+  const resetForm = () => {
+    setNewName(null);
+    setNewEmail(null);
+    setNewAvatar(null);
+    setOldPasswordInput(null);
+    setNewPassword(null);
+    setNewPasswordConfirm(null);
+  };
+
+  const validate = () => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    if (newEmail) {
+      if (!emailRegex.test(newEmail)) {
+        setModalError("Please enter a valid email.");
+        return false;
+      }
+    }
+
+    if (oldPasswordInput || newPassword || newPasswordConfirm) {
+      if (oldPasswordInput !== user?.password) {
+        setModalError("Current password is incorrect, please check again!");
+        return false;
+      } else {
+        if (newPassword !== newPasswordConfirm) {
+          setModalError("New passwords don't match, please check again!");
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  const renderModalTextField = (mode: EditingMode) => {
+    switch (mode) {
+      case "avatar":
+        return <TextField onChange={(e) => setNewAvatar(e.target.value)} />;
+      case "name":
+        return <TextField onChange={(e) => setNewName(e.target.value)} />;
+      case "email":
+        return <TextField onChange={(e) => setNewEmail(e.target.value)} />;
+      case "password":
+        return (
+          <>
+            <TextField
+              type="password"
+              onChange={(e) => setOldPasswordInput(e.target.value)}
+              placeholder="Enter your current password"
+              required
+            />
+            <TextField
+              type="password"
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter your new password"
+              required
+            />
+            <TextField
+              type="password"
+              onChange={(e) => setNewPasswordConfirm(e.target.value)}
+              placeholder="Re-enter your new password again"
+              required
+            />
+          </>
+        );
+    }
+  };
+
+  const handleUpdateUser = () => {
+    const test = validate();
+    if (test) {
+      const body: User = {
+        id: user!.id,
+        role: user!.role,
+        name: newName ? newName : user!.name,
+        email: newEmail ? newEmail : user!.email,
+        password: newPassword ? newPassword : user!.password,
+        avatar: newAvatar ? newAvatar : user!.avatar,
+      };
+      console.log("Put request body: ", body);
+      axios
+        .put(`https://api.escuelajs.co/api/v1/users/${user?.id}`, body)
+        .then((response) => {
+          console.log(response);
+          setTimeout(() => {
+            toast.success(`Update user id ${response.data.id} info success!`);
+            setModalError("");
+            setModalOpen(false);
+            dispatch(fetchUserProfile());
+            resetForm();
+            if (modalContent?.editing === "email") {
+              handleLogOut();
+            }
+          }, 1000);
+        })
+        .catch((err) => console.log(err.response.data.message));
+    } else return;
+  };
 
   return (
     <Stack
@@ -119,6 +249,8 @@ export default function ProfilePage() {
               Hello, {user?.name}
             </Typography>
           </Stack>
+
+          {/* ---------------------------------------------------------------- */}
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -139,10 +271,16 @@ export default function ProfilePage() {
                 style={{ height: "150px", width: "150px", borderRadius: "50%" }}
               />
             </Stack>
-            <Button variant="contained" sx={{ height: "50px" }}>
+            <Button
+              variant="contained"
+              sx={{ height: "50px" }}
+              onClick={() => handleOpenModal("avatar")}
+            >
               Edit
             </Button>
           </Stack>
+
+          {/* ---------------------------------------------------------------- */}
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -157,12 +295,18 @@ export default function ProfilePage() {
               <Typography variant="h5" color={"text.primary"}>
                 <b>Display name</b>
               </Typography>
+
               <Typography variant="body1" color={"text.primary"}>
                 {user?.name}
               </Typography>
             </Stack>
-            <Button variant="contained">Edit</Button>
+
+            <Button variant="contained" onClick={() => handleOpenModal("name")}>
+              Edit
+            </Button>
           </Stack>
+
+          {/* ---------------------------------------------------------------- */}
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -181,8 +325,15 @@ export default function ProfilePage() {
                 {user?.email}
               </Typography>
             </Stack>
-            <Button variant="contained">Edit</Button>
+            <Button
+              variant="contained"
+              onClick={() => handleOpenModal("email")}
+            >
+              Edit
+            </Button>
           </Stack>
+
+          {/* ---------------------------------------------------------------- */}
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -197,9 +348,19 @@ export default function ProfilePage() {
               <Typography variant="h5" color={"text.primary"}>
                 <b>Password</b>
               </Typography>
+              <Typography variant="body1" color={"text.primary"}>
+                **********
+              </Typography>
             </Stack>
-            <Button variant="contained">Change</Button>
+            <Button
+              variant="contained"
+              onClick={() => handleOpenModal("password")}
+            >
+              Change
+            </Button>
           </Stack>
+
+          {/* BUTTONS ---------------------------------------------------------------- */}
           <Stack
             direction={"row"}
             alignItems={"flex-start"}
@@ -224,13 +385,80 @@ export default function ProfilePage() {
                 Admin Panel
               </Button>
             )}
-
-            <Button variant="contained" color="success" sx={{ width: "20%" }}>
-              Save
-            </Button>
           </Stack>
         </Stack>
       </Stack>
+
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            minWidth: "60vw",
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            padding: "50px",
+          }}
+        >
+          {modalContent && (
+            <Stack>
+              {modalContent.editing === "avatar" && (
+                <img
+                  src={newAvatar ? newAvatar : user?.avatar}
+                  alt="avatar"
+                  style={{
+                    height: "150px",
+                    width: "150px",
+                    borderRadius: "50%",
+                  }}
+                />
+              )}
+              <Typography variant="h4">{modalContent.prompt}</Typography>
+              {renderModalTextField(modalContent.editing)}
+              {modalError !== "" ? (
+                <Typography>Error: {modalError}</Typography>
+              ) : (
+                ""
+              )}
+
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                sx={{ padding: "20px 0", width: "100%" }}
+              >
+                <Button
+                  sx={{ width: "30%" }}
+                  variant="contained"
+                  color="error"
+                  onClick={() => setModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  sx={{ width: "30%" }}
+                  variant="contained"
+                  color="success"
+                  onClick={() => handleUpdateUser()}
+                >
+                  Save
+                </Button>
+              </Stack>
+              {modalContent.editing === "email" ||
+              modalContent.editing === "password" ? (
+                <Typography color={"red"}>
+                  By changing this information, you are prompted to re-login for
+                  security reason.
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          )}
+        </Box>
+      </Modal>
     </Stack>
   );
 }

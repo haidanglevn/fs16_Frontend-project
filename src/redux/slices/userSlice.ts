@@ -10,8 +10,8 @@ const savedRefreshToken = localStorage.getItem("refresh_token");
 export interface UserState {
   allUsers: User[];
   user: User | null;
-  access_token: string;
-  refresh_token: string;
+  access_token: string | null;
+  refresh_token: string | null;
   loading: boolean;
   error: string | null | undefined;
 }
@@ -19,8 +19,8 @@ export interface UserState {
 const initialState: UserState = {
   allUsers: [],
   user: null,
-  access_token: savedAccessToken ? savedAccessToken : "",
-  refresh_token: savedRefreshToken ? savedRefreshToken : "",
+  access_token: savedAccessToken ? savedAccessToken : null,
+  refresh_token: savedRefreshToken ? savedRefreshToken : null,
   loading: false,
   error: null,
 };
@@ -133,6 +133,7 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUserProfile.rejected, (state) => {
         localStorage.removeItem("access_token");
+        state.user = null;
       })
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;
