@@ -35,22 +35,21 @@ interface ModalContentProps {
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
   const accessToken: string | null = useSelector(selectAccessToken);
-  const { isMediumScreen, isLargeScreen } = useScreenSizes();
+  const { isSmallScreen, isMediumScreen, isLargeScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const theme = useTheme();
-  console.log("reload page......");
 
   /* States for edit mode */
-  const [newAvatar, setNewAvatar] = useState<string | null>("");
-  const [newName, setNewName] = useState<string | null>("");
-  const [newEmail, setNewEmail] = useState<string | null>("");
-  const [oldPasswordInput, setOldPasswordInput] = useState<string | null>();
-  const [newPassword, setNewPassword] = useState<string | null>("");
+  const [newAvatar, setNewAvatar] = useState<string | null>(null);
+  const [newName, setNewName] = useState<string | null>(null);
+  const [newEmail, setNewEmail] = useState<string | null>(null);
+  const [oldPasswordInput, setOldPasswordInput] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState<string | null>(null);
   const [newPasswordConfirm, setNewPasswordConfirm] = useState<string | null>();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ModalContentProps>();
-  const [modalError, setModalError] = useState<string>("");
+  const [modalError, setModalError] = useState<string | null>(null);
 
   const handleLogOut = () => {
     dispatch(logoutUser());
@@ -73,6 +72,7 @@ export default function ProfilePage() {
       editing: mode,
     };
     setModalContent(modalContent);
+    setModalError(null);
     setModalOpen(true);
   };
 
@@ -87,6 +87,11 @@ export default function ProfilePage() {
 
   const validate = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    if (newAvatar === null || newName === null || newEmail === null) {
+      setModalError("This field cannot be empty!");
+      return false;
+    }
+
     if (newEmail) {
       if (!emailRegex.test(newEmail)) {
         setModalError("Please enter a valid email.");
@@ -112,11 +117,26 @@ export default function ProfilePage() {
   const renderModalTextField = (mode: EditingMode) => {
     switch (mode) {
       case "avatar":
-        return <TextField onChange={(e) => setNewAvatar(e.target.value)} />;
+        return (
+          <TextField
+            onChange={(e) => setNewAvatar(e.target.value)}
+            placeholder={user?.avatar}
+          />
+        );
       case "name":
-        return <TextField onChange={(e) => setNewName(e.target.value)} />;
+        return (
+          <TextField
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder={user?.name}
+          />
+        );
       case "email":
-        return <TextField onChange={(e) => setNewEmail(e.target.value)} />;
+        return (
+          <TextField
+            onChange={(e) => setNewEmail(e.target.value)}
+            placeholder={user?.email}
+          />
+        );
       case "password":
         return (
           <>
@@ -154,14 +174,12 @@ export default function ProfilePage() {
         password: newPassword ? newPassword : user!.password,
         avatar: newAvatar ? newAvatar : user!.avatar,
       };
-      console.log("Put request body: ", body);
       axios
         .put(`https://api.escuelajs.co/api/v1/users/${user?.id}`, body)
         .then((response) => {
-          console.log(response);
           setTimeout(() => {
             toast.success(`Update user id ${response.data.id} info success!`);
-            setModalError("");
+            setModalError(null);
             setModalOpen(false);
             dispatch(fetchUserProfile());
             resetForm();
@@ -170,7 +188,7 @@ export default function ProfilePage() {
             }
           }, 1000);
         })
-        .catch((err) => console.log(err.response.data.message));
+        .catch((err) => setModalError(err.response.data.message));
     } else return;
   };
 
@@ -396,7 +414,7 @@ export default function ProfilePage() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            minWidth: "60vw",
+            width: isMediumScreen ? "90%" : "70vw",
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
@@ -404,7 +422,11 @@ export default function ProfilePage() {
           }}
         >
           {modalContent && (
-            <Stack>
+            <Stack
+              alignItems={"center"}
+              direction={isSmallScreen ? "column" : "row"}
+              gap={"20px"}
+            >
               {modalContent.editing === "avatar" && (
                 <img
                   src={newAvatar ? newAvatar : user?.avatar}
@@ -416,45 +438,49 @@ export default function ProfilePage() {
                   }}
                 />
               )}
-              <Typography variant="h4">{modalContent.prompt}</Typography>
-              {renderModalTextField(modalContent.editing)}
-              {modalError !== "" ? (
-                <Typography>Error: {modalError}</Typography>
-              ) : (
-                ""
-              )}
-
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-                sx={{ padding: "20px 0", width: "100%" }}
-              >
-                <Button
-                  sx={{ width: "30%" }}
-                  variant="contained"
-                  color="error"
-                  onClick={() => setModalOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  sx={{ width: "30%" }}
-                  variant="contained"
-                  color="success"
-                  onClick={() => handleUpdateUser()}
-                >
-                  Save
-                </Button>
-              </Stack>
-              {modalContent.editing === "email" ||
-              modalContent.editing === "password" ? (
-                <Typography color={"red"}>
-                  By changing this information, you are prompted to re-login for
-                  security reason.
+              <Stack sx={{ width: "100%" }}>
+                <Typography variant="h4" color={"text.primary"}>
+                  {modalContent.prompt}
                 </Typography>
-              ) : (
-                ""
-              )}
+                {renderModalTextField(modalContent.editing)}
+                {modalError && (
+                  <Typography color={"text.primary"}>
+                    Error: {modalError}
+                  </Typography>
+                )}
+
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  sx={{ padding: "20px 0", width: "100%" }}
+                >
+                  <Button
+                    sx={{ width: "30%" }}
+                    variant="contained"
+                    color="error"
+                    onClick={() => setModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    sx={{ width: "30%" }}
+                    variant="contained"
+                    color="success"
+                    onClick={() => handleUpdateUser()}
+                  >
+                    Save
+                  </Button>
+                </Stack>
+                {modalContent.editing === "email" ||
+                modalContent.editing === "password" ? (
+                  <Typography color={"red"}>
+                    By changing this information, you are prompted to re-login
+                    for security reason.
+                  </Typography>
+                ) : (
+                  ""
+                )}
+              </Stack>
             </Stack>
           )}
         </Box>
