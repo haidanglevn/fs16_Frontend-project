@@ -23,7 +23,6 @@ import {
   fetchProducts,
   selectProducts,
 } from "../redux/slices/productSlice";
-import { Product } from "../types/productSlice";
 import { useState } from "react";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
@@ -31,12 +30,13 @@ import { CreateNewProductPayload } from "../types/productSlice";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import bearSorry from "../assets/images/bearSorry.png";
 import { selectCategories } from "../redux/slices/categorySlice";
+import { Product } from "../types/generalTypes";
 
 export default function AdminPage() {
   const products = useSelector(selectProducts);
   const theme = useTheme();
   const { isSmallScreen, isLargeScreen } = useScreenSizes();
-  const [editingProductId, setEditingProductId] = useState<number | null>(null);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [createProductModalOpen, setCreateProductModalOpen] = useState(false);
 
   const categories = useSelector(selectCategories);
@@ -85,7 +85,7 @@ export default function AdminPage() {
     dispatch(fetchProducts());
   };
 
-  const handleDeleteProduct = async (id: number) => {
+  const handleDeleteProduct = async (id: string) => {
     dispatch(deleteProduct(id));
     setDeleteProductModalOpen(false);
     dispatch(fetchProducts());

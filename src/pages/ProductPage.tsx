@@ -7,7 +7,6 @@ import {
   startLoading,
   stopLoading,
 } from "../redux/slices/productSlice";
-import { Product } from "../types/productSlice";
 import { AppDispatch } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import SelectCategory from "../components/SelectCategory";
@@ -17,6 +16,7 @@ import loadingSpin from "../assets/images/loading.gif"; //https://tenor.com/view
 import SearchBar from "../components/SearchBar";
 import SelectItemsPerPage from "../components/SelectItemsPerPage";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import { Product } from "../types/generalTypes";
 
 export default function ProductPage() {
   const products: Product[] = useSelector(selectProducts);
@@ -26,7 +26,7 @@ export default function ProductPage() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  console.log("Products: ", products);
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = pageNumber * itemsPerPage;
 

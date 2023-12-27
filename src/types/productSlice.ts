@@ -1,15 +1,4 @@
-import { Category } from "./categorySlice";
-
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: string[];
-  creationAt?: string;
-  updatedAt?: string;
-}
+import { Product } from "./generalTypes";
 
 export interface FilteredProductsByCategory {
   name: string;

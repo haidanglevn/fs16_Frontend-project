@@ -7,8 +7,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { Category } from "../types/categorySlice";
 import { selectCategories } from "../redux/slices/categorySlice";
+import { Category } from "../types/generalTypes";
 
 interface SelectCategoryProps {
   setChosenCategory: React.Dispatch<React.SetStateAction<string>>;

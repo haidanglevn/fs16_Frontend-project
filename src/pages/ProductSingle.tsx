@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../types/productSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -16,21 +15,37 @@ import axios from "axios";
 import { addToCart } from "../redux/slices/cartSlice";
 import Link from "@mui/material/Link";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import { Product } from "../types/generalTypes";
 
 export default function ProductSingle() {
   const [item, setItem] = useState<Product>();
   const [activeImage, setActiveImage] = useState<string>();
   const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState<string | null>(null);
   const { isMediumScreen, isLargeScreen } = useScreenSizes();
   const params = useParams();
   const theme = useTheme();
-
+  console.log("Product Single: ", item);
   useEffect(() => {
     axios
-      .get(`https://api.escuelajs.co/api/v1/products/${params.productId}`)
+      .get(`http://localhost:5173/api/products/${params.productId}`)
       .then((response) => {
+        console.log(response.data);
         setItem(response.data);
-        setActiveImage(response.data.images[0]);
+        if (response.data.images.length > 0) {
+          setActiveImage(response.data.images[0].url);
+        } else {
+          setActiveImage("");
+        }
+        setError(null); // Reset error state in case of successful response
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 404) {
+          setError("Product not found."); // Set a custom error message for 404
+        } else {
+          console.log(err);
+          setError("An error occurred while fetching the product.");
+        }
       });
   }, [params.productId]);
 
@@ -63,97 +78,103 @@ export default function ProductSingle() {
         backgroundColor: theme.palette.background.paper,
       }}
     >
-      <Breadcrumbs>
-        <Link underline="hover" color="inherit" href="/">
-          Home
-        </Link>
+      {error ? (
+        <Typography color="error">{error}</Typography>
+      ) : (
+        <>
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit" href="/">
+              Home
+            </Link>
 
-        <Typography color={"text.primary"}>Product #{item?.id}</Typography>
-      </Breadcrumbs>
-      <Stack
-        direction={isMediumScreen ? "column" : "row"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        gap={"50px"}
-      >
-        <Stack>
-          <img
-            src={activeImage}
-            alt="active-img"
-            style={{
-              width: isMediumScreen ? "80vw" : "500px",
-              height: isMediumScreen ? "400px" : "500px",
-              borderRadius: "20px",
-            }}
-          ></img>
-          <Stack
-            direction={"row"}
-            justifyContent={"center"}
-            gap={"10px"}
-            mt={3}
-          >
-            {item?.images.map((image, index) => {
-              return (
-                <img
-                  src={`${image}`}
-                  alt={`item-${index}`}
-                  loading="lazy"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "20px",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={() => setActiveImage(image)}
-                  key={index}
-                />
-              );
-            })}
-          </Stack>
-        </Stack>
-        <Stack justifyContent={"space-evenly"} sx={{ height: "50vh" }}>
-          <Typography variant="h2" color={"text.primary"}>
-            {item?.title}
-          </Typography>
-          <Typography variant="body1" color={"text.primary"}>
-            {item?.description}
-          </Typography>
-          <Typography variant="h3" color={"text.primary"}>
-            ${item?.price}
-          </Typography>
+            <Typography color={"text.primary"}>Product #{item?.id}</Typography>
+          </Breadcrumbs>
           <Stack
             direction={isMediumScreen ? "column" : "row"}
-            alignItems={"flex-start"}
-            justifyContent={"space-between"}
+            alignItems={"center"}
+            justifyContent={"center"}
             gap={"50px"}
           >
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              gap={"30px"}
-            >
-              <Button variant="contained" onClick={handleDecreaseQuantity}>
-                <ArrowDownwardIcon />
-              </Button>
-              <Typography color={"text.primary"}>
-                <b>{quantity}</b>
-              </Typography>
-              <Button variant="contained" onClick={handleIncreaseQuantity}>
-                <ArrowUpwardIcon />
-              </Button>
+            <Stack>
+              <img
+                src={activeImage}
+                alt="active-img"
+                style={{
+                  width: isMediumScreen ? "80vw" : "500px",
+                  height: isMediumScreen ? "400px" : "500px",
+                  borderRadius: "20px",
+                }}
+              ></img>
+              <Stack
+                direction={"row"}
+                justifyContent={"center"}
+                gap={"10px"}
+                mt={3}
+              >
+                {item?.images.map((image, index) => {
+                  return (
+                    <img
+                      src={`${image.url}`}
+                      alt={`item-${index}`}
+                      loading="lazy"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "20px",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={() => setActiveImage(image.url)}
+                      key={index}
+                    />
+                  );
+                })}
+              </Stack>
             </Stack>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ width: isMediumScreen ? "100%" : "15vw" }}
-              onClick={() => handleAddToCart()}
-            >
-              Add to cart
-            </Button>
+            <Stack justifyContent={"space-evenly"} sx={{ height: "50vh" }}>
+              <Typography variant="h2" color={"text.primary"}>
+                {item?.title}
+              </Typography>
+              <Typography variant="body1" color={"text.primary"}>
+                {item?.description}
+              </Typography>
+              <Typography variant="h3" color={"text.primary"}>
+                ${item?.price}
+              </Typography>
+              <Stack
+                direction={isMediumScreen ? "column" : "row"}
+                alignItems={"flex-start"}
+                justifyContent={"space-between"}
+                gap={"50px"}
+              >
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  gap={"30px"}
+                >
+                  <Button variant="contained" onClick={handleDecreaseQuantity}>
+                    <ArrowDownwardIcon />
+                  </Button>
+                  <Typography color={"text.primary"}>
+                    <b>{quantity}</b>
+                  </Typography>
+                  <Button variant="contained" onClick={handleIncreaseQuantity}>
+                    <ArrowUpwardIcon />
+                  </Button>
+                </Stack>
+                <Button
+                  variant="contained"
+                  color="success"
+                  sx={{ width: isMediumScreen ? "100%" : "15vw" }}
+                  onClick={() => handleAddToCart()}
+                >
+                  Add to cart
+                </Button>
+              </Stack>
+            </Stack>
           </Stack>
-        </Stack>
-      </Stack>
+        </>
+      )}
     </Stack>
   );
 }

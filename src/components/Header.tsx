@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchUserProfile, selectUser } from "../redux/slices/userSlice";
 import { Avatar, IconButton, Stack, useTheme } from "@mui/material";
-import { User } from "../types/userSlice";
 import {
   selectStatus,
   fetchProducts,
@@ -19,6 +18,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { ThemeChangeProps } from "./Layout";
+import { User } from "../types/generalTypes";
 
 const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
   // The number to display on the orange dot

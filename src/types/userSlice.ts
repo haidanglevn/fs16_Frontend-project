@@ -1,8 +1,6 @@
-export interface User {
-  id: number;
-  email: string;
-  password: string;
-  role: "customer" | "admin";
-  avatar: string;
-  name: string;
+export interface UserUpdateBody {
+  email?: string;
+  avatar?: string;
+  firstName?: string;
+  lastName?: string;
 }

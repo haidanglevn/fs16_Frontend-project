@@ -3,7 +3,7 @@ import { CartItem } from "../../types/cartSlice";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { AddToCartPayload, CartState } from "../../types/cartSlice";
-import { Product } from "../../types/productSlice";
+import { Product } from "../../types/generalTypes";
 
 const savedCart = localStorage.getItem("cart");
 const initialState: CartState = {

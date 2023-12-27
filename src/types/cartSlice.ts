@@ -1,4 +1,4 @@
-import { Product } from "./productSlice";
+import { Product } from "./generalTypes";
 
 export interface CartItem extends Product {
   quantity: number;

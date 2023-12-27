@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, selectError, selectUser } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "../types/userSlice";
 import { useTheme } from "@mui/material";
+import { User } from "../types/generalTypes";
 
 function Login() {
   const [email, setEmail] = useState("");

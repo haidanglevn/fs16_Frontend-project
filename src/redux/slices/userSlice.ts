@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../store";
-import { User } from "../../types/userSlice";
 import { toast } from "react-toastify";
+import { User } from "../../types/generalTypes";
 
 const savedAccessToken = localStorage.getItem("access_token");
 const savedRefreshToken = localStorage.getItem("refresh_token");
@@ -27,7 +27,6 @@ const initialState: UserState = {
 
 export interface LoginResponse {
   access_token: string;
-  refresh_token: string;
 }
 
 // Async Thunk to handle login
@@ -58,13 +57,14 @@ export const fetchUserProfile = createAsyncThunk(
     }
     try {
       const response = await axios.get(
-        "https://api.escuelajs.co/api/v1/auth/profile",
+        "http://localhost:5173/api/users/profile",
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
         }
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -78,7 +78,7 @@ export const loginUser = createAsyncThunk(
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "https://api.escuelajs.co/api/v1/auth/login",
+        "http://localhost:5173/api/users/login",
         payload
       );
       toast.success("Log in successfully");
@@ -119,7 +119,6 @@ export const userSlice = createSlice({
           } else {
             state.loading = false;
             state.access_token = action.payload.access_token;
-            state.refresh_token = action.payload.refresh_token;
           }
         }
       )
@@ -132,8 +131,8 @@ export const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(fetchUserProfile.rejected, (state) => {
-        localStorage.removeItem("access_token");
-        state.user = null;
+        // localStorage.removeItem("access_token");
+        // state.user = null;
       })
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;

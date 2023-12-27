@@ -5,7 +5,7 @@ import {
   selectAccessToken,
   selectUser,
 } from "../redux/slices/userSlice";
-import { User } from "../types/userSlice";
+import { UserUpdateBody } from "../types/userSlice";
 import {
   Box,
   Breadcrumbs,
@@ -25,6 +25,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { User } from "../types/generalTypes";
 
 type EditingMode = "name" | "avatar" | "email" | "password";
 interface ModalContentProps {
@@ -76,6 +77,12 @@ export default function ProfilePage() {
     setModalOpen(true);
   };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+    resetForm();
+    setModalError(null);
+  };
+
   const resetForm = () => {
     setNewName(null);
     setNewEmail(null);
@@ -87,28 +94,43 @@ export default function ProfilePage() {
 
   const validate = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-    if (newAvatar === null || newName === null || newEmail === null) {
-      setModalError("This field cannot be empty!");
-      return false;
-    }
 
-    if (newEmail) {
-      if (!emailRegex.test(newEmail)) {
-        setModalError("Please enter a valid email.");
-        return false;
-      }
-    }
-
-    if (oldPasswordInput || newPassword || newPasswordConfirm) {
-      if (oldPasswordInput !== user?.password) {
-        setModalError("Current password is incorrect, please check again!");
-        return false;
-      } else {
-        if (newPassword !== newPasswordConfirm) {
+    switch (modalContent?.editing) {
+      case "avatar":
+        if (newAvatar === null) {
+          setModalError("Avatar field cannot be empty!");
+          return false;
+        }
+        break;
+      case "name":
+        if (newName === null) {
+          setModalError("Name field cannot be empty!");
+          return false;
+        }
+        break;
+      case "email":
+        if (newEmail === null) {
+          setModalError("Email field cannot be empty!");
+          return false;
+        } else if (!emailRegex.test(newEmail)) {
+          setModalError("Please enter a valid email.");
+          return false;
+        }
+        break;
+      case "password":
+        if (!oldPasswordInput || !newPassword || !newPasswordConfirm) {
+          setModalError("All password fields must be filled!");
+          return false;
+        } else if (oldPasswordInput !== user?.password) {
+          setModalError("Current password is incorrect, please check again!");
+          return false;
+        } else if (newPassword !== newPasswordConfirm) {
           setModalError("New passwords don't match, please check again!");
           return false;
         }
-      }
+        break;
+      default:
+        break;
     }
 
     return true;
@@ -127,7 +149,7 @@ export default function ProfilePage() {
         return (
           <TextField
             onChange={(e) => setNewName(e.target.value)}
-            placeholder={user?.name}
+            placeholder={user?.firstName}
           />
         );
       case "email":
@@ -166,16 +188,18 @@ export default function ProfilePage() {
   const handleUpdateUser = () => {
     const test = validate();
     if (test) {
-      const body: User = {
-        id: user!.id,
-        role: user!.role,
-        name: newName ? newName : user!.name,
+      const body: UserUpdateBody = {
+        firstName: newName ? newName : user!.firstName,
         email: newEmail ? newEmail : user!.email,
-        password: newPassword ? newPassword : user!.password,
+        // password: newPassword ? newPassword : user!.password,
         avatar: newAvatar ? newAvatar : user!.avatar,
       };
       axios
-        .put(`https://api.escuelajs.co/api/v1/users/${user?.id}`, body)
+        .patch(`http://localhost:5173/api/users/profile`, body, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((response) => {
           setTimeout(() => {
             toast.success(`Update user id ${response.data.id} info success!`);
@@ -264,7 +288,7 @@ export default function ProfilePage() {
             }}
           >
             <Typography variant="h4" color={"text.primary"}>
-              Hello, {user?.name}
+              Hello, {user?.firstName}
             </Typography>
           </Stack>
 
@@ -315,7 +339,7 @@ export default function ProfilePage() {
               </Typography>
 
               <Typography variant="body1" color={"text.primary"}>
-                {user?.name}
+                {user?.firstName}
               </Typography>
             </Stack>
 
@@ -395,7 +419,7 @@ export default function ProfilePage() {
             >
               Log Out
             </Button>
-            {user?.role === "admin" && (
+            {user?.role === 1 && (
               <Button
                 variant="contained"
                 onClick={() => navigate("/profile/admin")}
@@ -407,7 +431,7 @@ export default function ProfilePage() {
         </Stack>
       </Stack>
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal open={modalOpen} onClose={handleModalClose}>
         <Box
           sx={{
             position: "absolute",

@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Product } from "../types/productSlice";
-
 import { AppDispatch } from "../redux/store";
 import { addToCart, selectCart } from "../redux/slices/cartSlice";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
@@ -8,6 +6,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { trimString } from "../ultilities/trimString";
+import { Product } from "../types/generalTypes";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +17,6 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const handleAddToCart = (item: Product) => {
     dispatch(addToCart({ product: item }));
   };
-
   return (
     <Stack
       alignItems={"center"}
@@ -36,7 +34,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         }}
       >
         <img
-          src={product.images[0]}
+          src={product.images.length > 0 ? product.images[0].url : ""}
           alt={product.id.toString()}
           style={{
             width: "100%",

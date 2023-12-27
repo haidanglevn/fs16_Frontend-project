@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import { mockCategory, mockProducts } from "../../tests/mocks/mockData";
+// import { mockCategory, mockProducts } from "../../tests/mocks/mockData";
 import { artificialLoading } from "../utils";
 import { toast } from "react-toastify";
 import {
   ProductState,
   FilterFunctionPayload,
   CreateNewProductPayload,
-  Product,
 } from "../../types/productSlice";
+import { Product } from "../../types/generalTypes";
 
 const initialState: ProductState = {
   status: "idle",
@@ -23,9 +23,7 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
     await artificialLoading(2000);
-    const response = await axios.get(
-      "https://api.escuelajs.co/api/v1/products"
-    );
+    const response = await axios.get("http://localhost:5173/api/products");
     return response.data;
   }
 );
@@ -33,9 +31,7 @@ export const fetchProducts = createAsyncThunk(
 export const fetchCategories = createAsyncThunk(
   "products/fetchCategories",
   async () => {
-    const response = await axios.get(
-      "https://api.escuelajs.co/api/v1/categories"
-    );
+    const response = await axios.get("http://localhost:5173/api/categories");
     return response.data.slice(0, 7);
   }
 );
@@ -44,7 +40,7 @@ export const editProduct = createAsyncThunk(
   "products/editProduct",
   async (product: Product) => {
     await axios
-      .put(`https://api.escuelajs.co/api/v1/products/${product.id}`, product)
+      .put(`http://localhost:5173/api/products/${product.id}`, product)
       .then((res) => {
         toast.success(
           `Product id ${product.id} has been updated successfully!`
@@ -61,7 +57,7 @@ export const createNewProduct = createAsyncThunk(
   "products/createNewProduct",
   async (product: CreateNewProductPayload) => {
     await axios
-      .post("https://api.escuelajs.co/api/v1/products/", product)
+      .post("http://localhost:5173/api/products", product)
       .then((response) => {
         toast.success(
           `New product with id ${response.data.id} has been created successfully!`
@@ -73,9 +69,9 @@ export const createNewProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
-  async (id: number) => {
+  async (id: string) => {
     await axios
-      .delete(`https://api.escuelajs.co/api/v1/products/${id}`)
+      .delete(`http://localhost:5173/api/products/${id}`)
       .then((res) => {
         toast.success(`Product with id ${id} has been created successfully!`);
         return res.data;

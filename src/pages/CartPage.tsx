@@ -76,7 +76,7 @@ export default function CartPage() {
             key={item.id}
           >
             <img
-              src={item.images[0]}
+              src={item.images[0].url}
               style={{ height: "100%", width: "200px" }}
               alt={`${item.title}`}
             />
