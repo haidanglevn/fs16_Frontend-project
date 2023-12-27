@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CartItem } from "../../types/cartSlice";
+import { CartItem, SimplifiedProduct } from "../../types/cartSlice";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { AddToCartPayload, CartState } from "../../types/cartSlice";
@@ -20,13 +20,24 @@ export const cartSlice = createSlice({
     ) => {
       const { product, quantity = 1 } = action.payload;
 
+      // Check if the exact variant of the product is already in the cart
       const index = state.cart.findIndex(
-        (item: CartItem) => item.id === product.id
+        (cartItem) =>
+          cartItem.id === product.id &&
+          cartItem.variants.some(
+            (v) =>
+              product.variants[0] &&
+              v.color === product.variants[0].color &&
+              v.size === product.variants[0].size
+          )
       );
+
       if (index === -1) {
+        // If the variant isn't in the cart, add the new product with its variant
         state.cart.push({ ...product, quantity: quantity });
         toast.success(`Item has been added to cart: ${product.title}`);
       } else {
+        // If the variant is already in the cart, just update the quantity
         state.cart[index].quantity += quantity;
         toast.success(
           `Item quantity updated: ${product.title} x${state.cart[index].quantity}`
@@ -36,7 +47,7 @@ export const cartSlice = createSlice({
 
     removeFromCart: (
       state: typeof initialState,
-      action: PayloadAction<Product>
+      action: PayloadAction<SimplifiedProduct>
     ) => {
       const index = state.cart.findIndex(
         (item: CartItem) => item.id === action.payload.id
@@ -51,7 +62,7 @@ export const cartSlice = createSlice({
 
     increaseQuantity: (
       state: typeof initialState,
-      action: PayloadAction<Product>
+      action: PayloadAction<SimplifiedProduct>
     ) => {
       const index = state.cart.findIndex(
         (item: CartItem) => item.id === action.payload.id
@@ -60,7 +71,7 @@ export const cartSlice = createSlice({
     },
     decreaseQuantity: (
       state: typeof initialState,
-      action: PayloadAction<Product>
+      action: PayloadAction<SimplifiedProduct>
     ) => {
       const index = state.cart.findIndex(
         (item: CartItem) => item.id === action.payload.id

@@ -21,6 +21,7 @@ import CartEmpty from "../components/CartEmpty";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import { Color, Size } from "../types/generalTypes";
 
 export default function CartPage() {
   const cart = useSelector(selectCart);
@@ -73,7 +74,7 @@ export default function CartPage() {
               borderBottom: `1px solid var(--primary-color)`,
               padding: "10px 10px 10px 0",
             }}
-            key={item.id}
+            key={item.variants[0].id}
           >
             <img
               src={item.images[0].url}
@@ -88,7 +89,8 @@ export default function CartPage() {
             >
               <Stack gap={"10px"}>
                 <Typography variant="h5" color={"text.primary"}>
-                  {item.title}
+                  {item.title} - ({Size[item.variants[0].size]} /{" "}
+                  {Color[item.variants[0].color]})
                 </Typography>
                 <Typography color={"text.primary"}>
                   Price: $<b>{item.price}</b>
