@@ -33,6 +33,12 @@ interface ModalContentProps {
   editing: EditingMode;
 }
 
+interface UserChangePasswordBody {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
   const accessToken: string | null = useSelector(selectAccessToken);
@@ -214,6 +220,31 @@ export default function ProfilePage() {
         })
         .catch((err) => setModalError(err.response.data.message));
     } else return;
+  };
+
+  const handleChangePassword = () => {
+    const body: UserChangePasswordBody = {
+      currentPassword: oldPasswordInput ? oldPasswordInput : "",
+      newPassword: newPassword ? newPassword : "",
+      confirmNewPassword: newPasswordConfirm ? newPasswordConfirm : "",
+    };
+    axios
+      .post(`http://localhost:5173/api/users/change-password`, body, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response) {
+          toast.success(`Change password succesfully, please login again!`);
+          setModalError(null);
+          setModalOpen(false);
+          dispatch(fetchUserProfile());
+          resetForm();
+          handleLogOut();
+        }
+      })
+      .catch((err) => setModalError(err.response.data.message));
   };
 
   return (
@@ -490,7 +521,11 @@ export default function ProfilePage() {
                     sx={{ width: "30%" }}
                     variant="contained"
                     color="success"
-                    onClick={() => handleUpdateUser()}
+                    onClick={
+                      modalContent.editing == "password"
+                        ? () => handleChangePassword()
+                        : () => handleUpdateUser()
+                    }
                   >
                     Save
                   </Button>
