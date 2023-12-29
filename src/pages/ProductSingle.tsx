@@ -17,6 +17,7 @@ import Link from "@mui/material/Link";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import { Color, Product, Size, Variant } from "../types/generalTypes";
 import bearSorry from "../assets/images/bearSorry.png";
+import ReviewCard from "../components/ReviewCard";
 
 export default function ProductSingle() {
   const [item, setItem] = useState<Product>();
@@ -207,11 +208,7 @@ export default function ProductSingle() {
                   <Stack direction={"row"} gap={"10px"} flexWrap={"wrap"}>
                     {item?.variants.map((variant) => (
                       <Button
-                        variant={
-                          variant.id == chosenVariant?.id
-                            ? "contained"
-                            : "outlined"
-                        }
+                        variant={"contained"}
                         color={
                           variant.id == chosenVariant?.id
                             ? "warning"
@@ -232,7 +229,9 @@ export default function ProductSingle() {
                       Remaining in stock: {variantQuantity}
                     </Typography>
                   ) : (
-                    <>Choose a variant to add to cart:</>
+                    <Typography color={"text.primary"}>
+                      Choose a variant to add to cart:
+                    </Typography>
                   )}
                 </Stack>
                 <Typography variant="h3" color={theme.palette.warning.main}>
@@ -278,6 +277,39 @@ export default function ProductSingle() {
                   </Button>
                 </Stack>
               </Stack>
+            </Stack>
+            <Stack
+              sx={{
+                marginTop: "30px",
+              }}
+            >
+              <Stack
+                direction={"row"}
+                sx={{ paddingBottom: "20px" }}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Typography variant="h4" color={"text.primary"}>
+                  Review ({item?.reviews.length})
+                </Typography>
+                <Button variant="contained" color="success">
+                  Write a review
+                </Button>
+              </Stack>
+
+              {item?.reviews.length == 0 ? (
+                <Typography>
+                  Currently there is no review for this product.
+                </Typography>
+              ) : (
+                item?.reviews.slice(0, 10).map((review) => {
+                  return (
+                    <Stack direction={"row"} gap={"30px"} flexWrap={"wrap"}>
+                      <ReviewCard {...review} />
+                    </Stack>
+                  );
+                })
+              )}
             </Stack>
           </Stack>
         </>

@@ -22,12 +22,14 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import { Color, Size } from "../types/generalTypes";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
   const theme = useTheme();
   const { isMediumScreen } = useScreenSizes();
+  const navigate = useNavigate();
 
   const handleEmptyCart = () => {
     dispatch(emptyCart());
@@ -154,7 +156,11 @@ export default function CartPage() {
             <Button variant="contained" color="error" onClick={handleEmptyCart}>
               Empty the cart
             </Button>
-            <Button variant="contained" color="success">
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => navigate("/order")}
+            >
               Checkout
             </Button>
           </Stack>
