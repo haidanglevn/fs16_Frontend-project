@@ -10,6 +10,7 @@ export type AsyncThunkStatus = "idle" | "loading" | "succeeded" | "failed";
 export interface ProductState {
   status: AsyncThunkStatus;
   error: string;
+  access_token: string | null;
   searchResult: Product[];
   products: Product[];
   productsCopy: Product[]; // keep as a copy for reset

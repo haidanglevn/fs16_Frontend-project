@@ -5,13 +5,11 @@ import { toast } from "react-toastify";
 import { User } from "../../types/generalTypes";
 
 const savedAccessToken = localStorage.getItem("access_token");
-const savedRefreshToken = localStorage.getItem("refresh_token");
 
 export interface UserState {
   allUsers: User[];
   user: User | null;
   access_token: string | null;
-  refresh_token: string | null;
   loading: boolean;
   error: string | null | undefined;
 }
@@ -20,7 +18,6 @@ const initialState: UserState = {
   allUsers: [],
   user: null,
   access_token: savedAccessToken ? savedAccessToken : null,
-  refresh_token: savedRefreshToken ? savedRefreshToken : null,
   loading: false,
   error: null,
 };
@@ -38,8 +35,17 @@ export interface LoginPayload {
 export const fetchAllUsers = createAsyncThunk(
   "user/fetchAll",
   async (_, thunkAPI) => {
+    const access_token = (thunkAPI.getState() as RootState).user.access_token;
+    if (!access_token) {
+      return thunkAPI.rejectWithValue("No access token found");
+    }
     try {
-      const response = await axios.get("https://api.escuelajs.co/api/v1/users");
+      const response = await axios.get("http://localhost:5173/api/users", {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -101,7 +107,6 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.access_token = "";
-      state.refresh_token = "";
       toast.success("Log out successfully");
     },
   },

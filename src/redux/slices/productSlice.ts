@@ -11,10 +11,13 @@ import {
 } from "../../types/productSlice";
 import { Product } from "../../types/generalTypes";
 
+const savedAccessToken = localStorage.getItem("access_token");
+
 const initialState: ProductState = {
   status: "idle",
   error: "",
   searchResult: [],
+  access_token: savedAccessToken ? savedAccessToken : null,
   products: [],
   productsCopy: [], // keep as a copy for reset
 };
@@ -38,9 +41,14 @@ export const fetchCategories = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   "products/editProduct",
-  async (product: Product) => {
+  async (product: Product, thunkAPI) => {
+    const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .put(`http://localhost:5173/api/products/${product.id}`, product)
+      .patch(`http://localhost:5173/api/products/${product.id}`, product, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then((res) => {
         toast.success(
           `Product id ${product.id} has been updated successfully!`
@@ -55,9 +63,14 @@ export const editProduct = createAsyncThunk(
 
 export const createNewProduct = createAsyncThunk(
   "products/createNewProduct",
-  async (product: CreateNewProductPayload) => {
+  async (product: CreateNewProductPayload, thunkAPI) => {
+    const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .post("http://localhost:5173/api/products", product)
+      .post("http://localhost:5173/api/products", product, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then((response) => {
         toast.success(
           `New product with id ${response.data.id} has been created successfully!`
@@ -69,9 +82,14 @@ export const createNewProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
+    const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .delete(`http://localhost:5173/api/products/${id}`)
+      .delete(`http://localhost:5173/api/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
       .then((res) => {
         toast.success(`Product with id ${id} has been created successfully!`);
         return res.data;
