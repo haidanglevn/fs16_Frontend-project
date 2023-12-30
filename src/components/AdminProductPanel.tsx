@@ -115,7 +115,7 @@ const AdminProductPanel = () => {
     {
       field: "description",
       headerName: "Description",
-      width: isLargeScreen ? 200 : 600,
+      width: isLargeScreen ? 200 : 300,
       editable: true,
     },
     {

@@ -9,6 +9,8 @@ import { useScreenSizes } from "../hooks/useScreenSizes";
 import { AdminCreateUserModal } from "./AdminCreateUserModal";
 import { toast } from "react-toastify";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function AdminUserPanel() {
   const [users, setUsers] = useState<User[] | []>([]);
   const access_token = useSelector(
@@ -42,7 +44,7 @@ function AdminUserPanel() {
 
   const handleDeleteUser = (deletingUserId: string) => {
     axios
-      .delete(`http://localhost:5173/api/users/${deletingUserId}`, {
+      .delete(`${API_BASE_URL}/users/${deletingUserId}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -63,7 +65,7 @@ function AdminUserPanel() {
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost:5173/api/users", {
+      .get(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },

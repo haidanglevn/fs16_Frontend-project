@@ -12,6 +12,7 @@ import {
 import { Product } from "../../types/generalTypes";
 
 const savedAccessToken = localStorage.getItem("access_token");
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const initialState: ProductState = {
   status: "idle",
@@ -26,7 +27,7 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
     await artificialLoading(2000);
-    const response = await axios.get("http://localhost:5173/api/products");
+    const response = await axios.get(`${API_BASE_URL}/products`);
     return response.data;
   }
 );
@@ -34,7 +35,7 @@ export const fetchProducts = createAsyncThunk(
 export const fetchCategories = createAsyncThunk(
   "products/fetchCategories",
   async () => {
-    const response = await axios.get("http://localhost:5173/api/categories");
+    const response = await axios.get(`${API_BASE_URL}/categories`);
     return response.data.slice(0, 7);
   }
 );
@@ -44,7 +45,7 @@ export const editProduct = createAsyncThunk(
   async (product: Product, thunkAPI) => {
     const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .patch(`http://localhost:5173/api/products/${product.id}`, product, {
+      .patch(`${API_BASE_URL}/products/${product.id}`, product, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -66,7 +67,7 @@ export const createNewProduct = createAsyncThunk(
   async (product: CreateNewProductPayload, thunkAPI) => {
     const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .post("http://localhost:5173/api/products", product, {
+      .post(`${API_BASE_URL}/products`, product, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -85,7 +86,7 @@ export const deleteProduct = createAsyncThunk(
   async (id: string, thunkAPI) => {
     const access_token = (thunkAPI.getState() as RootState).user.access_token;
     await axios
-      .delete(`http://localhost:5173/api/products/${id}`, {
+      .delete(`${API_BASE_URL}/products/${id}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },

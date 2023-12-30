@@ -17,6 +17,8 @@ import { RootState } from "../redux/store";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import { toast, ToastContainer } from "react-toastify";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export const AdminCreateUserModal = ({
   open,
   handleClose,
@@ -64,7 +66,7 @@ export const AdminCreateUserModal = ({
 
     try {
       const response = await axios.post(
-        "http://localhost:5173/api/users/admin/create-user",
+        `${API_BASE_URL}/users/admin/create-user`,
         formData,
         {
           headers: {

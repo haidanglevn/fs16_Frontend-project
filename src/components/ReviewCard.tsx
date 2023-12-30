@@ -9,13 +9,14 @@ import {
 import { Review, User } from "../types/generalTypes";
 import { useEffect, useState } from "react";
 import axios from "axios";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function ReviewCard(review: Review) {
   const [user, setUser] = useState<User | null>(null);
   console.log(review);
   useEffect(() => {
     axios
-      .get(`http://localhost:5173/api/users/${review.userId}/simple`)
+      .get(`${API_BASE_URL}/users/${review.userId}/simple`)
       .then((res) => {
         // console.log(res.data);
         setUser(res.data);

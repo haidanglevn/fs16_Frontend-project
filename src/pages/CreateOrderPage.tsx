@@ -25,6 +25,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export interface PaymentMethod {
   name: string;
   icon: ReactElement;
@@ -93,16 +95,12 @@ export default function CreateOrderPage() {
     try {
       const payload = prepareOrderPayload();
       console.log("Payload: ", payload);
-      const response = await axios.post(
-        "http://localhost:5173/api/orders",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/orders`, payload, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       setTimeout(() => {
         if (response.status === 201) {
@@ -147,7 +145,7 @@ export default function CreateOrderPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5173/api/users/profile`, {
+      .get(`${API_BASE_URL}/users/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

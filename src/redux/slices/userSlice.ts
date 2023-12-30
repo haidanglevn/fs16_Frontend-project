@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { User } from "../../types/generalTypes";
 
 const savedAccessToken = localStorage.getItem("access_token");
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export interface UserState {
   allUsers: User[];
@@ -40,7 +41,7 @@ export const fetchAllUsers = createAsyncThunk(
       return thunkAPI.rejectWithValue("No access token found");
     }
     try {
-      const response = await axios.get("http://localhost:5173/api/users", {
+      const response = await axios.get(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -62,14 +63,11 @@ export const fetchUserProfile = createAsyncThunk(
       return thunkAPI.rejectWithValue("No access token found");
     }
     try {
-      const response = await axios.get(
-        "http://localhost:5173/api/users/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -83,10 +81,7 @@ export const loginUser = createAsyncThunk(
   "user/login",
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5173/api/users/login",
-        payload
-      );
+      const response = await axios.post(`${API_BASE_URL}/users/login`, payload);
       toast.success("Log in successfully");
       return response.data;
     } catch (error) {

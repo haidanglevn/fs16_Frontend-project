@@ -19,6 +19,8 @@ import { Color, Product, Size, Variant } from "../types/generalTypes";
 import bearSorry from "../assets/images/bearSorry.png";
 import ReviewCard from "../components/ReviewCard";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export default function ProductSingle() {
   const [item, setItem] = useState<Product>();
   const [activeImage, setActiveImage] = useState<string>();
@@ -33,7 +35,7 @@ export default function ProductSingle() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5173/api/products/${params.productId}`)
+      .get(`${API_BASE_URL}/products/${params.productId}`)
       .then((response) => {
         console.log(response.data);
         setItem(response.data);

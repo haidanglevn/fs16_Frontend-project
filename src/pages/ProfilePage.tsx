@@ -39,6 +39,8 @@ interface UserChangePasswordBody {
   confirmNewPassword: string;
 }
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export default function ProfilePage() {
   const user: User | null = useSelector(selectUser);
   const accessToken: string | null = useSelector(selectAccessToken);
@@ -201,7 +203,7 @@ export default function ProfilePage() {
         avatar: newAvatar ? newAvatar : user!.avatar,
       };
       axios
-        .patch(`http://localhost:5173/api/users/profile`, body, {
+        .patch(`${API_BASE_URL}/users/profile`, body, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -229,7 +231,7 @@ export default function ProfilePage() {
       confirmNewPassword: newPasswordConfirm ? newPasswordConfirm : "",
     };
     axios
-      .post(`http://localhost:5173/api/users/change-password`, body, {
+      .post(`${API_BASE_URL}/users/change-password`, body, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

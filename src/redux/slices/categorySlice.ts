@@ -4,6 +4,8 @@ import { RootState } from "../store";
 import { CategoryState } from "../../types/categorySlice";
 // import { mockCategory } from "../../tests/mocks/mockData";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const initialState: CategoryState = {
   status: "idle",
   error: "",
@@ -13,7 +15,7 @@ const initialState: CategoryState = {
 export const fetchCategories = createAsyncThunk(
   "products/fetchCategories",
   async () => {
-    const response = await axios.get("http://localhost:5173/api/categories");
+    const response = await axios.get(`${API_BASE_URL}/categories`);
     return response.data.slice(0, 7);
   }
 );
