@@ -1,6 +1,6 @@
 # E-commerce Front End Project
 
-![Home - Dark Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/b12afe5d-bce7-478b-8193-3a24ba7baa6b)
+![Home - Dark](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/e1991e15-90b4-424d-867b-f6b44cecaa89)
 
 ## Introduction
 
@@ -81,26 +81,42 @@ You can visit the deployed version, or follow these steps to set it up as local 
 
 ## Screenshots
 
-Home page:
-![Home - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/78916058-53ee-4533-9312-7a513b5b4a14)
+**Home page** shows all products from the database, with pagination to limit the amount of products from the API response. Here user can use the Search Bar to search for any product by title, and go straight to its Product Single Page.  
+![Home - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/7588ae9c-bd95-4834-843d-f3a056bdee9a)
 
-Product Single:
-![Product Single - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/61b3848f-aae3-432e-a071-fce4fc3aabf3)
 
-Profile Page:
-![Profile - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/f271b2be-d307-4b57-b8ea-2dd4cef771a3)
+**Product Single** shows all the details of the products. By choosing a variant of size - color, user can see the amount of inventory left, and add them to the cart. Review feature, which is also being developed, is shown here as well.
+![ProductSingle - Light](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/512b5176-c0a1-40f8-a5ab-414afdf047bd)
 
-Cart Page:
-![Cart - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/7a08adfb-6dce-4cb5-bf47-a949e3550d5b)
+**Cart Page**: Item in cart is seperated by variants, so two items of the same product, but different in variant will not be grouped together. User can clear the cart, change the quantity of the item (item with quantity 0 will be removed automatically) or click on Checkout to get to the CheckOut Page.
+![Cart - Light](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/05bb6ee0-e0eb-48a9-a899-7a023f877247)
 
-Admin Panel:
-![Admin Panel - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/d8d76c2f-2666-499a-8e7f-20fea6781a86)
-![CreateNewProduct - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/e87624f1-5f14-4b5e-8570-284a74783a8a)
+**CheckOut Page**: here user is required to login to proceed, as an order need the userId and addresses of the user. Here user have to choose one of the address as the shipping address, and a mock payment service. Then the Purchase button will be available to click, which complete the order creation process.
+![Checkout - white](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/32cc75c5-e8b4-465b-9b77-a440a4644e53)
+
+**Profile Page**: If user is already logged in, they can access profile page. The page currently has 3 tabs accessible from the left panel: Profile (default), Order (in the making) and Address. In **profile tab**, user can change its first, last name, password, email and avatar links. If password or email is changed successfully, user is prompted to login again.  At the bottom of the page is a button to logout of the current user (which clear out the access token stored in localStorage) and a button to access Admin Panel, which is only visible if the user role is Admin.
+![Your Profile - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/f9328e89-e9e1-4469-b74f-da3f6f43ace3)
+In **address tab** user can see all the addresses and make change to them in the future.
+![Your Addresses - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/c1559763-16d3-4356-ba0a-7cabacfb86e5)
+
+**Admin Panel**: Only admin can access this page. Here there are 3 tabs for Users, Products and Orders. In **user tab**, admin can view all the users, make change to any fields (except avatar) by pressing "Edit" and then "Save" when done. Admin can also delete and create a new User/Admin account.
+![Admin User - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/c68e6f8d-585e-4deb-8320-ff7abee608e4)
+
+In **product tab**, admin can view, edit, delete any products in the database. They can also enter Create a product page to access this authorized functionality.
+![Admin Product - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/6ec2e6e6-e35f-4092-9c4b-6bccde1e937f)
+
+**Create A Product** page is a form for admin to create new product. Admin is required to have at least one image and one variant, in order to create a new product. Each product can have max 6 images, but unlimited amount of variant chosen by combination of colors and sizes, with a quantity from 1 to 300
+![Create product - light](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/5e29cf24-72aa-4683-98a0-4f57abd485d0)
+
+The **order tab** is currently only showing all orders in the system. More functionalities is being added in the future. 
+![Admin Order - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/82f50ef0-088e-427b-97f0-f94767502072)
+
+Unfortunately, due to the limit of Material UI datagrid, Admin panel is not available for mobile screen size now, only for tablet and bigger. 
 ![Admin Panel (Mobile) - Light Theme](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/0ffed0a5-8012-41e7-b88a-b11f13f2a0bb)
 
 ## Architecture & Design
 
-### Folder Structure
+### Folder Structure (not fully updated yet)
 
 - 📂 `root-directory/`
   - 📂 `src/`
