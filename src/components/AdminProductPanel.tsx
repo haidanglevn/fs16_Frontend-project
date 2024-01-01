@@ -177,17 +177,23 @@ const AdminProductPanel = () => {
         >
           {deletingProduct ? (
             <>
-              <Typography variant="h5">
+              <Typography variant="h5" color={"text.primary"}>
                 Are you sure to delete this product?
               </Typography>
               <Stack sx={{ padding: "20px 0" }}>
-                <Typography>Product ID: {deletingProduct.id}</Typography>
-                <Typography>Title: {deletingProduct.title}</Typography>
-                <Typography>Price: {deletingProduct.price}</Typography>
-                <Typography>
+                <Typography color={"text.primary"}>
+                  Product ID: {deletingProduct.id}
+                </Typography>
+                <Typography color={"text.primary"}>
+                  Title: {deletingProduct.title}
+                </Typography>
+                <Typography color={"text.primary"}>
+                  Price: {deletingProduct.price}
+                </Typography>
+                <Typography color={"text.primary"}>
                   Category: {deletingProduct.category.name}
                 </Typography>
-                <Typography>
+                <Typography color={"text.primary"}>
                   Description: {deletingProduct.description}
                 </Typography>
               </Stack>

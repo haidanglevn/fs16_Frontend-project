@@ -4,9 +4,15 @@
 
 ## Introduction
 
-This is a wrap-up frontend project for Integrify Frontend Module. The task is to made a fully-featured React-Redux E-commerce app using [Platzi Fake Store API](https://fakeapi.platzi.com/).
+This is the frontend repo for Integrify FullStack Project. The frontend is using React & Redux and Material UI to make a fully-featured Ecommerce store called EcomEcho, utilizing the ASP.Net Core Backend API with PostgreSQL as database.
 
-Check out the live website [here](https://ecomecho.netlify.app/).
+[Backend Repo in ASP.Net Core](https://github.com/haidanglevn/fs16_EcomEcho_Backend)
+
+[Live website (hosted with Netlify)](https://ecomecho.netlify.app/)
+
+[SwaggerUI for the backend (hosted with Azure](https://ecomecho.azurewebsites.net/swagger/index.html).
+
+Remote PostgreSQL database is hosted in [ElephantSQL](https://www.elephantsql.com/).
 
 ## Table of Contents
 
@@ -63,15 +69,15 @@ You can visit the deployed version, or follow these steps to set it up as local 
 ### Features for normal customer:
 
 - Fetch all products, filter them by price order and categories
-- Add products to cart, edit its quantities, empty the cart, purchase all item in cart (not ready yet)
-- Register for new account with email, Login, Logout, Edit profile info (not ready yet)
+- Choose a variant of a product and add them to cart, edit its quantities, empty the cart, create an order to purchase all items in the cart.
+- Register for new account with email, Login, Logout, Edit profile info: change password, email, firstName, lastName and avatar
 - Light & Dark Theme
 - Responsive layout from phone, tablet and laptop screens
 
 ### Features for admin:
 
 - All normal customer features
-- Access to admin panel, where you can add new products, edit or delete products
+- Access to admin panel, where you can create, edit or delete products and users (also can create new Admin user), and view all orders (edit order functionalities is not ready)
 
 ## Screenshots
 
@@ -156,14 +162,10 @@ Admin Panel:
   - 📄 `package.json`
   - 📄 `.gitignore`
 
-### Data Flow
-
-Coming soon
-
 ## Testing
 
 Unit tests are made for all 4 reducers.
 
 ## Deployment
 
-The app is deployed in Netlify. Live page is here: [https://ecomecho.netlify.app/](https://ecomecho.netlify.app/)
+The frontend is deployed in Netlify. Live page is here: [https://ecomecho.netlify.app/](https://ecomecho.netlify.app/)
