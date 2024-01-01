@@ -2,9 +2,14 @@ import { Button, Stack, Typography, useTheme } from "@mui/material";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import bearSorry from "../assets/images/bearSorry.png";
 import AdminProductPanel from "../components/AdminProductPanel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminUserPanel from "../components/AdminUserPanel";
 import AdminOrderPanel from "../components/AdminOrderPanel";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser, selectAccessToken } from "../redux/slices/userSlice";
+import { User } from "../types/generalTypes";
+import { toast } from "react-toastify";
 
 type AdminPanel = "products" | "users" | "orders";
 
@@ -12,6 +17,7 @@ export default function AdminPage() {
   const theme = useTheme();
   const { isSmallScreen, isLargeScreen, isMediumScreen } = useScreenSizes();
   const [currentPanel, setCurrentPanel] = useState<AdminPanel>("products");
+  const navigate = useNavigate();
 
   const handleChangePanel = (panel: AdminPanel) => {
     setCurrentPanel(panel);

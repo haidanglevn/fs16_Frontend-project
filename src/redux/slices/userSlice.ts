@@ -102,6 +102,7 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.access_token = "";
+      localStorage.setItem("access_token", "");
       toast.success("Log out successfully");
     },
   },

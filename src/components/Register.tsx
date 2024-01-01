@@ -16,14 +16,31 @@ import { fetchAllUsers, selectAllUsers } from "../redux/slices/userSlice";
 import { AppDispatch } from "../redux/store";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 
+// ### Create New User (For all)
+// POST http://localhost:5173/api/users
+// Content-Type: application/json
+
+// {
+//   "firstName": "New",
+//   "lastName": "Man",
+//   "email": "newman2@mail.com",
+//   "password": "Password123",
+//   "avatar":"https://images.unsplash.com/photo-1560807707-8cc77767d783?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+// }
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     passwordConfirmation: "",
     avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
   });
+  const [emailAvailable, setEmailAvailable] = useState<boolean>(false);
+
   const [formErrors, setFormErrors] = useState({
     email: "",
     password: "",
@@ -80,20 +97,20 @@ const Register: React.FC = () => {
         return; // Stop here if the form data is not valid
       }
       let emailError: string | null = null;
-      const emailExists = allUsers.some(
-        (user) => user.email === formData.email
-      );
+      await axios
+        .post(`${API_BASE_URL}/users/is-available`, { email: formData.email })
+        .then((res) => {
+          console.log("res: ", res.data);
+          setEmailAvailable(res.data);
+        });
 
       // Check the result
-      if (emailExists) {
+      if (!emailAvailable) {
         emailError = "Email is already in use.";
         setFormErrors({ ...formErrors, email: "Email is already in use." });
         return;
       } else {
-        const response = await axios.post(
-          "https://api.escuelajs.co/api/v1/users/",
-          formData
-        );
+        const response = await axios.post(`${API_BASE_URL}/users/`, formData);
         toast.success(
           "Register successfully! Please login with your new account."
         );
@@ -132,11 +149,23 @@ const Register: React.FC = () => {
           margin="normal"
           required
           fullWidth
-          id="name"
-          label="Name"
-          name="name"
+          id="firstName"
+          label="First Name"
+          name="firstName"
           autoFocus
-          value={formData.name}
+          value={formData.firstName}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="lastName"
+          label="Last Name"
+          name="lastName"
+          autoFocus
+          value={formData.lastName}
           onChange={handleChange}
         />
         <TextField

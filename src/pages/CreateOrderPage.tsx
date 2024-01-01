@@ -24,6 +24,7 @@ import PaymentCard from "../components/PaymentCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -154,13 +155,18 @@ export default function CreateOrderPage() {
         console.log("User: ", res.data);
         setUser(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error(
+          "Error: failed to fetch user data. Please try log in again!"
+        );
+        navigate("/login");
+      });
   }, []);
 
   return (
     <Stack
       sx={{
-        padding: isMediumScreen ? "20px" : "50px 100px",
+        padding: isMediumScreen ? "20px" : "0px 100px 40px 100px",
         minHeight: "var(--body-min-height)",
         backgroundColor: theme.palette.background.paper,
       }}
@@ -243,6 +249,13 @@ export default function CreateOrderPage() {
           mt={5}
           gap={"20px"}
         >
+          {user?.addresses.length == 0 && (
+            <Stack>
+              <Typography variant="body1" color={"error"}>
+                You haven't added any address yet. Please add one to continue!
+              </Typography>
+            </Stack>
+          )}
           {user?.addresses.map((address, index) => {
             return (
               <AddressCard

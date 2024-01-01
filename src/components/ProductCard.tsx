@@ -70,7 +70,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           <Stack alignItems={"flex-end"}>
             <IconButton
               color={isItemInCart ? "success" : "info"}
-              onClick={() => handleAddToCart(product)}
+              onClick={() => navigate(`/product/${product.id}`)}
               sx={{
                 border: isItemInCart
                   ? "1px solid green"

@@ -8,6 +8,8 @@ import AdminPage from "./pages/AdminPage";
 import Login from "./pages/Login";
 import ProductSingle from "./pages/ProductSingle";
 import CreateOrderPage from "./pages/CreateOrderPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import CreateNewProductPage from "./pages/CreateNewProductPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -29,8 +31,20 @@ const App = () => {
           element: <Login />,
         },
         {
-          path: "/profile/admin",
-          element: <AdminPage />,
+          path: "/admin",
+          element: (
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/admin/create-product",
+          element: (
+            <ProtectedRoute>
+              <CreateNewProductPage />
+            </ProtectedRoute>
+          ),
         },
         { path: "/cart", element: <CartPage /> },
         { path: "/order", element: <CreateOrderPage /> },

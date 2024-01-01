@@ -1,6 +1,5 @@
 import Header from "./Header";
 import { Provider } from "react-redux";
-import store from "../redux/store";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -70,27 +69,25 @@ export default function Layout() {
   });
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme={mode === "dark" ? "dark" : "light"}
-        />
+    <ThemeProvider theme={theme}>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={mode === "dark" ? "dark" : "light"}
+      />
 
-        <div>
-          <Header mode={mode} changeTheme={changeTheme} />
-          <Outlet />
-          <Footer />
-        </div>
-      </ThemeProvider>
-    </Provider>
+      <div>
+        <Header mode={mode} changeTheme={changeTheme} />
+        <Outlet />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }

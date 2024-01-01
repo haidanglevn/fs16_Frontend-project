@@ -19,11 +19,3 @@ export interface ProductState {
 export interface FilterFunctionPayload {
   priceOrder: "asc" | "desc";
 }
-
-export interface CreateNewProductPayload {
-  title: string;
-  price: number;
-  description: string;
-  categoryId: number;
-  images: string[];
-}

@@ -4,12 +4,9 @@ import { RootState } from "../store";
 // import { mockCategory, mockProducts } from "../../tests/mocks/mockData";
 import { artificialLoading } from "../utils";
 import { toast } from "react-toastify";
-import {
-  ProductState,
-  FilterFunctionPayload,
-  CreateNewProductPayload,
-} from "../../types/productSlice";
+import { ProductState, FilterFunctionPayload } from "../../types/productSlice";
 import { Product } from "../../types/generalTypes";
+import { CreateNewProductPayload } from "../../pages/CreateNewProductPage";
 
 const savedAccessToken = localStorage.getItem("access_token");
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
