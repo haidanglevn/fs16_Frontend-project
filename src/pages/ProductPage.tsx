@@ -26,7 +26,8 @@ export default function ProductPage() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalPages, setTotalPages] = useState(1);
-  console.log("Products: ", products);
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
+
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = pageNumber * itemsPerPage;
 
@@ -44,6 +45,7 @@ export default function ProductPage() {
   }, [chosenCategory, products, startIndex, endIndex, pageNumber]);
 
   const status = useSelector(selectStatus);
+  // const status = "loading";
   const dispatch = useDispatch<AppDispatch>();
   const theme = useTheme();
 
@@ -60,6 +62,10 @@ export default function ProductPage() {
       dispatch(stopLoading());
     }, 1000);
   }, [chosenCategory, priceOrder, dispatch]);
+
+  useEffect(() => {
+    setFirstLoad(false);
+  }, []);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -80,7 +86,7 @@ export default function ProductPage() {
           direction={isMediumScreen ? "column" : "row"}
           alignItems={"center"}
           justifyContent={"space-between"}
-          sx={{ width: "100%" }}
+          sx={{ width: "70vw" }}
         >
           <Stack direction={"row"} gap={2}>
             <Typography variant="h4" color={"text.primary"}>
@@ -92,8 +98,10 @@ export default function ProductPage() {
               <></>
             )}
           </Stack>
-          <SelectItemsPerPage setItemsPerPage={setItemsPerPage} />
-          <SelectPriceOrder setPriceOrder={setPriceOrder} />
+          <Stack direction={"row"} gap={"50px"}>
+            <SelectItemsPerPage setItemsPerPage={setItemsPerPage} />
+            <SelectPriceOrder setPriceOrder={setPriceOrder} />
+          </Stack>
         </Stack>
         <Grid
           container
@@ -111,7 +119,9 @@ export default function ProductPage() {
                 xl={2}
                 key={product.id}
                 mt={2}
-                sx={{ filter: status === "loading" ? "blur(10px)" : "none" }}
+                sx={{
+                  filter: status == "loading" ? "blur(10px)" : "none",
+                }}
               >
                 {filteredProducts.length === 0 ? (
                   <Typography color={"text.primary"}>
@@ -142,12 +152,12 @@ export default function ProductPage() {
         sx={{
           maxWidth: isMediumScreen ? "100%" : "15vw",
           borderRight: !isMediumScreen
-            ? `1px solid ${theme.palette.text.primary}`
+            ? `2px solid ${theme.palette.text.primary}`
             : "none",
           paddingRight: !isMediumScreen ? "50px" : "0px",
         }}
       >
-        {isSmallScreen && <SearchBar />}
+        {isMediumScreen && <SearchBar />}
         <SelectCategory setChosenCategory={setChosenCategory} />
       </Stack>
       <Stack

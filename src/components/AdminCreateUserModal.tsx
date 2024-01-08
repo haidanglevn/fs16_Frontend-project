@@ -93,12 +93,13 @@ export const AdminCreateUserModal = ({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: isMediumScreen ? 600 : 1000,
-          height: 700,
+          width: isMediumScreen ? 600 : 800,
+          maxHeight: isMediumScreen ? 500 : 700,
           bgcolor: "background.paper",
           border: "2px solid #000",
           boxShadow: 24,
           p: 4,
+          overflowY: "scroll",
         }}
       >
         <Typography variant="h4">Create New User</Typography>

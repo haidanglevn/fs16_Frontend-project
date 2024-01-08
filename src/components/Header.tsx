@@ -59,7 +59,7 @@ const Header: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
         style={{ cursor: "pointer", height: "40px" }}
         alt="Logo"
       />
-      {!isSmallScreen && <SearchBar />}
+      {!isMediumScreen && <SearchBar />}
 
       <div
         style={{

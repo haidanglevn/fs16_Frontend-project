@@ -16,19 +16,19 @@ export default function SelectItemsPerPage({
   return (
     <Stack
       direction={"row"}
-      gap={"20px"}
+      gap={"10px"}
       alignItems={"center"}
       justifyContent={isSmallScreen ? "space-between" : ""}
       sx={{ width: isSmallScreen ? "100%" : "auto" }}
     >
       <Typography variant="h6" color={"text.primary"}>
-        Items
+        Items Per Page
       </Typography>
       <select
         id="sortByPrice"
         onChange={handleSortChange}
         style={{
-          width: "150px",
+          width: "50px",
           height: isSmallScreen ? "50px" : "100%",
           color: "text.primary",
         }}

@@ -7,6 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { trimString } from "../ultilities/trimString";
 import { Product } from "../types/generalTypes";
+import { useScreenSizes } from "../hooks/useScreenSizes";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,9 +15,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isItemInCart = cart.some((item) => item.id === product.id);
-  const handleAddToCart = (item: Product) => {
-    dispatch(addToCart({ product: item }));
-  };
+  const { isMediumScreen } = useScreenSizes();
+
   return (
     <Stack
       alignItems={"center"}
@@ -30,7 +30,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           height: "100%",
           border: "1px solid gray",
           borderRadius: "10px",
-          width: "200px",
+          width: isMediumScreen ? "100%" : "200px",
         }}
       >
         <img

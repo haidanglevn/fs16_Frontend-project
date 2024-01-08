@@ -32,10 +32,10 @@ export default function SelectCategory({
     <Box
       sx={{
         marginTop: "20px",
-        borderBottom: `1px solid ${theme.palette.text.primary}`,
+        borderBottom: `2px solid ${theme.palette.text.primary}`,
       }}
     >
-      <Typography variant="h6" color={"text.primary"}>
+      <Typography variant="h5" color={"text.primary"}>
         Category
       </Typography>
       <FormControlLabel
@@ -49,7 +49,11 @@ export default function SelectCategory({
             color="warning"
           />
         }
-        label={<Typography color="text.primary">All</Typography>}
+        label={
+          <Typography color="text.primary" variant="h6">
+            All
+          </Typography>
+        }
       />
       {categories.map((category: Category) => {
         return (
@@ -66,7 +70,9 @@ export default function SelectCategory({
               />
             }
             label={
-              <Typography color="text.primary">{category.name}</Typography>
+              <Typography variant="h6" color="text.primary">
+                {category.name}
+              </Typography>
             }
           />
         );

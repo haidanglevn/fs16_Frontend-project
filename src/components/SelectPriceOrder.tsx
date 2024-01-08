@@ -16,7 +16,7 @@ export default function SelectPriceOrder({
   return (
     <Stack
       direction={"row"}
-      gap={"20px"}
+      gap={"10px"}
       alignItems={"center"}
       justifyContent={isSmallScreen ? "space-between" : ""}
       sx={{ width: isSmallScreen ? "100%" : "auto" }}
@@ -27,7 +27,7 @@ export default function SelectPriceOrder({
       <select
         id="sortByPrice"
         onChange={handleSortChange}
-        style={{ width: "150px", height: isSmallScreen ? "50px" : "100%" }}
+        style={{ width: "100px", height: isSmallScreen ? "50px" : "100%" }}
       >
         <option value="desc" defaultChecked>
           Descending

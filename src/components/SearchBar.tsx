@@ -16,7 +16,7 @@ import { Product } from "../types/generalTypes";
 export default function SearchBar() {
   const [search, setSearch] = useState("");
   const [debounceSearch, setDebounceSearch] = useState<string>("");
-  const { isSmallScreen } = useScreenSizes();
+  const { isSmallScreen, isMediumScreen } = useScreenSizes();
   const dispatch = useDispatch<AppDispatch>();
   const searchResult: Product[] = useSelector(selectSearchResult);
   const theme = useTheme();
@@ -45,7 +45,7 @@ export default function SearchBar() {
       mb={2}
       sx={{
         minWidth: !isSmallScreen ? "300px" : "100%",
-        width: "30vw",
+        width: isMediumScreen ? "100%" : "30vw",
         height: "40px",
       }}
     >
@@ -72,8 +72,10 @@ export default function SearchBar() {
                 fontWeight: "bold",
                 "& .MuiOutlinedInput-root": {
                   height: "40px", // Sets the height
-                  color: "white",
-                  backgroundColor: theme.palette.secondary.main,
+                  color: isMediumScreen ? "text.primary" : "white",
+                  backgroundColor: isMediumScreen
+                    ? "white"
+                    : theme.palette.secondary.main,
                   "& .MuiOutlinedInput-input": {
                     padding: "0px 10px",
                   },
