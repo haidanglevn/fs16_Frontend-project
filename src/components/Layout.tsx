@@ -86,7 +86,7 @@ export default function Layout() {
       <div>
         <Header mode={mode} changeTheme={changeTheme} />
         <Outlet />
-        <Footer />
+        <Footer mode={mode} changeTheme={changeTheme} />
       </div>
     </ThemeProvider>
   );

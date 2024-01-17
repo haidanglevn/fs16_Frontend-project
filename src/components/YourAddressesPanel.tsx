@@ -17,6 +17,7 @@ import { Address, User } from "../types/generalTypes";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { toast } from "react-toastify";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -38,6 +39,20 @@ function YourAddressesPanel() {
         console.log("Addresses: ", res.data);
         setAddresses(res.data);
       });
+  };
+
+  const handleDeleteAddresses = (addressId: string) => {
+    axios
+      .delete(`${API_BASE_URL}/addresses/${addressId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res: any) => {
+        toast.success("Your address is deleted successfully");
+        fetchAddresses();
+      })
+      .catch((err: any) => toast.error(err));
   };
 
   useEffect(() => {
@@ -95,6 +110,7 @@ function YourAddressesPanel() {
                   <IconButton
                     color="error"
                     sx={{ borderRadius: "50%", border: "1px solid black" }}
+                    onClick={() => handleDeleteAddresses(address.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

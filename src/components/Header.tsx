@@ -12,7 +12,7 @@ import {
   fetchCategories,
 } from "../redux/slices/productSlice";
 import SearchBar from "./SearchBar";
-import Logo from "../assets/images/Logo.svg";
+import Logo from "../assets/images/Logo2.svg";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
