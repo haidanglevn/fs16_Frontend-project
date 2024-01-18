@@ -1,6 +1,7 @@
 # E-commerce Front End Project
 
-![Home - Dark](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/e1991e15-90b4-424d-867b-f6b44cecaa89)
+![ecomecho netlify app_ (1)](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/e36b9cb2-03ed-40a8-a8c2-e1ccdb57ae3e)
+
 
 ## Introduction
 
@@ -24,10 +25,8 @@ Remote PostgreSQL database is hosted in [ElephantSQL](https://www.elephantsql.co
 - [Screenshots](#screenshots)
 - [Architecture & Design](#architecture--design)
   - [Folder Structure](#folder-structure)
-  - [Data Flow](#data-flow)
-  - [Component Structure](#component-structure)
 - [Testing](#testing)
-- [Deployment](#deployment)
+
 
 ## Getting Started
 
@@ -80,8 +79,10 @@ You can visit the deployed version, or follow these steps to set it up as local 
 - Access to admin panel, where you can create, edit or delete products and users (also can create new Admin user), and view all orders (edit order functionalities is not ready)
 
 ## Screenshots
+**Home page** shows a banner for sales & advertisement and set of categories to quickly go to the product page.
+![ecomecho netlify app_](https://github.com/haidanglevn/fs16_6-frontend-project/assets/24937536/edc6e803-0342-436c-a636-e72c4c97d5a8)
 
-**Home page** shows all products from the database, with pagination to limit the amount of products from the API response. Here user can use the Search Bar to search for any product by title, and go straight to its Product Single Page.  
+**Product page** shows all products from the database, with pagination to limit the amount of products from the API response. Here user can use the Search Bar to search for any product by title, and go straight to its Product Single Page.  
 ![Home - White](https://github.com/haidanglevn/fs16_Frontend-project/assets/24937536/7588ae9c-bd95-4834-843d-f3a056bdee9a)
 
 
