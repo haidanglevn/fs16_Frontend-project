@@ -10,6 +10,7 @@ import ProductSingle from "./pages/ProductSingle";
 import CreateOrderPage from "./pages/CreateOrderPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreateNewProductPage from "./pages/CreateNewProductPage";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const App = () => {
       children: [
         {
           path: "/",
+          element: <HomePage />,
+        },
+        {
+          path: "/product",
           element: <ProductPage />,
         },
         { path: "/product/:productId", element: <ProductSingle /> },

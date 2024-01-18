@@ -17,7 +17,8 @@ const Footer: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
       }}
     >
       <Stack
-        direction={"row"}
+        direction={isSmallScreen ? "column" : "row"}
+        gap={isSmallScreen ? "30px" : 0}
         justifyContent={"space-between"}
         sx={{ padding: "20px 0", borderBottom: "1px solid white" }}
       >
@@ -27,8 +28,8 @@ const Footer: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
           </Typography>
           <Typography variant="body1" color="white">
             Stay updated with our latest{" "}
-            <span style={{ color: "orange" }}>news</span> and{" "}
-            <span style={{ color: "orange" }}>offers</span>
+            <span style={{ color: "orange" }}>news</span> and
+            <span style={{ color: "orange" }}> offers</span>
           </Typography>
         </Stack>
         <Stack gap={"5px"}>
@@ -52,125 +53,129 @@ const Footer: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
         </Stack>
       </Stack>
 
-      <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        sx={{ padding: "20px 0", borderBottom: "1px solid white" }}
-      >
-        <Stack>
-          <Typography
-            color="white"
-            variant="h6"
-            paddingBottom={"5px"}
-            fontWeight={"bold"}
-          >
-            About us
-          </Typography>
-          <Typography color="white" variant="body2">
-            Contact
-          </Typography>
-          <Typography color="white" variant="body2">
-            FAQ
-          </Typography>
-          <Typography color="white" variant="body2">
-            Privacy
-          </Typography>
-          <Typography color="white" variant="body2">
-            Shipping
-          </Typography>
+      {!isSmallScreen ? (
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          sx={{ padding: "20px 0", borderBottom: "1px solid white" }}
+        >
+          <Stack>
+            <Typography
+              color="white"
+              variant="h6"
+              paddingBottom={"5px"}
+              fontWeight={"bold"}
+            >
+              About us
+            </Typography>
+            <Typography color="white" variant="body2">
+              Contact
+            </Typography>
+            <Typography color="white" variant="body2">
+              FAQ
+            </Typography>
+            <Typography color="white" variant="body2">
+              Privacy
+            </Typography>
+            <Typography color="white" variant="body2">
+              Shipping
+            </Typography>
+          </Stack>
+          <Stack>
+            <Typography
+              color="white"
+              variant="h6"
+              paddingBottom={"5px"}
+              fontWeight={"bold"}
+            >
+              Returns
+            </Typography>
+            <Typography color="white" variant="body2">
+              Track Order
+            </Typography>
+            <Typography color="white" variant="body2">
+              Customer Support
+            </Typography>
+            <Typography color="white" variant="body2">
+              Blog
+            </Typography>
+            <Typography color="white" variant="body2">
+              Affiliate
+            </Typography>
+          </Stack>
+          <Stack>
+            <Typography
+              color="white"
+              variant="h6"
+              paddingBottom={"5px"}
+              fontWeight={"bold"}
+            >
+              Sitemap
+            </Typography>
+            <Typography color="white" variant="body2">
+              Help Center
+            </Typography>
+            <Typography color="white" variant="body2">
+              Order Status
+            </Typography>
+            <Typography color="white" variant="body2">
+              Payment Methods
+            </Typography>
+            <Typography color="white" variant="body2">
+              Returns & Exchange
+            </Typography>
+          </Stack>
+          <Stack>
+            <Typography
+              color="white"
+              variant="h6"
+              paddingBottom={"5px"}
+              fontWeight={"bold"}
+            >
+              Terms & Conditions
+            </Typography>
+            <Typography color="white" variant="body2">
+              About Our Company
+            </Typography>
+            <Typography color="white" variant="body2">
+              Our Mission & Vision
+            </Typography>
+            <Typography color="white" variant="body2">
+              Team Members
+            </Typography>
+            <Typography color="white" variant="body2">
+              Community Involvement
+            </Typography>
+          </Stack>
+          <Stack>
+            <Typography
+              color="white"
+              variant="h6"
+              paddingBottom={"5px"}
+              fontWeight={"bold"}
+            >
+              Follow us
+            </Typography>
+            <Typography color="white" variant="body2">
+              Facebook
+            </Typography>
+            <Typography color="white" variant="body2">
+              Instagram
+            </Typography>
+            <Typography color="white" variant="body2">
+              X
+            </Typography>
+            <Typography color="white" variant="body2">
+              LinkedIn
+            </Typography>
+          </Stack>
         </Stack>
-        <Stack>
-          <Typography
-            color="white"
-            variant="h6"
-            paddingBottom={"5px"}
-            fontWeight={"bold"}
-          >
-            Returns
-          </Typography>
-          <Typography color="white" variant="body2">
-            Track Order
-          </Typography>
-          <Typography color="white" variant="body2">
-            Customer Support
-          </Typography>
-          <Typography color="white" variant="body2">
-            Blog
-          </Typography>
-          <Typography color="white" variant="body2">
-            Affiliate
-          </Typography>
-        </Stack>
-        <Stack>
-          <Typography
-            color="white"
-            variant="h6"
-            paddingBottom={"5px"}
-            fontWeight={"bold"}
-          >
-            Sitemap
-          </Typography>
-          <Typography color="white" variant="body2">
-            Help Center
-          </Typography>
-          <Typography color="white" variant="body2">
-            Order Status
-          </Typography>
-          <Typography color="white" variant="body2">
-            Payment Methods
-          </Typography>
-          <Typography color="white" variant="body2">
-            Returns & Exchange
-          </Typography>
-        </Stack>
-        <Stack>
-          <Typography
-            color="white"
-            variant="h6"
-            paddingBottom={"5px"}
-            fontWeight={"bold"}
-          >
-            Terms & Conditions
-          </Typography>
-          <Typography color="white" variant="body2">
-            About Our Company
-          </Typography>
-          <Typography color="white" variant="body2">
-            Our Mission & Vision
-          </Typography>
-          <Typography color="white" variant="body2">
-            Team Members
-          </Typography>
-          <Typography color="white" variant="body2">
-            Community Involvement
-          </Typography>
-        </Stack>
-        <Stack>
-          <Typography
-            color="white"
-            variant="h6"
-            paddingBottom={"5px"}
-            fontWeight={"bold"}
-          >
-            Follow us
-          </Typography>
-          <Typography color="white" variant="body2">
-            Facebook
-          </Typography>
-          <Typography color="white" variant="body2">
-            Instagram
-          </Typography>
-          <Typography color="white" variant="body2">
-            X
-          </Typography>
-          <Typography color="white" variant="body2">
-            LinkedIn
-          </Typography>
-        </Stack>
-      </Stack>
+      ) : (
+        <></>
+      )}
 
       <Stack
-        direction={"row"}
+        direction={isSmallScreen ? "column" : "row"}
         justifyContent={"space-between"}
         sx={{ padding: "20px 0" }}
       >
@@ -182,7 +187,7 @@ const Footer: React.FC<ThemeChangeProps> = ({ mode, changeTheme }) => {
         >
           <span style={{ color: "orange" }}>Ecom</span>Echo.com
         </Typography>
-        <Typography variant="body1" align="right" color="white">
+        <Typography variant="body1" color="white">
           © Created by Dang Le 2023
         </Typography>
       </Stack>

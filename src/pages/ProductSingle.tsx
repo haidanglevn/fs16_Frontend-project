@@ -300,7 +300,7 @@ export default function ProductSingle() {
               </Stack>
 
               {item?.reviews.length == 0 ? (
-                <Typography>
+                <Typography color={"text.primary"}>
                   Currently there is no review for this product.
                 </Typography>
               ) : (
