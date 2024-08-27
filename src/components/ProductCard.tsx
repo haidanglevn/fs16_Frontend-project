@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { trimString } from "../ultilities/trimString";
 import { Product } from "../types/generalTypes";
 import { useScreenSizes } from "../hooks/useScreenSizes";
+import defaultProductImg from "../assets/images/default-product-image.png";
+import { useState } from "react";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,6 +18,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const theme = useTheme();
   const isItemInCart = cart.some((item) => item.id === product.id);
   const { isMediumScreen } = useScreenSizes();
+  const [imageSrc, setImageSrc] = useState(
+    product.images.length > 0 ? product.images[0].url : defaultProductImg
+  );
+
+  const handleImageError = () => {
+    setImageSrc(defaultProductImg);
+  };
 
   return (
     <Stack
@@ -34,7 +43,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         }}
       >
         <img
-          src={product.images.length > 0 ? product.images[0].url : ""}
+          src={imageSrc}
           alt={product.id.toString()}
           style={{
             width: "100%",
@@ -44,6 +53,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           }}
           loading="lazy"
           onClick={() => navigate(`/product/${product.id}`)}
+          onError={handleImageError}
         />
         <Stack
           direction={"row"}

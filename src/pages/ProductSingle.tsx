@@ -17,6 +17,7 @@ import Link from "@mui/material/Link";
 import { useScreenSizes } from "../hooks/useScreenSizes";
 import { Color, Product, Size, Variant } from "../types/generalTypes";
 import bearSorry from "../assets/images/bearSorry.png";
+import defaultProductImg from "../assets/images/default-product-image.png";
 import ReviewCard from "../components/ReviewCard";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -89,6 +90,10 @@ export default function ProductSingle() {
     }
   };
 
+  const handleImageError = () => {
+    setActiveImage(defaultProductImg);
+  };
+
   return (
     <Stack
       alignItems={"center"}
@@ -138,7 +143,7 @@ export default function ProductSingle() {
               }}
             >
               <Breadcrumbs>
-                <Link underline="hover" color="inherit" href="/">
+                <Link underline="hover" color="inherit" href="/product">
                   Home
                 </Link>
 
@@ -165,6 +170,7 @@ export default function ProductSingle() {
                     height: isMediumScreen ? "400px" : "500px",
                     borderRadius: "20px",
                   }}
+                  onError={handleImageError}
                 ></img>
                 <Stack
                   direction={"row"}
@@ -185,6 +191,9 @@ export default function ProductSingle() {
                           cursor: "pointer",
                         }}
                         onMouseEnter={() => setActiveImage(image.url)}
+                        onError={(e) =>
+                          (e.currentTarget.src = defaultProductImg)
+                        }
                         key={index}
                       />
                     );

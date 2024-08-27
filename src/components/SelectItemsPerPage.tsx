@@ -33,10 +33,10 @@ export default function SelectItemsPerPage({
           color: "text.primary",
         }}
       >
-        <option value={20} defaultChecked>
-          20
+        <option value={20}>20</option>
+        <option value={50} defaultChecked>
+          50
         </option>
-        <option value={50}>50</option>
       </select>
     </Stack>
   );
